@@ -1,0 +1,4 @@
+PhotoboothMgr
+=============
+
+Photobooth management software
