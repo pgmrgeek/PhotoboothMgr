@@ -33,6 +33,10 @@ Doug Cody
 Bay Area Event Photography
 www.bayareaeventphotography.com
 
+References - 
+
+The mail program is a github project - https://github.com/muquit/mailsend.  Please send kudos and cash..
+
 
 
 
