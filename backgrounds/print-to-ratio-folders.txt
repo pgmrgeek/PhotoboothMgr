@@ -1,0 +1,13 @@
+' The following table shows print sizes to aspect ratio.
+' the actual folder names for the bg/fg layouts are named
+' as ratios to keep the combinations down.  The software
+' will know which folder to access based on the print 
+' size selected. If the folder doesn't exist (like for the
+' 2x6 print/ratio), the that format is not supported by
+' the layout.
+'
+125 ' 4x5, 5x4, 8x10, 10x8
+133 ' 3x4, 4x3, 6x8, 8x6
+140 ' 3.5x5, 5x3.5, 5x7, 7x5,
+150 ' 4x6, 6x4, 6x9, 9x6, 8x12, 12x8
+300 ' 2x6, 6x2 

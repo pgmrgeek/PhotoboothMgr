@@ -1,0 +1,12 @@
+"004" ' #1 Bk/Fg Folder
+1 ' #2 print size: See printers.csv for list
+1728 ' #3 x resolution: See printers.csv for list
+1210 ' #4 y resolution: See printers.csv for list
+334 ' #5 dpi: See printers.csv for list
+1 ' #6 Greenscreen: 1=yes, 0=no
+1 ' #7 Overlay: 1=yes, 0=no
+0 ' #8 File Output Only: 1=yes, 0=no
+"-" ' #9 Printer Profile Name
+1 ' #10 Background/Foreground count
+21775 ' #11 Background/Foreground ratio flags
+"Onsite.Printing" ' #12 Background/Foreground action set name
