@@ -1,8 +1,7 @@
 PhotoboothMgr
 =============
 
-Photobooth management software is written for the IBM PC, using .NET 4.5 on XP, Win7 and Win 8.  This program requires Photoshop CS2 but runs for the most part on all subsequent versions.  Further testing/debugging will be done to guarrantee 
-support of subsequent PS versions.
+Photobooth management software is written for the IBM PC, using VB Visual Studio Express 2010, .NET 4.5 on XP, Win7 and Win 8.  This program requires Photoshop CS2 but runs for the most part on all subsequent versions.  Further testing/debugging will be done to guarrantee support of subsequent PS versions.
 
 This package manages images for onsite printing. Incoming images are processed either in kiosk mode or by a technician.  Five sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the future.
 
