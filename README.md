@@ -10,14 +10,14 @@ of images.  It also runs in a kiosk mode, printing all incoming images.  Animate
 
 To install this package, download it from github maintaining the folder structure.  The parent folder is called "OnSite" and must be located in the root of Drive C.  Sorry, but its hardcoded for now.  Here is the folder structure required -
 
-c:\OnSite                - parent folder and automatic kiosk folder. Any jpg landing here gets printed automatically.
-c:\OnSite\actions        - holds actions sets and javascript.
-c:\OnSite\backgrounds    - holds the print layouts in subfolders, spec'd by the .CSV files.
-c:\OnSite\capture        - incoming .jpgs to land here, to be managed by the human operator.
-c:\OnSite\cloud          - suggested output folder for the cloud/slideshow.  Not really necessary.
-c:\OnSite\orig           - after images are processed, the files are moved here
-c:\OnSite\printed        - the processed files - .GIF, .PSD with layers, and a flattened .JPG.
-c:\OnSite\software       - windows runtime code and support files.
+c:\OnSite                - parent folder and automatic kiosk folder. Any jpg landing here gets printed automatically.<br>
+c:\OnSite\actions        - holds actions sets and javascript.<br>
+c:\OnSite\backgrounds    - holds the print layouts in subfolders, spec'd by the .CSV files.<br>
+c:\OnSite\capture        - incoming .jpgs to land here, to be managed by the human operator.<br>
+c:\OnSite\cloud          - suggested output folder for the cloud/slideshow.  Not really necessary.<br>
+c:\OnSite\orig           - after images are processed, the files are moved here<br>
+c:\OnSite\printed        - the processed files - .GIF, .PSD with layers, and a flattened .JPG.<br>
+c:\OnSite\software       - windows runtime code and support files.<br>
 
 Second step, fire up photoshop and load the action set called "Onsite.Printing" located in the actions folder.  
 
