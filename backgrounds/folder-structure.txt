@@ -1,0 +1,58 @@
+============================================
+background folder descriptions and contents:
+============================================
+
+All backgrounds/foregrounds are located in the following folder structure - folders named with 
+three digit numbers. Here's the default list shipped in the baseline package -
+
+     c:\OnSite\backgrounds\000
+     c:\OnSite\backgrounds\001
+     c:\OnSite\backgrounds\002
+     c:\OnSite\backgrounds\003
+     c:\OnSite\backgrounds\004
+
+These three digit numbers constitute a collection. The most significant digit indicates the 
+set, so 000 - 004 is the default set shipped with the package. The first add-on pack will be 
+numbered 100 - 10x. The second add-on pack will be 200 - 20x, etc. That gives a possible 99
+layouts per collection, more than you'd ever want.. 
+
+Within each of these folders, may exist .PSD files, four per horizontal layout, four per
+vertical layout, for a total of 8 files.  Ug, the explosion begins. Wait, it gets worse!
+
+Within each of these numbered folders, can exist the 'ratio' folders, each containing the
+8 .PSD files.  Lets see, thats 2 to the 6th power of files, per layout -
+Possibly 5 folders for ratio files, then 4 verticals and 4 horizontals .PSD files for gifs 
+& layout combos. Ug, that works out to a maximum possible 40 file layouts to cover all 
+the orientations, print sizes and optional layouts.  The reality is, its fewer, by the 
+power of bit fields!  There is a bit field found in the bkfglayouts.x00.csv files to enable 
+each explosive step.  This way the combinations are controlled in the .csv file.
+
+What are 'ratio' folders?  
+
+In order to contain the explosion of combinations on layouts & print sizes, the 12 most 
+common print sizes are translated into their X/Y ratio so to reduce the number of combinations. 
+This allows the operator to create 5 sets of bk/fg files, not 12 sets. This is used in the case 
+each print size must have its own unique layout, typically for cropping purposes.
+
+The following table shows the translation:
+
+    folder 125 = 4x5, 5x4, 8x10, 10x8 prints
+    folder 133 = 3x4, 4x3, 6x8, 8x6 prints
+    folder 140 = 3.5x5, 5x3.5, 5x7, 7x5 prints
+    fodler 150 = 4x6, 6x4, 6x9, 9x6, 8x12, 12x8 prints
+    folder 300 = 2x6, 6x2 photo strips
+
+NOTE: These folders are OPTIONAL, and specified in the c:\onsite\software\bkfglayouts.x00.csv file.  
+This file has the three digit collection number embedded in the name.  bgfglayouts.000.csv 
+holds the default set, and bkfglayouts.100.csv will hold the first add-on pack layouts, etc. 
+
+Don't panic if you don't see the ratio folders in your folders. it means the layouts work with the 
+inherent cropping that occurs from the 6x4 down to the 10x8 format.  If you need to control the 
+cropping, a custom action can be used before employing custom ratio files.  See the 003 collection 
+custom actions in photoshop. The name of the actions is 'JS:003.Print.H:125' 
+
+Add-on set 100, with layout # 103 contains an explosion of combinations for the first four layouts. 
+This is due to the custom action required to crop and scale the layer into the frame.  Do a Git pull
+of the Add-on set, then open the .PSD files to see whats up.
+
+
