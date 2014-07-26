@@ -51,5 +51,9 @@ The mail program is a github project - https://github.com/muquit/mailsend.  Plea
 
 Microsoft .NET framework 4.5 download page - http://www.microsoft.com/en-us/download/details.aspx?id=30653 
 
+Inspiration -
+
+My daughter, Michelle Palmer, who needed this program to get started in the business.
+
 
 
