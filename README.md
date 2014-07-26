@@ -37,9 +37,9 @@ to this point; more documenation coming..  You can check/uncheck foreground, gre
 
 The technician is given a "Refresh" button that turns green when new images arrive for his/her review.  The images are presented to the Technician who can select (click on) the image, a background (for greenscreen), then click a number between 1-10, for 1 to 10 prints.  If multiple images are needed (for photostrips or .GIFs), the technican clicks the first image, then "L" button to load. Repeat until the GIF/Number buttons are enabled, then select the last image, then click "GIF" or a numbered print button.
 
-Doug Cody
-Bay Area Event Photography
-www.bayareaeventphotography.com
+Doug Cody <br>
+Bay Area Event Photography <br>
+www.bayareaeventphotography.com <br>
 
 References - 
 
