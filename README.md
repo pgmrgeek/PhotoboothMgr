@@ -14,7 +14,11 @@ In Kiosk mode, the incoming images are processed according to selections made in
 
 Six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set can generate animated gifs, but the first add-on pack will show spectacular 3 layer animations.
 
-To install this package, pull from github, maintaining the folder structure.  The parent folder is called "OnSite" and must be located in the root of Drive C.  Sorry, but its hardcoded for now.  Here is the folder structure required -
+To install this package -
+
+Make sure you have Microsoft .NET framework 4.5 installed on your machine.  See the link below to download it.
+
+Next, pull the PhotoboothMGR repository from github.  Once you pull it, copy/move the contents to a new folder. This parent folder is called "OnSite" and must be located in the root of Drive C.  Sorry, but its hardcoded for now.  Here is the folder structure required -
 
 c:\OnSite                - Parent folder and Kiosk folder. Any jpg landing here gets processed.<br>
 c:\OnSite\actions        - holds Photoshop's action sets and javascript.<br>
@@ -45,6 +49,7 @@ References -
 
 The mail program is a github project - https://github.com/muquit/mailsend.  Please send kudos and cash..
 
+Microsoft .NET framework 4.5 download page - http://www.microsoft.com/en-us/download/details.aspx?id=30653 
 
 
 
