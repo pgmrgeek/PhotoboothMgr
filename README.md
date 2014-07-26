@@ -12,7 +12,7 @@ The PhotoboothMgr repository is the complete solution for managing incoming imag
 
 In Kiosk mode, the incoming images are processed according to selections made in the configuration panel.  That means the technician can specify foreground overlay, greenscreen, layout selection, and the kiosk mode will abide by these settings.  For example, selecting a three image photo strip layout with greenscreen and overlay, will be processed in Kiosk mode once three images land in the folder.
 
-Five sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set can generate animated gifs, but the first add-on pack will show spectacular 3 layer animations.
+Six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set can generate animated gifs, but the first add-on pack will show spectacular 3 layer animations.
 
 To install this package, pull from github, maintaining the folder structure.  The parent folder is called "OnSite" and must be located in the root of Drive C.  Sorry, but its hardcoded for now.  Here is the folder structure required -
 
