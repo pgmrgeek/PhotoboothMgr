@@ -49,11 +49,11 @@
     var FGrnd = '0';                    // 0= nothing, 1 = overlay
     var profil = '-';			// string name of the profile
     var NoPrt = '0';                    // 1 = file output only
-    var savePSD = TRUE;  		// default to saving a layered .PSD as output
     var bkCount = 1;			// defaults to at least one background/foreground
     var bkAction = 0;			// the background has its own custom action
     var actionsetname = 
 		"Onsite.Printing";      // custom action set name
+    var savepsd = TRUE;			// save a layered .PSD on output
     var message = "";			// message to be place in a text layer
 
     // bk/fg file variable
@@ -328,7 +328,7 @@ var prtcnt = 1
     	    //alert(".gif save");
        	    doAction('JS:GIF Save', 'Onsite.Printing');
 
-	    if (savePSD == TRUE) 
+	    if (savepsd == TRUE) 
                 doAction('JS:Save PSD File', 'Onsite.Printing');
 
             doAction('JS:Save JPG File', 'Onsite.Printing');
@@ -343,7 +343,7 @@ var prtcnt = 1
 
             // Save the files in the printed folder
 
-	    if (savePSD == TRUE) 
+	    if (savepsd == TRUE) 
                doAction('JS:Save PSD File', 'Onsite.Printing');
 
             doAction('JS:Save JPG File', 'Onsite.Printing');
@@ -593,6 +593,7 @@ function loadConfigFile()
 {
 var _len = 0;
 var str;
+var num;
 
     _len = fname.search('.jpg')
 
@@ -810,7 +811,7 @@ var str;
 
     // #12 read the background/foreground action set name ----------
 
-    if( !dataFile.eof ){
+     if( !dataFile.eof ){
 
         str =dataFile.readln()
         _len = str.length
@@ -830,6 +831,17 @@ var str;
 	}
 
 	// alert("Action Set ='" + actionsetname + "'");
+     }
+
+    // #13 Save layered .PSD on output
+
+     savepsd = TRUE;
+     if( !dataFile.eof ){
+
+        str = dataFile.readln();
+	num = parseInt(str);
+
+	if (num == 0) savepsd = FALSE;
      }
 
      dataFile.close();
