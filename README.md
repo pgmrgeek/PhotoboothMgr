@@ -38,7 +38,7 @@ When Pic2Print fires up, it opens the main control panel and a Configuration for
 
 This system works by printing to the default printer, so make sure your photo printer is setup as the Windows default printer. Validate this setting via the Windows Control Panel applet. If you change default printers, you will have to restart photoshop. Once you've confirmed the default printer, load an image. This allows you to execute Photoshop's "File->Page Setup" for the proper print size and orientation.  The Launch batch file will pre-load an image into photoshop with some helps on the Sony and DNP printers.  You can rewrite this file with your own reminders. Once done, you're ready to print; uncheck the "File Output Only" checkbox and print away.  If prints do not come out, I recommend taking baby steps.  Load an image in photoshop and work out any problems printing it. Once that connection is established, use Pic2Print to print one image. 
 
-A thats the start!  Please use GitHub Issues list on this repository to address problems and bugs. 
+All systems Go!  Please use GitHub Issues list on this repository to address problems and bugs. 
 
 Doug Cody <br>
 Bay Area Event Photography <br>

@@ -19,6 +19,7 @@
     var PRT_LOAD = 0;
     var PRT_PRINT = 1;
     var PRT_GIF = 2;
+    var PRT_POST=3;
     var BIT_VERT_SUPPORTED =  0x100;
     var BIT_VBGFG_ACTION   =  0x200;
     var BIT_VPRT_ACTION    =  0x400;
@@ -402,7 +403,8 @@ function ProcessPostViewImages()
 
     // copy the layer here, then close the file
 
-        doAction('JS:Add Border', 'Onsite.Printing');
+	doAction('JS:Flatten Separations', 'Onsite.Printing');
+        //doAction('JS:Add Border', 'Onsite.Printing');
         doAction('JS:Copy Layer', 'Onsite.Printing');
         doAction('JS:Close', 'Onsite.Printing');
 
@@ -465,6 +467,9 @@ function createpostview(fnum,str)
         if (fileRef.exists) {
 
     	    open (fileRef);
+
+	    //alert("about to resize here..");
+	    //ResizeImage(PrintSiz);    // resize to the final output size
 
 	    doAction('JS:Paste Layer', 'Onsite.Printing');
 
@@ -603,16 +608,22 @@ var num;
 	mode = 'Print';
 	if (fname.search('_m0') > 0) { 
 	    processMode = PRT_LOAD;
-	    mode = 'Load' 
+	    mode = 'Load'; 
 	}
 	if (fname.search('_m1') > 0) { 
 	    processMode = PRT_PRINT;
-	    mode = 'Print' 
+	    mode = 'Print' ;
 	}
 	if (fname.search('_m2') > 0) { 
 	    processMode = PRT_GIF;
-	    mode = 'GIF' 
+	    mode = 'GIF'; 
 	}
+	if (fname.search('_m3') > 0) {	
+	    processMode = PRT_PRINT;
+	    mode = 'Print';
+	    PostBuild = TRUE;
+	}
+
 	//alert("mode = " + mode +" processMode = " + processMode.toString());
 
     // save the state of the image orientation 
@@ -1039,12 +1050,6 @@ function ResizeImage(prtsz)
 	        doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	    	break;
-
-	    //case 4:  // 5x7
-	    //    doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	    //    doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
-	    //    doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
-	    //    break;
 
 	    case 4:  // 5x7
 	        doc.resizeImage(null,UnitValue(yres,"px"),300,ResampleMethod.BICUBIC);
