@@ -64,6 +64,7 @@
     var ActionSet = '000';		// Action Set that goes with the folder
     var CustomAction = "";              // The synthesized action name.
     var orientation;    		// TBD on loadconfig - vertical or horizontal
+    var PSver = 'CS2';                  // default set of actions
 
     // testing variables
     var timeRun = FALSE;   		// set to TRUE to do time analysis
@@ -327,7 +328,7 @@ var prtcnt = 1
     	    // Save both the files in the printed folder
 
     	    //alert(".gif save");
-       	    doAction('JS:GIF Save', 'Onsite.Printing');
+       	    doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
 
 	    if (savepsd == TRUE) 
                 doAction('JS:Save PSD File', 'Onsite.Printing');
@@ -378,7 +379,7 @@ var prtcnt = 1
 	        if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
     
 		while (prtcnt > 0) {
-                    doAction('JS:Print One Copy', 'Onsite.Printing');
+                    doAction('JS:' + PSver + ':Print One Copy', 'Onsite.Printing');
 		    prtcnt = prtcnt - 1;
 		}
 
@@ -857,8 +858,46 @@ var num;
 
      dataFile.close();
 
+    // calculate the Photoshop version
+
+     num = parseInt(app.version);
+
+     switch (num) {
+
+	case 9:
+	    PSver = 'CS2'
+	    break;
+
+	case 10:
+	    PSver = 'CS3'
+	    break;
+
+	case 11:
+	    PSver = 'CS4'
+	    break;
+
+	case 12:
+	    PSver = 'CS5'
+	    break;
+
+	case 13:
+	    PSver = 'CS6'
+	    break;
+
+	case 14:
+	    PSver = 'PSCC'
+	    break;
+
+        default:
+	    alert ('Unknown version of Photoshop! (' + num + ')');
+	    break;
+
+     }
+     //alert ("version # = " + num + " known as " + PSver);
+
      if (BuildBkFgPath() == FALSE) return FALSE;
      return TRUE;
+
 }
 
 
