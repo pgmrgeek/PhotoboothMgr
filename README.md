@@ -3,7 +3,7 @@ Photobooth Manager
 
 BETA release 7.02 (A work in progress)
 
-Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program requires Photoshop CS2 but runs for the most part on all subsequent versions.  Further testing/debugging will be done to guarrantee support of subsequent PS versions.
+Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program requires Photoshop CS2 but runs for the most part on all subsequent versions.  Further testing/debugging will be done to guarrantee support of subsequent PS versions.  See below for updates on this issue.
 
 Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  Animated gifs are supported and images can be emailed, sent as MMS messages, and copied to another folder for dropbox or slideshows.  All this functionality works as of today (first release) with further enhancements forth coming.  The actual source code to Pic2Print will be located in its own repository, not in this package. 
  
@@ -44,6 +44,10 @@ Doug Cody <br>
 Bay Area Event Photography <br>
 www.bayareaeventphotography.com <br>
 
+Photoshop Version support -
+
+07/28/14 Update - CS3, CS4, CS5 and CC have been tested. GIFs work, but printing is problematic. Use CS2!!!  CS3 and upwards hardcode printer configurations in the actions and will cause you nightmares because the action will have to be re-recorded everytime you setup and operate on a job. Hopefully, there will be a workaround. I might just add some VB code to do the actual printer output to avoid PS altogether..
+ 
 References - 
 
 The mail program is a github project - https://github.com/muquit/mailsend.  Please send kudos and cash..
