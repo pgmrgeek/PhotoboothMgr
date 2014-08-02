@@ -1,7 +1,7 @@
 Photobooth Manager
 ==================
 
-BETA release 7.02 (A work in progress)
+BETA release 7.03 (A work in progress)
 
 Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program requires Photoshop CS2 but runs for the most part on all subsequent versions.  Further testing/debugging will be done to guarrantee support of subsequent PS versions.  See below for updates on this issue.
 
@@ -32,11 +32,13 @@ c:\OnSite\software       - windows runtime code and support files.<br>
 
 Second step, Launch Pic2Print using the "launch.bat" found in the software folder, and for debugging purposes.  The batch file  creates any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button, for a verbose listing of internal operations and to verify emails being sent. Also, Photoshop is launched with a sample JPG with printer setup instructions.
 
-Photoshop should have fireup via the "Launch.bat". if not, fire up photoshop manually. Load the following action set: c:\OnSite\actions\onsite.printing.atn.  If you use Photoshop CS3 or later  and you encounter problems, you might have to rewrite the "psload.exe" droplet in the software folder. Select the first action named "Automatic Mode for Droplet" in the "Onsite.Printing" action set, then run "file->Automate->Create Droplet", overwriting psload.exe in the "c:\OnSite\software" folder.
+Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop manually. Remove any prior versions of "Onsite.Printing.atn" that might be loaded in photshop.  Now, load the new "Onsite.Printing.atn" file found in c:\OnSite\actions\onsite.printing.atn by dragging & dropping into photoshop.  If you use Photoshop CS3 or later and you encounter problems, you might have to rewrite the "psload.exe" droplet in the software folder. Select the first action named "Automatic Mode for Droplet" in the "Onsite.Printing" action set, then run "file->Automate->Create Droplet", overwriting psload.exe in the "c:\OnSite\software" folder.
 
-When Pic2Print fires up, it opens the main control panel and a Configuration form. In the Configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck foreground, greenscreen, multiple backgrounds, to see the effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  Check out the "c:\OnSite\printed" folder to see the final outputs.  
+When Pic2Print fires up, it opens the main control panel and a configuration form. In the configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck foreground, greenscreen, multiple backgrounds, to see the effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  See below for more information on setting up the email & cloud form.  Once you do some test runs, check out the "c:\OnSite\printed" folder to see the final outputs.  
 
-This system works by printing to the default printer, so make sure your photo printer is setup as the Windows default printer. Validate this setting via the Windows Control Panel applet. If you change default printers, you will have to restart photoshop. Once you've confirmed the default printer, load an image. This allows you to execute Photoshop's "File->Page Setup" for the proper print size and orientation.  The Launch batch file will pre-load an image into photoshop with some helps on the Sony and DNP printers.  You can rewrite this file with your own reminders. Once done, you're ready to print; uncheck the "File Output Only" checkbox and print away.  If prints do not come out, I recommend taking baby steps.  Load an image in photoshop and work out any problems printing it. Once that connection is established, use Pic2Print to print one image. 
+Printing Issues - 
+
+For CS2, this system works by printing to the default printer, so make sure your photo printer is setup as the Windows default printer. Validate this setting via the Windows Control Panel applet. If you change default printers, you will have to restart photoshop. Once you've confirmed the default printer, load an image. This allows you to execute Photoshop's "File->Page Setup" for the proper print size and orientation.  The Launch batch file will pre-load 'pssetup.jpg' into photoshop showing some helps on the Sony and DNP printers.  (You can rewrite this file with your own instructions on setup). For PS CC, configure the 'File->Print' dialog for the attached printer, paper size, and check 'Scale to Media'.   Once done, you're ready to print. Execute 'File->Print One Copy' to print 'pssetup.jpg'.  It might look ugly due to the uprezing, but if it prints, you're good to go. Uncheck the "File Output Only" checkbox in Pic2Print configuration panel and print away!  If prints do not come out, I recommend taking baby steps.  Load an image in photoshop and work out any problems printing it. Once that connection is established, use Pic2Print to print one image. 
 
 All systems Go!  Please use GitHub Issues list on this repository to address problems and bugs. 
 
@@ -45,6 +47,8 @@ Bay Area Event Photography <br>
 www.bayareaeventphotography.com <br>
 
 Photoshop Version support -
+
+08/02/14 Update - Printing in CC now works!.  In the rewrite of the CS3->CC print engine, two print options are presented now.  First is the 'File->Print' form, and secondly, the 'File->Print One Copy'.  On PS startup with pssetup.jpg loaded, execute the first form, 'File->Print', to configure the output.  Photoshop CC will save these settings between sessions.  Pic2Print and the photoshop actions will execute the 'File->Print One Copy' option for each print, using the settings in the first form.  I'll test this other versions.
 
 07/28/14 Update - CS3, CS4, CS5 and CC have been tested. GIFs work, but printing is problematic. Use CS2!!!  CS3 and upwards hardcode printer configurations in the actions and will cause you nightmares because the action will have to be re-recorded everytime you setup and operate on a job. Hopefully, there will be a workaround. I might just add some VB code to do the actual printer output to avoid PS altogether..
  
