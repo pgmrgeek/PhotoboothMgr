@@ -13,7 +13,7 @@ In Managed Mode, the technician has a control panel and is given a "Refresh" but
 
 In Kiosk mode, the incoming images are processed according to selections made in the configuration panel.  That means the technician can specify foreground overlay, greenscreen, layout selection, # of prints per image, etc, and the kiosk mode will abide by these settings.  For example, selecting a three image photo strip layout with greenscreen and overlay, will be processed in Kiosk mode once three images land in the folder.
 
-Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set supports animated gifs, but the first add-on pack will show spectacular three  layer animations.
+Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set supports animated gifs, but the first add-on pack will show spectacular three layer animations.
 
 To install this package -
 
@@ -36,7 +36,7 @@ Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop m
 
 If you are using Photoshop CS3 or later and encounter problems loading JPGs, you might have to rewrite the "psload.exe" droplet found in the software folder. Click "Window->Actions" to open the action palette.  Looking in the "Onsite.Printing" action set, click on the first action named "Automatic Mode for Droplet", then run "file->Automate->Create Droplet", overwriting psload.exe in the "c:\OnSite\software" folder.   
 
-When Pic2Print fires up, it opens the main control panel and a configuration form. In the configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck the foreground, greenscreen, multiple backgrounds, checkboxes, to see their effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  See the "README.Email.Setup.txt" file for more information on setting up the email & cloud form.  Once you do some test runs, look in the "c:\OnSite\printed" folder to see the final outputs.  
+When Pic2Print fires up, it opens the main control panel and a configuration form. In the configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck the foreground, greenscreen, multiple backgrounds, checkboxes, to see their effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  See the "README.Email-Setup.txt" file for more information on setting up the email & cloud form.  Once you do some test runs, look in the "c:\OnSite\printed" folder to see the final outputs.  
 
 Printing Issues - 
 
