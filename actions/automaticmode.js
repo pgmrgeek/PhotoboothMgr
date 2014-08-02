@@ -65,6 +65,7 @@
     var CustomAction = "";              // The synthesized action name.
     var orientation;    		// TBD on loadconfig - vertical or horizontal
     var PSver = 'CS2';                  // default set of actions
+    var sRatio;				// string holds the ratio - 125,133,140,150,300
 
     // testing variables
     var timeRun = FALSE;   		// set to TRUE to do time analysis
@@ -374,9 +375,14 @@ var prtcnt = 1
 
                 }
 
-                // no printing is false, so print it!
-
 	        if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
+
+		// photostrips on the DS40 need to go out as 4x6 prints so we're introducing the "ratio" 
+		// reformatting. 
+
+		doAction ("JS:PreprintFormatRatio:" + sRatio, "Onsite.Printing");
+
+                // no printing is false, so print it!
     
 		while (prtcnt > 0) {
                     doAction('JS:' + PSver + ':Print One Copy', 'Onsite.Printing');
@@ -513,7 +519,6 @@ function createpostview(fnum,str)
 function BuildCustomActionName()
 {
 var sOrient;
-var sRatio;
 var subst;
 
     // map the print size to an aspect ratio. That ratio is the file folder
