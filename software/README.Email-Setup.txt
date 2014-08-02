@@ -3,7 +3,7 @@ Email Setup
 
 Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved
 
-Background/Foreground image file formats and construction.
+Email configuration found in the Configuration Panel.
 
 The following fields must be setup for emails to be sent. This assumes the operator has
 access to a pop3 mail server.
@@ -43,7 +43,6 @@ NOTE: The guest email addresses entered in the Preview/Post View forms are saved
 in the image config.txt files in the "c:\OnSite\capture" folder.  This config file 
 acts as a simple meta data file, following the .JPG file through the system and ends 
 up in the "c:\OnSite\orig" folder.
-
 
 #7 Subject Line (caption for Facebook)
 This is the email subject line.
