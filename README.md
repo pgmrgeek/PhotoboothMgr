@@ -1,4 +1,4 @@
-Photobooth Manager - [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/js/external/paypal-button.min.js?merchant=clikphoto@yahoo.com "Donate to this project using Paypal")
+Photobooth Manager - [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](data-currency="USD" data-amount="50.00" data-quantity="1" data-name="software" data-button="donate" src="https://www.paypalobjects.com/js/external/paypal-button.min.js?merchant=clikphoto@yahoo.com" async="async"  "Donate")
 ===========================================
 
 BETA release 7.03 (A work in progress)
