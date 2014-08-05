@@ -63,9 +63,11 @@
     var BkFolder = '000';		// Background/foreground folder top level folder
     var ActionSet = '000';		// Action Set that goes with the folder
     var CustomAction = "";              // The synthesized action name.
+    var CustomLoadAction = "";          // The synthesized action name for loaded files.
     var orientation;    		// TBD on loadconfig - vertical or horizontal
     var PSver = 'CS2';                  // default set of actions
     var sRatio;				// string holds the ratio - 125,133,140,150,300
+    var defaultDPI = 300;		// DPI on rescaling to intermim working size.
 
     // testing variables
     var timeRun = FALSE;   		// set to TRUE to do time analysis
@@ -285,6 +287,13 @@ function ProcessCustomAction()
     	        orientation = VERTICAL;
 	        //alert("Image is a vertical");
 	    }
+
+	} else {
+
+	    // Files just loaded may still need filters, etc to the visible layers
+
+	    //alert ("Custom Load Action = " + '"' + CustomLoadAction + '"' );
+            doAction(CustomLoadAction, actionsetname);  //  'Onsite.Printing'
 	}
 
     return TRUE;
@@ -519,6 +528,7 @@ function createpostview(fnum,str)
 function BuildCustomActionName()
 {
 var sOrient;
+var sHV;
 var subst;
 
     // map the print size to an aspect ratio. That ratio is the file folder
@@ -542,7 +552,7 @@ var subst;
 		sRatio = "140";
 	    	break;
 
-	    case  0: // 6x9x300 dpi, our default state
+	    case  0: // 6x9 dpi, our default state
 	    case  3: // 4x6
 	    case  6: // 6x9
 	    case  8: // 8x12
@@ -573,25 +583,32 @@ var subst;
 
 	if (orientation == VERTICAL) {
 
-            sOrient = 'V';
+            sOrient = sHV = 'V';
 	    if (processMode == PRT_PRINT) {
+
 	        if (bkAction & BIT_VBGFG_ACTION) sOrient = sOrient + BkIdx;
 		if (bkAction & BIT_VPRT_ACTION)  sOrient = sOrient + ":" + sRatio;
-	    } 
 
+	    } 
+	    
         } else {
 
-            sOrient = 'H';
+            sOrient = sHV = 'H';
 	    if (processMode == PRT_PRINT) {
+
 	        if (bkAction & BIT_HBGFG_ACTION) sOrient = sOrient + BkIdx;
 		if (bkAction & BIT_HPRT_ACTION)  sOrient = sOrient + ":" + sRatio;
+
 	    } 
+	    
         }
 
     // here is the base line action to be executed
 
-	CustomAction = 'JS:' + ActionSet + ':' + mode + ':' + sOrient; 
-	//alert("CustomAction = " + '"' + CustomAction + '"');
+	CustomAction     = 'JS:' + ActionSet + ':' + mode + ':' + sOrient; 
+	CustomLoadAction = 'JS:' + ActionSet + ':' + 'Load:' + sHV; 
+	//alert("CustomAction = " + '"' + CustomAction + '  CustomLoadAction = ' + '"' + CustomLoadAction + '"');
+
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -1062,65 +1079,56 @@ function ResizeImage(prtsz)
 
 	switch (prtsz) {
 
-	    case 0: // 6x9x300 dpi, our default state
-
-		if(1) {
-	        doc.resizeImage(UnitValue(2700,"px"),null,300,ResampleMethod.BICUBIC);
+	    case 0: // 6x9 @ default dpi, our interim working size
+	        doc.resizeImage(UnitValue(2700,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),300,ResampleMethod.BICUBIC);
-
-		} else { // testing smaller sizes. remember to change the bk/fg files to this size too
-
-	        doc.resizeImage(UnitValue(1844,"px"),null,dpi,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(1844,"px"),UnitValue(1240,"px"),null,ResampleMethod.BICUBIC);
-		}
-	        break;
+	        doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
+        	break;
 
 	    case 1:  // 3.5x5
-	        doc.resizeImage(UnitValue(xres,"px"),null,300,ResampleMethod.BICUBIC);
+	        doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(5,"in"),UnitValue(3.5,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	    	break;
 
 	    case 2:  // 2x6
- 		doc.resizeImage(UnitValue(xres,"px"),null,300,ResampleMethod.BICUBIC);
+ 		doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
 	        //doc.resizeCanvas(UnitValue(6,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	        break;
 
 	    case 3:  // 4x6
-		doc.resizeImage(UnitValue(xres,"px"),null,300,ResampleMethod.BICUBIC);
+		doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	    	break;
 
 	    case 4:  // 5x7
-	        doc.resizeImage(null,UnitValue(yres,"px"),300,ResampleMethod.BICUBIC);
+	        doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	        break;
 
 	    case 5:  // 6x8
-	        doc.resizeImage(null,UnitValue(yres,"px"),300,ResampleMethod.BICUBIC);
+	        doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(8,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	        break;
 
 	    case 6: // 6x9
-	        doc.resizeImage(UnitValue(xres,"px"),null,300,ResampleMethod.BICUBIC);
+	        doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	        break;
 
 	    case 7:  // 8x10
-	        doc.resizeImage(null,UnitValue(yres,"px"),300,ResampleMethod.BICUBIC);
+	        doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(10,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	        break;
 
 	    case 8:  // 8x12
-	        doc.resizeImage(UnitValue(xres,"px"),null,300,ResampleMethod.BICUBIC);
+	        doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
 	        doc.resizeCanvas(UnitValue(12,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
 	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
 	        break;
