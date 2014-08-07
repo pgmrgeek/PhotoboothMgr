@@ -120,6 +120,14 @@ var keepgoing = TRUE;
 	if (keepgoing == TRUE) 
 	    keepgoing = ProcessForeGround();
 
+    // Maybe add a custom text layer with the user data from the txt data file
+
+	if (keepgoing == TRUE)  {
+
+	    if (message.length > 0)
+	        ProcessTextLayer();
+	}
+
     // run the customization
 
 	if (keepgoing == TRUE) 
@@ -257,6 +265,7 @@ var fileref;
 	}
 
     	fileRef = null;
+
 	return TRUE;
 
 }
@@ -466,6 +475,45 @@ function ProcessPostViewImages()
 
 }
 
+//////////////////////////////////////////////////////////////////////////
+/////////////////       ProcessTextLayer       //////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//
+// There is a user txt message, add it as a layer to the document.
+//  
+//
+
+function ProcessTextLayer()
+{
+var txtLayer;
+var txtRef;
+var origUnits;
+
+	// save the original state
+
+	origUnits = preferences.rulerUnits;
+	preferences.rulerUnits = Units.PIXELS;
+	
+	//var doc = activeDocument;
+
+	//  create a text layer at the front
+
+	txtLayer 	= doc.artLayers.add();
+	txtLayer.kind   = LayerKind.TEXT;
+	txtLayer.name   = "textlayer";
+		
+	// adding the user text here.
+
+	var txtRef = txtLayer.textItem;
+		
+	txtRef.position = new Array( 0, 0);
+	txtRef.size = 20;
+	txtRef.contents = message;
+
+	// Everything went Ok. Restore ruler units
+	preferences.rulerUnits = origUnits;
+
+}
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////    createpostview     /////////////////////////////
