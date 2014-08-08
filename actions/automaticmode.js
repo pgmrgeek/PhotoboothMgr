@@ -68,6 +68,10 @@
     var PSver = 'CS2';                  // default set of actions
     var sRatio;				// string holds the ratio - 125,133,140,150,300
     var defaultDPI = 300;		// DPI on rescaling to intermim working size.
+    var colorR = 0;			// Text layer color RBG
+    var colorG = 0;			//
+    var colorB = 0;			//
+
 
     // testing variables
     var timeRun = FALSE;   		// set to TRUE to do time analysis
@@ -122,12 +126,9 @@ var keepgoing = TRUE;
 
     // Maybe add a custom text layer with the user data from the txt data file
 
-	if (keepgoing == TRUE)  {
-
-	    if (message.length > 0)
-	        ProcessTextLayer();
-	}
-
+	if (keepgoing == TRUE)  
+            ProcessTextLayer();
+	
     // run the customization
 
 	if (keepgoing == TRUE) 
@@ -479,36 +480,77 @@ function ProcessPostViewImages()
 /////////////////       ProcessTextLayer       //////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //
-// There is a user txt message, add it as a layer to the document.
+// Create a text layer, with or without a user txt message.
 //  
 //
-
 function ProcessTextLayer()
 {
 var txtLayer;
 var txtRef;
 var origUnits;
+var textColor;
+var txtRef;
+//var msgLine1 = "";
+//var msgLine2 = "";
+//var msgLine3 = "";
+//var msgLine4 = "";
+//var msgLine5 = "";
+//var len1;
+//var len2;
+//
+//	// find dividers and split the message into multiple strings
+//
+//    	len1 = message.search(String.fromCharCode(92));
+//	if (len1 > 0) {
+//    	    msgLine1 = message.substr(0,len1);
+//	    message = message.substr(len1,255);
+//	}
+//    	len2 = message.search(String.fromCharCode(92));
+//	if (len2 > 0) {
+//    	    msgLine2 = message.substr(len1,len2);
+//	    message = message.substr(len2,255);
+//	    len1 = len2
+//	}
+//alert ("msgLine1 = " + msgLine1);
+//alert ("msgLine2 = " + msgLine2);
+//alert ("message = " + message );
 
 	// save the original state
 
 	origUnits = preferences.rulerUnits;
 	preferences.rulerUnits = Units.PIXELS;
-	
-	//var doc = activeDocument;
 
+	// setup the selected color here..
+
+	textColor = new SolidColor;
+	textColor.rgb.red   = colorR;
+	textColor.rgb.green = colorG;
+	textColor.rgb.blue  = colorB;
+
+	// in order to have a standard set we always create a text layer, but it might have no text.
 	//  create a text layer at the front
 
-	txtLayer 	= doc.artLayers.add();
-	txtLayer.kind   = LayerKind.TEXT;
-	txtLayer.name   = "textlayer";
-		
-	// adding the user text here.
+	txtLayer = doc.artLayers.add();
+	txtLayer.kind = LayerKind.TEXT;
+	txtLayer.name = "textlayer";
+	txtLayer.visible = false;
+	txtLayer.textItem.color = textColor;
+	txtLayer.textItem.font = "Arial";
+	txtLayer.textItem.antiAliasMethod = AntiAlias.NONE;
+	
+	// adding the user text here..
 
-	var txtRef = txtLayer.textItem;
+	txtRef = txtLayer.textItem;
+	txtRef.contents = message;       
+
+	// add the selected font size here. Keep it at 28 and use an action to scale it.
+
+	txtRef.size = 28;
 		
-	txtRef.position = new Array( 0, 0);
-	txtRef.size = 20;
-	txtRef.contents = message;
+	// position it the center of the image for now, and hide the layer
+
+	txtRef.position = new Array( 0, 0 );
+	//doAction ('JS:Hide Text Layer','Onsite.Printing');
 
 	// Everything went Ok. Restore ruler units
 	preferences.rulerUnits = origUnits;
@@ -925,6 +967,25 @@ var num;
 
 	if (num == 0) savepsd = FALSE;
      }
+
+    // #14 Text layer color
+
+     colorR = 0;
+     colorG = 0;
+     colorB = 0;
+
+     if( !dataFile.eof ){
+
+        str = dataFile.readln();
+	colorR = parseInt(str);
+
+        str = dataFile.readln();
+	colorG = parseInt(str);
+
+        str = dataFile.readln();
+	colorB = parseInt(str);
+     }
+
 
      dataFile.close();
 
