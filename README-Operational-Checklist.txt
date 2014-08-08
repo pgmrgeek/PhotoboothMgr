@@ -1,7 +1,6 @@
 Checklist - Operational Checklist
 =================================
 
-
 BETA release 7.04 (A work in progress)
 
 This set of instructions is intended to be used as a check list to fire up the hardware and
