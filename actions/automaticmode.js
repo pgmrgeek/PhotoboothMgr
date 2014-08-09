@@ -12,9 +12,9 @@
 
 // constants as #defines
 
-    var TRUE = 1;			// obvious..
+    var TRUE = 1;                       // obvious..
     var FALSE = 0;
-    var VERTICAL = 0;			
+    var VERTICAL = 0;                   
     var HORIZONTAL = 1;
     var PRT_LOAD = 0;
     var PRT_PRINT = 1;
@@ -27,9 +27,9 @@
     var BIT_HBGFG_ACTION   = 0x2000;
     var BIT_HPRT_ACTION    = 0x4000;
 
-    var PostBuild = FALSE;		// this splits this functionality between automatic
-					// processing and just for post-view builds.  I do
-					// this to keep the number of files down.
+    var PostBuild = FALSE;              // this splits this functionality between automatic
+                                        // processing and just for post-view builds.  I do
+                                        // this to keep the number of files down.
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -37,44 +37,44 @@
 //////////////////////////////////////////////////////////////////////////
 
     // whats given to us from PS
-    var doc = activeDocument;		// fetch the current foreground document
-    var fname = doc.name;		// and its name..
-    var processMode = PRT_PRINT;	// processing this file as a
+    var doc = activeDocument;           // fetch the current foreground document
+    var fname = doc.name;               // and its name..
+    var processMode = PRT_PRINT;        // processing this file as a
 
     // data read from the config.txt file
-    var PrintSiz = '1';			// 1=4x6, 2=5x7, 3=8x10
-    var xRes = '0';			// x resolution
-    var yres = '0';			// y resolution
-    var dpi  = '0';			// DPI dots per inch..
-    var BkGrnd = '0';			// 0= nothing, 1 = greenscreen, 2 = separate
+    var PrintSiz = '1';                 // 1=4x6, 2=5x7, 3=8x10
+    var xRes = '0';                     // x resolution
+    var yres = '0';                     // y resolution
+    var dpi  = '0';                     // DPI dots per inch..
+    var BkGrnd = '0';                   // 0= nothing, 1 = greenscreen, 2 = separate
     var FGrnd = '0';                    // 0= nothing, 1 = overlay
-    var profil = '-';			// string name of the profile
+    var profil = '-';                   // string name of the profile
     var NoPrt = '0';                    // 1 = file output only
-    var bkCount = 1;			// defaults to at least one background/foreground
-    var bkAction = 0;			// the background has its own custom action
+    var bkCount = 1;                    // defaults to at least one background/foreground
+    var bkAction = 0;                   // the background has its own custom action
     var actionsetname = 
-		"Onsite.Printing";      // custom action set name
-    var savepsd = TRUE;			// save a layered .PSD on output
-    var message = "";			// message to be place in a text layer
+                "Onsite.Printing";      // custom action set name
+    var savepsd = TRUE;                 // save a layered .PSD on output
+    var message = "";                   // message to be place in a text layer
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
-    var BkIdx = '1'     		// background index
-    var BkFolder = '000';		// Background/foreground folder top level folder
-    var ActionSet = '000';		// Action Set that goes with the folder
+    var BkIdx = '1'                     // background index
+    var BkFolder = '000';               // Background/foreground folder top level folder
+    var ActionSet = '000';              // Action Set that goes with the folder
     var CustomAction = "";              // The synthesized action name.
     var CustomLoadAction = "";          // The synthesized action name for loaded files.
-    var orientation;    		// TBD on loadconfig - vertical or horizontal
+    var orientation;                    // TBD on loadconfig - vertical or horizontal
     var PSver = 'CS2';                  // default set of actions
-    var sRatio;				// string holds the ratio - 125,133,140,150,300
-    var defaultDPI = 300;		// DPI on rescaling to intermim working size.
-    var colorR = 0;			// Text layer color RBG
-    var colorG = 0;			//
-    var colorB = 0;			//
-
+    var sRatio;                         // string holds the ratio - 125,133,140,150,300
+    var defaultDPI = 300;               // DPI on rescaling to intermim working size.
+    var colorR = 0;                     // Text layer color RBG
+    var colorG = 0;                     //
+    var colorB = 0;                     //
+    var fontname = "Ariel";		// the font passed in..
 
     // testing variables
-    var timeRun = FALSE;   		// set to TRUE to do time analysis
+    var timeRun = FALSE;                // set to TRUE to do time analysis
     var millstart;
     var millstop1;
     var millstop2;
@@ -90,25 +90,25 @@ var keepgoing = TRUE;
 
     // time the processing
 
-	if (timeRun == TRUE) TimeImageStart();
+        if (timeRun == TRUE) TimeImageStart();
 
     // process the file name and config file
 
-	keepgoing = loadConfigFile();
+        keepgoing = loadConfigFile();
 
     // build the selector to a specific aspect ratio action set
 
-	BuildCustomActionName();
+        BuildCustomActionName();
 
     // Load the image's text file to load the message to be placed in a text layer
 
-	if (keepgoing == TRUE)
-	    keepgoing = loadImageTextFile();
+        if (keepgoing == TRUE)
+            keepgoing = loadImageTextFile();
 
     // Resize to the target size
 
- 	if (keepgoing == TRUE)
-	    keepgoing = ResizeImage(0);    // resizes to our working 6x9x300dpi size
+        if (keepgoing == TRUE)
+            keepgoing = ResizeImage(0);    // resizes to our working 6x9x300dpi size
 
     // boost shadows by 15%
 
@@ -116,59 +116,59 @@ var keepgoing = TRUE;
 
    // do the greenscreen background
 
-	if (keepgoing == TRUE) 
-	    keepgoing = ProcessBackground();
+        if (keepgoing == TRUE) 
+            keepgoing = ProcessBackground();
 
     // do the foreground overlay
 
-	if (keepgoing == TRUE) 
-	    keepgoing = ProcessForeGround();
+        if (keepgoing == TRUE) 
+            keepgoing = ProcessForeGround();
 
     // Maybe add a custom text layer with the user data from the txt data file
 
-	if (keepgoing == TRUE)  
+        if (keepgoing == TRUE)  
             ProcessTextLayer();
-	
+        
     // run the customization
 
-	if (keepgoing == TRUE) 
-	    keepgoing = ProcessCustomAction();
+        if (keepgoing == TRUE) 
+            keepgoing = ProcessCustomAction();
 
-	if (timeRun == TRUE) TimeImageStop();
+        if (timeRun == TRUE) TimeImageStop();
 
     // Done with the image processing, now do the output 
 
-	if (PostBuild == TRUE) {
+        if (PostBuild == TRUE) {
 
-	    // special case of just viewing the post-process image.
+            // special case of just viewing the post-process image.
 
-	    ProcessPostViewImages();
+            ProcessPostViewImages();
 
         } else { 
 
-	    // Loads, Prints and GIFs happen here.
+            // Loads, Prints and GIFs happen here.
 
-	    if (keepgoing == TRUE) 
-	        keepgoing = ProcessOutput();
+            if (keepgoing == TRUE) 
+                keepgoing = ProcessOutput();
 
-	    if (timeRun == TRUE) TimeReport();
+            if (timeRun == TRUE) TimeReport();
 
-    	// finally, we're done, we can close the file. Leave it open if a LOAD cmd. Close
-    	// it if the file format is not supported.
+        // finally, we're done, we can close the file. Leave it open if a LOAD cmd. Close
+        // it if the file format is not supported.
 
-    	    if ((processMode != PRT_LOAD) || (keepgoing == FALSE)) {
+            if ((processMode != PRT_LOAD) || (keepgoing == FALSE)) {
 
-		// alert("closing");
+                // alert("closing");
 
-	    	if (keepgoing = TRUE)
-		    doAction('JS:Close', 'Onsite.Printing');
+                if (keepgoing = TRUE)
+                    doAction('JS:Close', 'Onsite.Printing');
 
-	    } else {
+            } else {
 
-	        // alert("leaving open");
-	    }
+                // alert("leaving open");
+            }
 
-	}
+        }
 
 }
 
@@ -188,36 +188,36 @@ var fileref;
         if (BkGrnd == '1')  { 
 
             // do the separation
-	    doAction('JS:Greenscreen', 'Onsite.Printing');
+            doAction('JS:Greenscreen', 'Onsite.Printing');
 
             // process the appropriate file & appropriate action
     
             //alert("loading background from " + bkfile);
 
-    	    fileRef = new File( bkfile );
+            fileRef = new File( bkfile );
 
-	    if (!fileRef.exists) {
+            if (!fileRef.exists) {
 
-		AlertNoGo();
-		fileref = null;
-		return (FALSE);
+                AlertNoGo();
+                fileref = null;
+                return (FALSE);
 
-	    } else {
+            } else {
 
-    	    	open (fileRef);
-            	doAction('JS:Background', 'Onsite.Printing');
+                open (fileRef);
+                doAction('JS:Background', 'Onsite.Printing');
 
-	    }
+            }
 
-	} else {
+        } else {
 
-	    // dup the background and name it 'separation' to normalize the image
+            // dup the background and name it 'separation' to normalize the image
 
             doAction('JS:Dup Background', 'Onsite.Printing');
-	}
+        }
 
-    	fileRef = null;
-	return TRUE;
+        fileRef = null;
+        return TRUE;
 
 }
 
@@ -240,34 +240,34 @@ var fileref;
             // if overlay foreground, process the file & appropriate action
     
             // alert("loading foreground from " + bkfile);
-    	    fileRef = new File( bkfile );
+            fileRef = new File( bkfile );
 
-	    if (!fileRef.exists) {
+            if (!fileRef.exists) {
 
-		AlertNoGo();
-		fileref = null;
-		return FALSE;
+                AlertNoGo();
+                fileref = null;
+                return FALSE;
 
-	    } else {
+            } else {
 
-    	    	open (fileRef);
+                open (fileRef);
 
-            	doAction('JS:Foreground', 'Onsite.Printing');
-            	doAction('JS:Layer to top', 'Onsite.Printing');
+                doAction('JS:Foreground', 'Onsite.Printing');
+                doAction('JS:Layer to top', 'Onsite.Printing');
 
-	    }
+            }
 
         } else {
-	
-	    // create a transparent overlay to normalize the image
+        
+            // create a transparent overlay to normalize the image
 
-	    doAction('JS:New foreground Layer', 'Onsite.Printing');
+            doAction('JS:New foreground Layer', 'Onsite.Printing');
             doAction('JS:Layer to top', 'Onsite.Printing');
-	}
+        }
 
-    	fileRef = null;
+        fileRef = null;
 
-	return TRUE;
+        return TRUE;
 
 }
 
@@ -284,27 +284,27 @@ function ProcessCustomAction()
 
         if (processMode != PRT_LOAD) {
 
-	    //alert ("Custom Action = " + '"' + CustomAction + '"' );
+            //alert ("Custom Action = " + '"' + CustomAction + '"' );
             doAction(CustomAction, actionsetname);  //  'Onsite.Printing'
-	
-	    // after the action, check the orientation, it might have changed. 2x6 always
-	    // end up as verticals
+        
+            // after the action, check the orientation, it might have changed. 2x6 always
+            // end up as verticals
 
-    	    if (app.activeDocument.width >= app.activeDocument.height) {
+            if (app.activeDocument.width >= app.activeDocument.height) {
                 orientation = HORIZONTAL;
-	        //alert("Image is a horizontal");
-	    } else {
-    	        orientation = VERTICAL;
-	        //alert("Image is a vertical");
-	    }
+                //alert("Image is a horizontal");
+            } else {
+                orientation = VERTICAL;
+                //alert("Image is a vertical");
+            }
 
-	} else {
+        } else {
 
-	    // Files just loaded may still need filters, etc to the visible layers
+            // Files just loaded may still need filters, etc to the visible layers
 
-	    //alert ("Custom Load Action = " + '"' + CustomLoadAction + '"' );
+            //alert ("Custom Load Action = " + '"' + CustomLoadAction + '"' );
             doAction(CustomLoadAction, actionsetname);  //  'Onsite.Printing'
-	}
+        }
 
     return TRUE;
 }
@@ -324,67 +324,67 @@ var prtcnt = 1
 
     if (processMode != PRT_LOAD) {
            
-	// a _m2=gif, means this file is the 4th image loaded to generate 
-	// a .gif file, so process that action
+        // a _m2=gif, means this file is the 4th image loaded to generate 
+        // a .gif file, so process that action
 
-	if (processMode == PRT_GIF) { 
+        if (processMode == PRT_GIF) { 
 
-    	    // resize down if the file size is calculated on a printer, not gif
+            // resize down if the file size is calculated on a printer, not gif
 
-	    if ((xres > 1024) || (yres > 1024)) {
+            if ((xres > 1024) || (yres > 1024)) {
 
-    	    	//alert("Forced resizing to default GIF");
+                //alert("Forced resizing to default GIF");
 
-        	if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
+                if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
 
-	        doc.resizeImage(null,UnitValue(480,"px"),160,ResampleMethod.BICUBIC);
-		//doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
-		//doc.resizeImage(UnitValue(640,"px"),UnitValue(480,"px"),null,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(480,"px"),160,ResampleMethod.BICUBIC);
+                //doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                //doc.resizeImage(UnitValue(640,"px"),UnitValue(480,"px"),null,ResampleMethod.BICUBIC);
 
-		if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
+                if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
 
-	    }
+            }
 
-    	    // Save both the files in the printed folder
+            // Save both the files in the printed folder
 
-    	    //alert(".gif save");
-       	    doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
+            //alert(".gif save");
+            doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
 
-	    if (savepsd == TRUE) 
+            if (savepsd == TRUE) 
                 doAction('JS:Save PSD File', 'Onsite.Printing');
 
             doAction('JS:Save JPG File', 'Onsite.Printing');
 
-    	    //alert(".gif save done");
+            //alert(".gif save done");
 
-	} else {  // not gif, so print/save it
+        } else {  // not gif, so print/save it
 
-	    // 2nd resize - to the printer output size
+            // 2nd resize - to the printer output size
 
-		ResizeImage(PrintSiz);    // resize to the printer print size
+                ResizeImage(PrintSiz);    // resize to the printer print size
 
             // Save the files in the printed folder
 
-	    if (savepsd == TRUE) 
+            if (savepsd == TRUE) 
                doAction('JS:Save PSD File', 'Onsite.Printing');
 
             doAction('JS:Save JPG File', 'Onsite.Printing');
 
-    	    // if "File Output Only" = 0, Print the image
+            // if "File Output Only" = 0, Print the image
 
             if (NoPrt == '0')   {
 
-		// the name may possess the print count, so extract it
+                // the name may possess the print count, so extract it
 
-		if (fname.search('_p2')  > 0) { prtcnt = 2; }
-		if (fname.search('_p3')  > 0) { prtcnt = 3; }
-		if (fname.search('_p4')  > 0) { prtcnt = 4; }
-		if (fname.search('_p5')  > 0) { prtcnt = 5; }
-		if (fname.search('_p6')  > 0) { prtcnt = 6; }
-		if (fname.search('_p7')  > 0) { prtcnt = 7; }
-		if (fname.search('_p8')  > 0) { prtcnt = 8; }
-		if (fname.search('_p9')  > 0) { prtcnt = 9; }
-		if (fname.search('_p10') > 0) { prtcnt = 10;}
+                if (fname.search('_p2')  > 0) { prtcnt = 2; }
+                if (fname.search('_p3')  > 0) { prtcnt = 3; }
+                if (fname.search('_p4')  > 0) { prtcnt = 4; }
+                if (fname.search('_p5')  > 0) { prtcnt = 5; }
+                if (fname.search('_p6')  > 0) { prtcnt = 6; }
+                if (fname.search('_p7')  > 0) { prtcnt = 7; }
+                if (fname.search('_p8')  > 0) { prtcnt = 8; }
+                if (fname.search('_p9')  > 0) { prtcnt = 9; }
+                if (fname.search('_p10') > 0) { prtcnt = 10;}
 
                 // possibly convert its profile to the target printer profile
 
@@ -394,24 +394,24 @@ var prtcnt = 1
 
                 }
 
-	        if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
+                if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
 
-		// photostrips on the DS40 need to go out as 4x6 prints so we're introducing the "ratio" 
-		// reformatting. 
+                // photostrips on the DS40 need to go out as 4x6 prints so we're introducing the "ratio" 
+                // reformatting. 
 
-		doAction ("JS:PreprintFormatRatio:" + sRatio, "Onsite.Printing");
+                doAction ("JS:PreprintFormatRatio:" + sRatio, "Onsite.Printing");
 
                 // no printing is false, so print it!
     
-		while (prtcnt > 0) {
+                while (prtcnt > 0) {
                     doAction('JS:' + PSver + ':Print One Copy', 'Onsite.Printing');
-		    prtcnt = prtcnt - 1;
-		}
+                    prtcnt = prtcnt - 1;
+                }
 
-	        if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0); 
+                if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0); 
 
             }
-	}
+        }
 
     } 
 }
@@ -429,7 +429,7 @@ function ProcessPostViewImages()
 
     // copy the layer here, then close the file
 
-	doAction('JS:Flatten Separations', 'Onsite.Printing');
+        doAction('JS:Flatten Separations', 'Onsite.Printing');
         //doAction('JS:Add Border', 'Onsite.Printing');
         doAction('JS:Copy Layer', 'Onsite.Printing');
         doAction('JS:Close', 'Onsite.Printing');
@@ -438,38 +438,38 @@ function ProcessPostViewImages()
 
         if (orientation == VERTICAL) {
 
-	    bkfile = ".vert.psd";
+            bkfile = ".vert.psd";
 
         } else {
 
-	    bkfile = ".horz.psd";
+            bkfile = ".horz.psd";
         }
 
     // process the first background file
 
-	createpostview(1,"c:/onsite/backgrounds/" + BkFolder + "/background1" + bkfile);
+        createpostview(1,"c:/onsite/backgrounds/" + BkFolder + "/background1" + bkfile);
 
     // process the second background file
 
-	if (bkCount >= 2) {
+        if (bkCount >= 2) {
 
-	    createpostview(2,"c:/onsite/backgrounds/" + BkFolder + "/background2" + bkfile);
+            createpostview(2,"c:/onsite/backgrounds/" + BkFolder + "/background2" + bkfile);
 
-	}
+        }
 
     // process the third background file
 
-	if (bkCount >= 3) {
+        if (bkCount >= 3) {
 
-	    createpostview(3,"c:/onsite/backgrounds/" + BkFolder + "/background3" + bkfile);
+            createpostview(3,"c:/onsite/backgrounds/" + BkFolder + "/background3" + bkfile);
 
- 	}
+        }
 
     // process the forth background file
 
         if (bkCount == 4) {
 
-	    createpostview(4,"c:/onsite/backgrounds/" + BkFolder + "/background4" + bkfile);
+            createpostview(4,"c:/onsite/backgrounds/" + BkFolder + "/background4" + bkfile);
 
         }
 
@@ -498,62 +498,62 @@ var txtRef;
 //var len1;
 //var len2;
 //
-//	// find dividers and split the message into multiple strings
+//      // find dividers and split the message into multiple strings
 //
-//    	len1 = message.search(String.fromCharCode(92));
-//	if (len1 > 0) {
-//    	    msgLine1 = message.substr(0,len1);
-//	    message = message.substr(len1,255);
-//	}
-//    	len2 = message.search(String.fromCharCode(92));
-//	if (len2 > 0) {
-//    	    msgLine2 = message.substr(len1,len2);
-//	    message = message.substr(len2,255);
-//	    len1 = len2
-//	}
+//      len1 = message.search(String.fromCharCode(92));
+//      if (len1 > 0) {
+//          msgLine1 = message.substr(0,len1);
+//          message = message.substr(len1,255);
+//      }
+//      len2 = message.search(String.fromCharCode(92));
+//      if (len2 > 0) {
+//          msgLine2 = message.substr(len1,len2);
+//          message = message.substr(len2,255);
+//          len1 = len2
+//      }
 //alert ("msgLine1 = " + msgLine1);
 //alert ("msgLine2 = " + msgLine2);
 //alert ("message = " + message );
 
-	// save the original state
+        // save the original state
 
-	origUnits = preferences.rulerUnits;
-	preferences.rulerUnits = Units.PIXELS;
+        origUnits = preferences.rulerUnits;
+        preferences.rulerUnits = Units.PIXELS;
 
-	// setup the selected color here..
+        // setup the selected color here..
 
-	textColor = new SolidColor;
-	textColor.rgb.red   = colorR;
-	textColor.rgb.green = colorG;
-	textColor.rgb.blue  = colorB;
+        textColor = new SolidColor;
+        textColor.rgb.red   = colorR;
+        textColor.rgb.green = colorG;
+        textColor.rgb.blue  = colorB;
 
-	// in order to have a standard set we always create a text layer, but it might have no text.
-	//  create a text layer at the front
+        // in order to have a standard set we always create a text layer, but it might have no text.
+        //  create a text layer at the front
 
-	txtLayer = doc.artLayers.add();
-	txtLayer.kind = LayerKind.TEXT;
-	txtLayer.name = "textlayer";
-	txtLayer.visible = false;
-	txtLayer.textItem.color = textColor;
-	txtLayer.textItem.font = "Arial";
-	txtLayer.textItem.antiAliasMethod = AntiAlias.NONE;
-	
-	// adding the user text here..
+        txtLayer = doc.artLayers.add();
+        txtLayer.kind = LayerKind.TEXT;
+        txtLayer.name = "textlayer";
+        txtLayer.visible = false;
+        txtLayer.textItem.color = textColor;
+        txtLayer.textItem.font = fontname;
+        txtLayer.textItem.antiAliasMethod = AntiAlias.NONE;
+        
+        // adding the user text here..
 
-	txtRef = txtLayer.textItem;
-	txtRef.contents = message;       
+        txtRef = txtLayer.textItem;
+        txtRef.contents = message;       
 
-	// add the selected font size here. Keep it at 28 and use an action to scale it.
+        // add the selected font size here. Keep it at 28 and use an action to scale it.
 
-	txtRef.size = 28;
-		
-	// position it the center of the image for now, and hide the layer
+        txtRef.size = 28;
+                
+        // position it the center of the image for now, and hide the layer
 
-	txtRef.position = new Array( 0, 0 );
-	//doAction ('JS:Hide Text Layer','Onsite.Printing');
+        txtRef.position = new Array( 0, 0 );
+        //doAction ('JS:Hide Text Layer','Onsite.Printing');
 
-	// Everything went Ok. Restore ruler units
-	preferences.rulerUnits = origUnits;
+        // Everything went Ok. Restore ruler units
+        preferences.rulerUnits = origUnits;
 
 }
 
@@ -566,41 +566,41 @@ var txtRef;
 function createpostview(fnum,str)
 {
 
-	// alert("loading background from " + str)
+        // alert("loading background from " + str)
 
-    	fileRef = new File( str );
+        fileRef = new File( str );
 
         if (fileRef.exists) {
 
-    	    open (fileRef);
+            open (fileRef);
 
-	    //alert("about to resize here..");
-	    //ResizeImage(PrintSiz);    // resize to the final output size
+            //alert("about to resize here..");
+            //ResizeImage(PrintSiz);    // resize to the final output size
 
-	    doAction('JS:Paste Layer', 'Onsite.Printing');
+            doAction('JS:Paste Layer', 'Onsite.Printing');
 
             if (FGrnd == '0')
                 doAction('JS:Turn off foreground', 'Onsite.Printing');
 
-	    switch(fnum) {
-		case 1:
-	        doAction('JS:Save Preview 1', 'Onsite.Printing');
-		break;
-		case 2:
-	        doAction('JS:Save Preview 2', 'Onsite.Printing');
-		break;
-		case 3:
-	        doAction('JS:Save Preview 3', 'Onsite.Printing');
-		break;
-		case 4:
-	        doAction('JS:Save Preview 4', 'Onsite.Printing');
-		break;
-	    }
+            switch(fnum) {
+                case 1:
+                doAction('JS:Save Preview 1', 'Onsite.Printing');
+                break;
+                case 2:
+                doAction('JS:Save Preview 2', 'Onsite.Printing');
+                break;
+                case 3:
+                doAction('JS:Save Preview 3', 'Onsite.Printing');
+                break;
+                case 4:
+                doAction('JS:Save Preview 4', 'Onsite.Printing');
+                break;
+            }
 
 
        } else {
 
-	    alert ( str + " not found!");
+            alert ( str + " not found!");
 
        }
        fileRef = null;
@@ -624,42 +624,42 @@ var subst;
     // map the print size to an aspect ratio. That ratio is the file folder
     // for the matching BgFg file
 
-	switch (PrintSiz) {
+        switch (PrintSiz) {
 
-	    case 7:  // 8x10	
-		sRatio = "125";
-	    	break;
+            case 7:  // 8x10    
+                sRatio = "125";
+                break;
 
-	    case  5:  // 6x8
+            case  5:  // 6x8
             case 10:  // 640x480
             case 11:  // 800x600
             case 12:  // 1024x768
-		sRatio = "133";
-	    	break;
+                sRatio = "133";
+                break;
 
-	    case  1:  // 3.5x5
-	    case  4:  // 5x7
-		sRatio = "140";
-	    	break;
+            case  1:  // 3.5x5
+            case  4:  // 5x7
+                sRatio = "140";
+                break;
 
-	    case  0: // 6x9 dpi, our default state
-	    case  3: // 4x6
-	    case  6: // 6x9
-	    case  8: // 8x12
+            case  0: // 6x9 dpi, our default state
+            case  3: // 4x6
+            case  6: // 6x9
+            case  8: // 8x12
             case  9: // 480x320
-		sRatio = "150";
-	        break;
+                sRatio = "150";
+                break;
 
-	    case 2:  // 2x6
-		sRatio = "300";
-	    	break;
+            case 2:  // 2x6
+                sRatio = "300";
+                break;
 
-	    default:
-		sRatio = "";
-	        alert("Illegal print size in the config.txt file");
-	        break;
+            default:
+                sRatio = "";
+                alert("Illegal print size in the config.txt file");
+                break;
 
-	}
+        }
 
     //
     // synthesize the name of the action in the format of:
@@ -671,33 +671,33 @@ var subst;
 
     // Select the orientation, and if a print, we build the full actio name.
 
-	if (orientation == VERTICAL) {
+        if (orientation == VERTICAL) {
 
             sOrient = sHV = 'V';
-	    if (processMode == PRT_PRINT) {
+            if (processMode == PRT_PRINT) {
 
-	        if (bkAction & BIT_VBGFG_ACTION) sOrient = sOrient + BkIdx;
-		if (bkAction & BIT_VPRT_ACTION)  sOrient = sOrient + ":" + sRatio;
+                if (bkAction & BIT_VBGFG_ACTION) sOrient = sOrient + BkIdx;
+                if (bkAction & BIT_VPRT_ACTION)  sOrient = sOrient + ":" + sRatio;
 
-	    } 
-	    
+            } 
+            
         } else {
 
             sOrient = sHV = 'H';
-	    if (processMode == PRT_PRINT) {
+            if (processMode == PRT_PRINT) {
 
-	        if (bkAction & BIT_HBGFG_ACTION) sOrient = sOrient + BkIdx;
-		if (bkAction & BIT_HPRT_ACTION)  sOrient = sOrient + ":" + sRatio;
+                if (bkAction & BIT_HBGFG_ACTION) sOrient = sOrient + BkIdx;
+                if (bkAction & BIT_HPRT_ACTION)  sOrient = sOrient + ":" + sRatio;
 
-	    } 
-	    
+            } 
+            
         }
 
     // here is the base line action to be executed
 
-	CustomAction     = 'JS:' + ActionSet + ':' + mode + ':' + sOrient; 
-	CustomLoadAction = 'JS:' + ActionSet + ':' + 'Load:' + sHV; 
-	//alert("CustomAction = " + '"' + CustomAction + '  CustomLoadAction = ' + '"' + CustomLoadAction + '"');
+        CustomAction     = 'JS:' + ActionSet + ':' + mode + ':' + sOrient; 
+        CustomLoadAction = 'JS:' + ActionSet + ':' + 'Load:' + sHV; 
+        //alert("CustomAction = " + '"' + CustomAction + '  CustomLoadAction = ' + '"' + CustomLoadAction + '"');
 
 }
 
@@ -717,27 +717,27 @@ var num;
 
     // convert the file name _mX into working parameters
 
-	processMode = PRT_PRINT;
-	mode = 'Print';
-	if (fname.search('_m0') > 0) { 
-	    processMode = PRT_LOAD;
-	    mode = 'Load'; 
-	}
-	if (fname.search('_m1') > 0) { 
-	    processMode = PRT_PRINT;
-	    mode = 'Print' ;
-	}
-	if (fname.search('_m2') > 0) { 
-	    processMode = PRT_GIF;
-	    mode = 'GIF'; 
-	}
-	if (fname.search('_m3') > 0) {	
-	    processMode = PRT_PRINT;
-	    mode = 'Print';
-	    PostBuild = TRUE;
-	}
+        processMode = PRT_PRINT;
+        mode = 'Print';
+        if (fname.search('_m0') > 0) { 
+            processMode = PRT_LOAD;
+            mode = 'Load'; 
+        }
+        if (fname.search('_m1') > 0) { 
+            processMode = PRT_PRINT;
+            mode = 'Print' ;
+        }
+        if (fname.search('_m2') > 0) { 
+            processMode = PRT_GIF;
+            mode = 'GIF'; 
+        }
+        if (fname.search('_m3') > 0) {  
+            processMode = PRT_PRINT;
+            mode = 'Print';
+            PostBuild = TRUE;
+        }
 
-	//alert("mode = " + mode +" processMode = " + processMode.toString());
+        //alert("mode = " + mode +" processMode = " + processMode.toString());
 
     // save the state of the image orientation 
 
@@ -758,8 +758,8 @@ var num;
     var dataFile = new File('c:/onsite/config.txt'); 
 
     if (!dataFile.exists) {
-	alert("Missing configuration file\n" + "Looking for c:\\onsite\\config.txt");
-	return FALSE;
+        alert("Missing configuration file\n" + "Looking for c:\\onsite\\config.txt");
+        return FALSE;
     }
 
     dataFile.open('r');
@@ -771,19 +771,19 @@ var num;
         str =dataFile.readln()
         _len = str.length
 
-	BkFolder = "";
+        BkFolder = "";
         if (str.charAt(0) == '"') { 
             var i = 1;
 
             while (i < _len) {
-		if (str.charAt(i) == '"') break;
+                if (str.charAt(i) == '"') break;
                 BkFolder = BkFolder + str.charAt(i);
                 i++;
             }
 
-	} else {
-	    BkFolder = "000";
-	}
+        } else {
+            BkFolder = "000";
+        }
 
      }
 
@@ -793,7 +793,7 @@ var num;
 
         str =dataFile.readln();
 
-	PrintSiz = parseInt(str);
+        PrintSiz = parseInt(str);
         //alert ("Print size idx =" + PrintSiz );
 
     }
@@ -902,13 +902,13 @@ var num;
             var i = 1;
 
             while (i < _len) {
-		if (str.charAt(i) == '"') break;
+                if (str.charAt(i) == '"') break;
                 profil = profil + str.charAt(i);
                 i++;
             }
 
-	    // null it out if its just a dash
-	    if (profil == "-") { profil = ""; }
+            // null it out if its just a dash
+            if (profil == "-") { profil = ""; }
 
         }
 
@@ -921,7 +921,7 @@ var num;
      if( !dataFile.eof ){
 
         str = dataFile.readln();
-	bkCount = parseInt(str);
+        bkCount = parseInt(str);
      }
 
      //  #11 - bitfield indication each output size needing its own action 
@@ -929,7 +929,7 @@ var num;
      if( !dataFile.eof ){
 
         str = dataFile.readln();
-	bkAction = parseInt(str);
+        bkAction = parseInt(str);
      }
 
 
@@ -940,21 +940,21 @@ var num;
         str =dataFile.readln()
         _len = str.length
 
-	actionsetname = "";
+        actionsetname = "";
         if (str.charAt(0) == '"') { 
             var i = 1;
 
             while (i < _len) {
-		if (str.charAt(i) == '"') break;
+                if (str.charAt(i) == '"') break;
                 actionsetname = actionsetname + str.charAt(i);
                 i++;
             }
 
-	} else {
-	    actionsetname = "Onsite.Printing";
-	}
+        } else {
+            actionsetname = "Onsite.Printing";
+        }
 
-	// alert("Action Set ='" + actionsetname + "'");
+        // alert("Action Set ='" + actionsetname + "'");
      }
 
     // #13 Save layered .PSD on output
@@ -963,9 +963,9 @@ var num;
      if( !dataFile.eof ){
 
         str = dataFile.readln();
-	num = parseInt(str);
+        num = parseInt(str);
 
-	if (num == 0) savepsd = FALSE;
+        if (num == 0) savepsd = FALSE;
      }
 
     // #14 Text layer color
@@ -977,13 +977,38 @@ var num;
      if( !dataFile.eof ){
 
         str = dataFile.readln();
-	colorR = parseInt(str);
+        colorR = parseInt(str);
 
         str = dataFile.readln();
-	colorG = parseInt(str);
+        colorG = parseInt(str);
 
         str = dataFile.readln();
-	colorB = parseInt(str);
+        colorB = parseInt(str);
+
+     }
+
+     // #15 Font Name
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        fontname = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                fontname = fontname + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            fontname = "Ariel";
+        }
+
+        alert("Font ='" + fontname + "'");
      }
 
 
@@ -995,33 +1020,33 @@ var num;
 
      switch (num) {
 
-	case 9:
-	    PSver = 'CS2'
-	    break;
+        case 9:
+            PSver = 'CS2'
+            break;
 
-	case 10:
-	    PSver = 'CS3'
-	    break;
+        case 10:
+            PSver = 'CS3'
+            break;
 
-	case 11:
-	    PSver = 'CS4'
-	    break;
+        case 11:
+            PSver = 'CS4'
+            break;
 
-	case 12:
-	    PSver = 'CS5'
-	    break;
+        case 12:
+            PSver = 'CS5'
+            break;
 
-	case 13:
-	    PSver = 'CS6'
-	    break;
+        case 13:
+            PSver = 'CS6'
+            break;
 
-	case 14:
-	    PSver = 'PSCC'
-	    break;
+        case 14:
+            PSver = 'PSCC'
+            break;
 
         default:
-	    alert ('Unknown version of Photoshop! (' + num + ')');
-	    break;
+            alert ('Unknown version of Photoshop! (' + num + ')');
+            break;
 
      }
      //alert ("version # = " + num + " known as " + PSver);
@@ -1055,8 +1080,8 @@ var str;
     var txtFile = new File("c:\\onsite\\" + ftxtnam); 
 
     if (!txtFile.exists) {
-	//alert (ftxtnam + " not found (okay)");
-	return TRUE;
+        //alert (ftxtnam + " not found (okay)");
+        return TRUE;
     }
 
     //alert("image text file found, now reading..");
@@ -1118,7 +1143,7 @@ var str;
     if( !txtFile.eof ){
 
         message =txtFile.readln();
-	// alert("Message ='" + message + "'");
+        // alert("Message ='" + message + "'");
      }
 
      txtFile.close();
@@ -1140,23 +1165,23 @@ var test;
 
     // first, save the folder as the action set name
 
-	ActionSet = BkFolder
+        ActionSet = BkFolder
 
     // build the background file name
 
     if (orientation == VERTICAL) {
 
-	bkfile = "c:/onsite/backgrounds/" + BkFolder + "/background" + BkIdx + ".vert.psd";
+        bkfile = "c:/onsite/backgrounds/" + BkFolder + "/background" + BkIdx + ".vert.psd";
 
     } else {
 
-	bkfile = "c:/onsite/backgrounds/" + BkFolder + "/background" + BkIdx + ".horz.psd";
+        bkfile = "c:/onsite/backgrounds/" + BkFolder + "/background" + BkIdx + ".horz.psd";
     }
 
     var dataFile = new File(bkfile); 
     if (dataFile.exists) {
-	dataFile = null;
-	return TRUE;
+        dataFile = null;
+        return TRUE;
     }
 
     // no background file, lets kill it now.
@@ -1182,101 +1207,101 @@ function ResizeImage(prtsz)
 
         if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
 
-	// now handle the special cases
+        // now handle the special cases
 
         //alert("PrintSiz=" + prtsz + " xres" + xres + " yres" + yres + " dpi" + dpi)
 
-	switch (prtsz) {
+        switch (prtsz) {
 
-	    case 0: // 6x9 @ default dpi, our interim working size
-	        doc.resizeImage(UnitValue(2700,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
-        	break;
+            case 0: // 6x9 @ default dpi, our interim working size
+                doc.resizeImage(UnitValue(2700,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                break;
 
-	    case 1:  // 3.5x5
-	        doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(5,"in"),UnitValue(3.5,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	    	break;
+            case 1:  // 3.5x5
+                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(5,"in"),UnitValue(3.5,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 2:  // 2x6
- 		doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
-	        //doc.resizeCanvas(UnitValue(6,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	        break;
+            case 2:  // 2x6
+                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                //doc.resizeCanvas(UnitValue(6,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 3:  // 4x6
-		doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	    	break;
+            case 3:  // 4x6
+                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 4:  // 5x7
-	        doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	        break;
+            case 4:  // 5x7
+                doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 5:  // 6x8
-	        doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(8,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	        break;
+            case 5:  // 6x8
+                doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(8,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 6: // 6x9
-	        doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	        break;
+            case 6: // 6x9
+                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 7:  // 8x10
-	        doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(10,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	        break;
+            case 7:  // 8x10
+                doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(10,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
-	    case 8:  // 8x12
-	        doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
-	        doc.resizeCanvas(UnitValue(12,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
-	        doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-	        break;
+            case 8:  // 8x12
+                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(12,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                break;
 
             case 9:  // 480x320
-	        doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-		doc.resizeCanvas(UnitValue(3,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
-		doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
-	    	break;
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(3,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                break;
 
             case 10:  // 640x480
-		//alert("640x480" + xres + "x" + yres + "x" + dpi)
-	        doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-		doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
-		doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
-	    	break;
+                //alert("640x480" + xres + "x" + yres + "x" + dpi)
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                break;
 
             case 11:  // 800x600
-	        doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-		doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
-		doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
-	    	break;
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                break;
 
             case 12:  // 1024x768
-	        doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-		doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
-		doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
-	    	break;
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                break;
 
-	    default:
-	        alert("Illegal print size in the config.txt file");
-		return FALSE;
-	        break;
+            default:
+                alert("Illegal print size in the config.txt file");
+                return FALSE;
+                break;
 
-	}
+        }
 
-	if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
+        if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
 
-	return TRUE;
+        return TRUE;
 }
 
 //////////////////////////////////////////////////////////////////////////

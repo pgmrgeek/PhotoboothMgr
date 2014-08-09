@@ -48,3 +48,4 @@
 "003-3 image square layouts","Onsite.Printing",       "003",0,3,1,1,0,1,2,3,4,0,   "0101010100001111"
 "004-4 image square layouts","Onsite.Printing",       "004",0,4,1,1,0,1,2,3,4,0,   "0101010100001111"
 "005-Four Bk/Fg Layouts w/GIF","Onsite.Printing",     "005",4,1,0,0,1,1,2,3,4,0,   "0001000100001111" 
+"006-Womps Cereal","Onsite.Printing",                 "006",0,1,1,1,1,1,-1,-1,-1,0,"0001000100001111" 
