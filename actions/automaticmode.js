@@ -1008,7 +1008,7 @@ var num;
             fontname = "Ariel";
         }
 
-        alert("Font ='" + fontname + "'");
+       // alert("Font ='" + fontname + "'");
      }
 
 
