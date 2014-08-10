@@ -552,6 +552,9 @@ var txtRef;
         txtRef.position = new Array( 0, 0 );
         //doAction ('JS:Hide Text Layer','Onsite.Printing');
 
+	// restore to our normalized set
+        doAction ('JS:Select Foreground Layer','Onsite.Printing');
+
         // Everything went Ok. Restore ruler units
         preferences.rulerUnits = origUnits;
 
