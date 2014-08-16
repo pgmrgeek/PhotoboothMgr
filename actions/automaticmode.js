@@ -71,7 +71,7 @@
     var colorR = 0;                     // Text layer color RBG
     var colorG = 0;                     //
     var colorB = 0;                     //
-    var fontname = "Ariel";		// the font passed in..
+    var fontname = "Arial";		// the font passed in..
 
     // testing variables
     var timeRun = FALSE;                // set to TRUE to do time analysis
@@ -534,14 +534,14 @@ var txtRef;
         txtLayer.kind = LayerKind.TEXT;
         txtLayer.name = "textlayer";
         txtLayer.visible = false;
-        txtLayer.textItem.color = textColor;
-        txtLayer.textItem.font = fontname;
-        txtLayer.textItem.antiAliasMethod = AntiAlias.NONE;
-        
+       
         // adding the user text here..
 
         txtRef = txtLayer.textItem;
+        txtRef.font = fontname;
         txtRef.contents = message;       
+	txtRef.color = textColor;
+        txtRef.antiAliasMethod = AntiAlias.NONE;
 
         // add the selected font size here. Keep it at 28 and use an action to scale it.
 
@@ -1008,7 +1008,7 @@ var num;
             }
 
         } else {
-            fontname = "Ariel";
+            fontname = "Arial";
         }
 
        // alert("Font ='" + fontname + "'");
