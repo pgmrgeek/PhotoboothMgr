@@ -7,7 +7,9 @@
 // 
 // Variation Copyright(c)Douglas Cody, 2013, All Rights Reserved. 
 // 
-// Set an internal variable to select the background/foreground file to be used on this image
+// Set an internal variable to select the background/foreground file to be used on this image.
+//
+// PhotoboothMgr version 8.01
 // 
 //////////////////////////////////////////////////////////////////////////////////
 

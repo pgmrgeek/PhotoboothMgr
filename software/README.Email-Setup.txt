@@ -1,7 +1,7 @@
-Email Setup
+Email Setup 
 ===========
 
-Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved
+Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved 
 
 Email configuration found in the Configuration Panel.
 

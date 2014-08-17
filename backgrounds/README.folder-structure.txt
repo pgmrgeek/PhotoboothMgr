@@ -2,7 +2,7 @@
 background folder descriptions and contents:
 ============================================
 
-Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved
+Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved 
 
 All backgrounds/foregrounds are located in the following subfolder structure - folders are 
 named with a three digit number sequence. Here's the default list shipped in the baseline 

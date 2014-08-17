@@ -1,6 +1,6 @@
 ": Printer Mfg/Name","Print size","X res. (long side)","Y res. (short side)","DPI","Profile Name", "print ratio flags"
 ":"
-":  Print sizes are:"
+":  Print sizes are:" 
 ":  ","1 = 3.5x5" 
 ":  ","2 = 2x6" 
 ":  ","3 = 4x6" 

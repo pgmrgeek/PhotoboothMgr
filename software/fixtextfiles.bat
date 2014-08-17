@@ -1,4 +1,4 @@
-rem    if (%debug%)==() @echo off
+rem    if (%debug%)==() @echo off 
 rem
 rem fix installation issues
 rem

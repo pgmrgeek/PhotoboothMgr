@@ -1,7 +1,7 @@
 Checklist - Software Installation
 =================================
 
-BETA release 7.04 (A work in progress) 
+BETA release 8.01 (A work in progress) 
 
 Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program requires Photoshop CS2 but runs for the most part on all subsequent versions.  Further testing/debugging will be done to guarrantee support of subsequent PS versions.  Additional print layout sets are available on Github as well.
 
