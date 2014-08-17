@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 7.02
+// Version 8.01
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -71,7 +71,7 @@
     var colorR = 0;                     // Text layer color RBG
     var colorG = 0;                     //
     var colorB = 0;                     //
-    var fontname = "Arial";		// the font passed in..
+    var fontname = "Arial";             // the font passed in..
 
     // testing variables
     var timeRun = FALSE;                // set to TRUE to do time analysis
@@ -343,7 +343,13 @@ var prtcnt = 1
 
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
 
-            }
+            } else {
+
+		// size is indicating this is one of the gif sizes, so resize by standard means
+
+		ResizeImage(PrintSiz);    // resize to the printer print size
+
+	    }		
 
             // Save both the files in the printed folder
 
@@ -540,7 +546,7 @@ var txtRef;
         txtRef = txtLayer.textItem;
         txtRef.font = fontname;
         txtRef.contents = message;       
-	txtRef.color = textColor;
+        txtRef.color = textColor;
         txtRef.antiAliasMethod = AntiAlias.NONE;
 
         // add the selected font size here. Keep it at 28 and use an action to scale it.
@@ -552,7 +558,7 @@ var txtRef;
         txtRef.position = new Array( 0, 0 );
         //doAction ('JS:Hide Text Layer','Onsite.Printing');
 
-	// restore to our normalized set
+        // restore to our normalized set
         doAction ('JS:Select Foreground Layer','Onsite.Printing');
 
         // Everything went Ok. Restore ruler units
@@ -1011,6 +1017,20 @@ var num;
             fontname = "Arial";
         }
 
+	// convert to the photoshop name
+
+	fontname = fontname.toUpperCase();
+
+	for (i=0; i < app.fonts.length; i++) {
+    	    str = app.fonts[i].name; 
+    	    str = str.toUpperCase();
+    	    if (str == fontname) {
+		fontname = app.fonts[i].postScriptName;
+		//alert (str + ' is ' + fontname);
+		continue;
+	    }
+	}
+
        // alert("Font ='" + fontname + "'");
      }
 
@@ -1271,6 +1291,7 @@ function ResizeImage(prtsz)
                 break;
 
             case 9:  // 480x320
+		//alert ('resizing to 480x320');
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(3,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
