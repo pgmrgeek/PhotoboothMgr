@@ -42,7 +42,7 @@
 ": 00100000 00000000 - horizontal Print actions carry bk/fg #s 1-4 in the name"
 ": 01000000 00000000 - horizontal Print actions carry the ratio names"
 ":"
-"000-Simple One Bk/Fg Layout w/GIF","Onsite.Printing","000",4,1,0,0,0,1,-1,-1,-1,0,"0001000100001111" 
+"000-Simple One Bk/Fg Layout w/GIF","Onsite.Printing","000",4,1,1,0,0,1,-1,-1,-1,0,"0001000100001111" 
 "001-3 image strips","Onsite.Printing",               "001",0,3,1,1,1,1,2,3,-1,0,  "0001000000010000" 
 "002-4 image strips","Onsite.Printing",               "002",0,4,1,1,1,1,2,3,4,0,   "0001000000010000"
 "003-3 image square layouts","Onsite.Printing",       "003",0,3,1,1,0,1,2,3,4,0,   "0101010100001111"
