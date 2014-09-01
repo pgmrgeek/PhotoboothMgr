@@ -12,7 +12,7 @@ rem validate the environment
 
 rem start the programs
 
-    if exist software\pic2print.exe cmd /c start software\pic2print.exe /d /r
+    if exist software\pic2print.exe cmd /c start software\pic2print.exe /d 
     if exist software\justload.exe cmd /c start software\justload c:\onsite\software\pssetup.jpg
     rem scan
 

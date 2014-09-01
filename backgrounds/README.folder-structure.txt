@@ -1,5 +1,5 @@
 ============================================
-background folder descriptions and contents:
+background folder descriptions and contents: 
 ============================================
 
 Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved 

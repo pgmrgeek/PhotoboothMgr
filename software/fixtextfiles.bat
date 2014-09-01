@@ -13,5 +13,6 @@ rem
     call _fix c:\onsite\software\carriers.csv
     call _fix c:\onsite\software\printers.csv
     call _fix c:\onsite\software\README.Email-Setup.txt
+    call _fix c:\onsite\software\launch.bat
 
 

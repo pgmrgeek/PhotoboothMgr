@@ -31,3 +31,4 @@ Doubleclick on My Computer and navigate to c:\Onsite\software".  There is a shor
 use. Now, double click on the "Launch.bat" file.  This will create missing folders and fire up the core program, "Pic2Print".  
 
 At this point, I'm going to direct you to the "c:\Onsite\Readme.md" file for more setup instructions.
+

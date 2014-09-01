@@ -22,3 +22,4 @@ for the job
         c:\OnSite           This is the KIOSK print folder to print everything
         c:\OnSite\capture   This folder updates the operator panel "Refresh" button. All images
                             here must be manually kicked off to print or generate GIFs.
+
