@@ -3,17 +3,17 @@ Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/
 
 BETA release 8.01 (A work in progress) 
 
-Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written using Photoshop CS2 but runs for the most part on all subsequent versions.   See below for updates on this issue.
+Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs for the most part on all subsequent versions.   See below for updates on this issue.
 
-Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  Animated gifs are supported and images can be emailed, sent as MMS messages, and copied to another folder for dropbox or slideshows.  All this functionality works as of today (first release) with further enhancements forth coming.  The actual source code to Pic2Print will be located in its own repository, not in this package. 
+Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today (first release) with further enhancements forth coming.  The actual source code to Pic2Print will be located in its own repository, not in this package. 
  
 Looking closer at Pic2Print, it operates on a set of folders for the entire workflow. See the list of folder below for more information. The main operations are Managed mode and Kiosk mode.
 
-In Managed Mode, the technician has a control panel and is given a "Refresh" button that turns green when new  images arrive. Clicking "Refresh", the images are presented so the technician can select (i.e., click on) an image, an optional background (for greenscreen), then click a number between 1-10, for 1 to 10 prints.  If multiple images are needed (for photostrips or .GIFs), the technican clicks the first image, then the "L" button to load; repeating until the GIF/Number buttons are enabled. Once the buttons are enabled, the technician selects the last image, then clicks "GIF" or a numbered print button.
+In Managed Mode, the technician has a control panel and is given a "Refresh" button that turns green when new images arrive. Clicking "Refresh", the images are presented so the technician can select (i.e., click on) an image, an optional background (for greenscreen), then click a number between 1-10, for 1 to 10 prints.  If multiple images are needed (for photostrips or .GIFs), the technican clicks the first image, then the "L" button to load; repeating until the GIF/Number buttons are enabled. Once the buttons are enabled, the technician selects the last image, then clicks "GIF" or a numbered print button.
 
 In Kiosk mode, the incoming images are processed according to selections made in the configuration panel.  That means the technician can specify foreground overlay, greenscreen, layout selection, # of prints per image, etc, and the kiosk mode will abide by these settings.  For example, selecting a three image photo strip layout with greenscreen and overlay, will be processed in Kiosk mode once three images land in the folder.
 
-Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set supports animated gifs, but the first add-on pack will show spectacular three layer animations.
+Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set supports animated gifs, but the first add-on pack will show spectacular four layer animations.
 
 To install this package -
 
@@ -34,8 +34,7 @@ Second step, Launch Pic2Print using "launch.bat" found in the software folder.  
 
 Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop manually. Remove any prior versions of "Onsite.Printing.atn" that might be loaded in the Action Palette.  Now, load the new "Onsite.Printing.atn" set found in "c:\OnSite\actions\" folder, by dragging & dropping the file into photoshop.  
 
-If you are using Photoshop CS3 or later and encounter problems loading JPGs, you might have to rewrite the "psload.exe" droplet found in the software folder. Click "Window->Actions" to open the action palette.  Looking in the "Onsite.Printing" action set, click on the first action named "Automatic Mode for Droplet", then run "file->Automate->Create Droplet", overwriting psload.exe in the "c:\OnSite\software" folder.   Do this for the other
-two droplets as well - psclose.exe and justload.exe.  In the Action palette, click on "Close all for psclose.exe droplet", then run "file->Automate->Create Droplet", overwriting psclose.exe in the "c:\Onsite\software" folder. Again, in the Action palette, click on "Just load an image", then run "file->Automate->Create Droplet", overwriting
+If you are using Photoshop CS3 or later and encounter problems loading JPGs, you should rewrite the "psload.exe" droplet found in the software folder. Click "Window->Actions" to open the action palette.  Looking in the "Onsite.Printing" action set, click on the first action named "Automatic Mode for Droplet", then run "file->Automate->Create Droplet", overwriting psload.exe in the "c:\OnSite\software" folder.   Do this for the other two droplets as well, psclose.exe and justload.exe. Here's how - In the Action palette, in the Onsite.Printing action set, click on "Close all for psclose.exe droplet", then run "file->Automate->Create Droplet", overwriting psclose.exe in the "c:\Onsite\software" folder. Again, in the Action palette, click on "Just load an image", then run "file->Automate->Create Droplet", overwriting
 justload.exe in the "c:\Onsite\software" folder.
 
 When Pic2Print fires up, it opens the main control panel and a configuration form. In the configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck the foreground, greenscreen, multiple backgrounds, checkboxes, to see their effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  See the "README.Email-Setup.txt" file for more information on setting up the email & cloud form.  Once you do some test runs, look in the "c:\OnSite\printed" folder to see the final outputs.  
@@ -53,6 +52,11 @@ Bay Area Event Photography <br>
 www.bayareaeventphotography.com <br>
 
 Photoshop Version support -
+
+09/01/14 8.03 Update - Kiosk mode had a timing issue.  It was runnning too fast monitoring the c:\OnSite folder causing
+problems with images from the network and Nikon Capture software.  A one second delay was added before accessing any incoming image, and the problem went away.  
+
+In a two printer setup, the main machine was writing both config.txt files to the c:\OnSite folder.  This is useful but became confusing when unexpected changes happended on the remote machine.  This feature is disabled so both computers now must be configured separately. Better this way, no surprises.  You get what you set..
 
 08/09/14 Update - Printing and GIF generation has now been tested on all versions of CS2 - CC!  Just make sure to rewrite the droplets after installation to make sure those match the installed version of Photoshop.
 
