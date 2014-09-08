@@ -345,11 +345,11 @@ var prtcnt = 1
 
             } else {
 
-		// size is indicating this is one of the gif sizes, so resize by standard means
+                // size is indicating this is one of the gif sizes, so resize by standard means
 
-		ResizeImage(PrintSiz);    // resize to the printer print size
+                ResizeImage(PrintSiz);    // resize to the printer print size
 
-	    }		
+            }           
 
             // Save both the files in the printed folder
 
@@ -1017,19 +1017,19 @@ var num;
             fontname = "Arial";
         }
 
-	// convert to the photoshop name
+        // convert to the photoshop name
 
-	fontname = fontname.toUpperCase();
+        fontname = fontname.toUpperCase();
 
-	for (i=0; i < app.fonts.length; i++) {
-    	    str = app.fonts[i].name; 
-    	    str = str.toUpperCase();
-    	    if (str == fontname) {
-		fontname = app.fonts[i].postScriptName;
-		//alert (str + ' is ' + fontname);
-		continue;
-	    }
-	}
+        for (i=0; i < app.fonts.length; i++) {
+            str = app.fonts[i].name; 
+            str = str.toUpperCase();
+            if (str == fontname) {
+                fontname = app.fonts[i].postScriptName;
+                //alert (str + ' is ' + fontname);
+                continue;
+            }
+        }
 
        // alert("Font ='" + fontname + "'");
      }
@@ -1232,7 +1232,7 @@ function ResizeImage(prtsz)
 
         // now handle the special cases
 
-        //alert("PrintSiz=" + prtsz + " xres" + xres + " yres" + yres + " dpi" + dpi)
+        //alert("PrintSiz=" + prtsz + " xres=" + xres + " yres=" + yres + " dpi=" + dpi)
 
         switch (prtsz) {
 
@@ -1243,55 +1243,56 @@ function ResizeImage(prtsz)
                 break;
 
             case 1:  // 3.5x5
-                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(5,"in"),UnitValue(3.5,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 2:  // 2x6
-                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
                 //doc.resizeCanvas(UnitValue(6,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 3:  // 4x6
-                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+
                 break;
 
             case 4:  // 5x7
-                doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
+		doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 5:  // 6x8
-                doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(8,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 6: // 6x9
-                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 7:  // 8x10
-                doc.resizeImage(null,UnitValue(yres,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(10,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 8:  // 8x12
-                doc.resizeImage(UnitValue(xres,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(12,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 9:  // 480x320
-		//alert ('resizing to 480x320');
+                //alert ('resizing to 480x320');
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(3,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
