@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 8.01
+// Version 8.08
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -19,7 +19,8 @@
     var PRT_LOAD = 0;
     var PRT_PRINT = 1;
     var PRT_GIF = 2;
-    var PRT_POST=3;
+    //var PRT_POST=3;
+    var PRT_REPRINT=4;
     var BIT_VERT_SUPPORTED =  0x100;
     var BIT_VBGFG_ACTION   =  0x200;
     var BIT_VPRT_ACTION    =  0x400;
@@ -27,9 +28,9 @@
     var BIT_HBGFG_ACTION   = 0x2000;
     var BIT_HPRT_ACTION    = 0x4000;
 
-    var PostBuild = FALSE;              // this splits this functionality between automatic
-                                        // processing and just for post-view builds.  I do
-                                        // this to keep the number of files down.
+    //var PostBuild = FALSE;              // this splits this functionality between automatic
+    //                                    // processing and just for post-view builds.  I do
+    //                                    // this to keep the number of files down.
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -100,6 +101,13 @@ var keepgoing = TRUE;
 
         BuildCustomActionName();
 
+    // special case reprints - do it and end it
+
+	if (processMode == PRT_REPRINT) {
+	    ProcessReprint();
+	    keepgoing = FALSE;
+	}
+
     // Load the image's text file to load the message to be placed in a text layer
 
         if (keepgoing == TRUE)
@@ -138,37 +146,28 @@ var keepgoing = TRUE;
 
     // Done with the image processing, now do the output 
 
-        if (PostBuild == TRUE) {
+    // Loads, Prints and GIFs happen here.
 
-            // special case of just viewing the post-process image.
+        if (keepgoing == TRUE) 
+            keepgoing = ProcessOutput();
 
-            ProcessPostViewImages();
+        if (timeRun == TRUE) TimeReport();
 
-        } else { 
+    // finally, we're done, we can close the file. Leave it open if a LOAD cmd. Close
+    // it if the file format is not supported.
 
-            // Loads, Prints and GIFs happen here.
+        if ((processMode != PRT_LOAD) || (keepgoing == FALSE)) {
 
-            if (keepgoing == TRUE) 
-                keepgoing = ProcessOutput();
+            // alert("closing");
 
-            if (timeRun == TRUE) TimeReport();
+            if (keepgoing = TRUE)
+                doAction('JS:Close', 'Onsite.Printing');
 
-        // finally, we're done, we can close the file. Leave it open if a LOAD cmd. Close
-        // it if the file format is not supported.
+        } else {
 
-            if ((processMode != PRT_LOAD) || (keepgoing == FALSE)) {
-
-                // alert("closing");
-
-                if (keepgoing = TRUE)
-                    doAction('JS:Close', 'Onsite.Printing');
-
-            } else {
-
-                // alert("leaving open");
-            }
-
+            // alert("leaving open");
         }
+
 
 }
 
@@ -365,18 +364,90 @@ var prtcnt = 1
 
         } else {  // not gif, so print/save it
 
-            // 2nd resize - to the printer output size
 
-                ResizeImage(PrintSiz);    // resize to the printer print size
+                // 2nd resize - to the printer output size
 
-            // Save the files in the printed folder
+                    ResizeImage(PrintSiz);    // resize to the printer print size
+
+                // Save the files in the printed folder
+
+                if (savepsd == TRUE) 
+                   doAction('JS:Save PSD File', 'Onsite.Printing');
+
+                doAction('JS:Save JPG File', 'Onsite.Printing');
+
+                // if "File Output Only" = 0, Print the image
+
+                if (NoPrt == '0')   {
+
+                    // the name may possess the print count, so extract it
+
+                    if (fname.search('_p2')  > 0) { prtcnt = 2; }
+                    if (fname.search('_p3')  > 0) { prtcnt = 3; }
+                    if (fname.search('_p4')  > 0) { prtcnt = 4; }
+                    if (fname.search('_p5')  > 0) { prtcnt = 5; }
+                    if (fname.search('_p6')  > 0) { prtcnt = 6; }
+                    if (fname.search('_p7')  > 0) { prtcnt = 7; }
+                    if (fname.search('_p8')  > 0) { prtcnt = 8; }
+                    if (fname.search('_p9')  > 0) { prtcnt = 9; }
+                    if (fname.search('_p10') > 0) { prtcnt = 10;}
+
+                    // possibly convert its profile to the target printer profile
+
+                    if (profil != "") {
+                         // alert ("converting to profile " + profil );
+                         activeDocument.convertProfile( profil, Intent.RELATIVECOLORIMETRIC, true, true );
+
+                    }
+
+                    if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
+
+                    // photostrips on the DS40 need to go out as 4x6 prints so we're introducing the "ratio" 
+                    // reformatting. 
+
+                    doAction ("JS:PreprintFormatRatio:" + sRatio, "Onsite.Printing");
+
+                    // no printing is false, so print it!
+    
+                    while (prtcnt > 0) {
+                        doAction('JS:' + PSver + ':Print One Copy', 'Onsite.Printing');
+                        prtcnt = prtcnt - 1;
+                    }
+
+                    if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0); 
+
+                }
+        }
+    } 
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+////////////////////////     ProcessReprint     ////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+//
+// The file is already formatted, etc. We just need to output it to the printer
+//
+function ProcessReprint()
+{
+var prtcnt = 1
+
+    // prints and .GIFs get processed here. we're done already on loads.
+
+    if (processMode == PRT_REPRINT) {
+           
+        // 2nd resize - to the printer output size
+
+            ResizeImage(PrintSiz);    // resize to the printer print size
+
+        // Save the files in the printed folder
 
             if (savepsd == TRUE) 
                doAction('JS:Save PSD File', 'Onsite.Printing');
 
             doAction('JS:Save JPG File', 'Onsite.Printing');
 
-            // if "File Output Only" = 0, Print the image
+        // if "File Output Only" = 0, Print the image
 
             if (NoPrt == '0')   {
 
@@ -393,12 +464,13 @@ var prtcnt = 1
                 if (fname.search('_p10') > 0) { prtcnt = 10;}
 
                 // possibly convert its profile to the target printer profile
+		// this should have been done when created, so we'll skip it for now..
 
-                if (profil != "") {
-                     // alert ("converting to profile " + profil );
-                     activeDocument.convertProfile( profil, Intent.RELATIVECOLORIMETRIC, true, true );
-
-                }
+                //if (profil != "") {
+                //     // alert ("converting to profile " + profil );
+                //     activeDocument.convertProfile( profil, Intent.RELATIVECOLORIMETRIC, true, true );
+                //
+                //}
 
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
 
@@ -417,70 +489,10 @@ var prtcnt = 1
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0); 
 
             }
-        }
 
     } 
 }
 
-
-//////////////////////////////////////////////////////////////////////////
-/////////////////     ProcessPostViewImages     //////////////////////////
-//////////////////////////////////////////////////////////////////////////
-//
-// Builds a string with the action specified by both the config.txt file
-// and the incoming file name.   
-//
-function ProcessPostViewImages()
-{
-
-    // copy the layer here, then close the file
-
-        doAction('JS:Flatten Separations', 'Onsite.Printing');
-        //doAction('JS:Add Border', 'Onsite.Printing');
-        doAction('JS:Copy Layer', 'Onsite.Printing');
-        doAction('JS:Close', 'Onsite.Printing');
-
-    // fix up the background file extension
-
-        if (orientation == VERTICAL) {
-
-            bkfile = ".vert.psd";
-
-        } else {
-
-            bkfile = ".horz.psd";
-        }
-
-    // process the first background file
-
-        createpostview(1,"c:/onsite/backgrounds/" + BkFolder + "/background1" + bkfile);
-
-    // process the second background file
-
-        if (bkCount >= 2) {
-
-            createpostview(2,"c:/onsite/backgrounds/" + BkFolder + "/background2" + bkfile);
-
-        }
-
-    // process the third background file
-
-        if (bkCount >= 3) {
-
-            createpostview(3,"c:/onsite/backgrounds/" + BkFolder + "/background3" + bkfile);
-
-        }
-
-    // process the forth background file
-
-        if (bkCount == 4) {
-
-            createpostview(4,"c:/onsite/backgrounds/" + BkFolder + "/background4" + bkfile);
-
-        }
-
-
-}
 
 //////////////////////////////////////////////////////////////////////////
 /////////////////       ProcessTextLayer       //////////////////////////
@@ -496,30 +508,6 @@ var txtRef;
 var origUnits;
 var textColor;
 var txtRef;
-//var msgLine1 = "";
-//var msgLine2 = "";
-//var msgLine3 = "";
-//var msgLine4 = "";
-//var msgLine5 = "";
-//var len1;
-//var len2;
-//
-//      // find dividers and split the message into multiple strings
-//
-//      len1 = message.search(String.fromCharCode(92));
-//      if (len1 > 0) {
-//          msgLine1 = message.substr(0,len1);
-//          message = message.substr(len1,255);
-//      }
-//      len2 = message.search(String.fromCharCode(92));
-//      if (len2 > 0) {
-//          msgLine2 = message.substr(len1,len2);
-//          message = message.substr(len2,255);
-//          len1 = len2
-//      }
-//alert ("msgLine1 = " + msgLine1);
-//alert ("msgLine2 = " + msgLine2);
-//alert ("message = " + message );
 
         // save the original state
 
@@ -564,55 +552,6 @@ var txtRef;
         // Everything went Ok. Restore ruler units
         preferences.rulerUnits = origUnits;
 
-}
-
-////////////////////////////////////////////////////////////////////////////
-////////////////////////    createpostview     /////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-//
-// subroutine for ProcessPostViewImages
-//
-function createpostview(fnum,str)
-{
-
-        // alert("loading background from " + str)
-
-        fileRef = new File( str );
-
-        if (fileRef.exists) {
-
-            open (fileRef);
-
-            //alert("about to resize here..");
-            //ResizeImage(PrintSiz);    // resize to the final output size
-
-            doAction('JS:Paste Layer', 'Onsite.Printing');
-
-            if (FGrnd == '0')
-                doAction('JS:Turn off foreground', 'Onsite.Printing');
-
-            switch(fnum) {
-                case 1:
-                doAction('JS:Save Preview 1', 'Onsite.Printing');
-                break;
-                case 2:
-                doAction('JS:Save Preview 2', 'Onsite.Printing');
-                break;
-                case 3:
-                doAction('JS:Save Preview 3', 'Onsite.Printing');
-                break;
-                case 4:
-                doAction('JS:Save Preview 4', 'Onsite.Printing');
-                break;
-            }
-
-
-       } else {
-
-            alert ( str + " not found!");
-
-       }
-       fileRef = null;
 }
 
 
@@ -731,20 +670,26 @@ var num;
         if (fname.search('_m0') > 0) { 
             processMode = PRT_LOAD;
             mode = 'Load'; 
-        }
-        if (fname.search('_m1') > 0) { 
-            processMode = PRT_PRINT;
-            mode = 'Print' ;
-        }
-        if (fname.search('_m2') > 0) { 
-            processMode = PRT_GIF;
-            mode = 'GIF'; 
-        }
-        if (fname.search('_m3') > 0) {  
-            processMode = PRT_PRINT;
-            mode = 'Print';
-            PostBuild = TRUE;
-        }
+	    //alert("mode=" + mode);
+        } else {
+            if (fname.search('_m1') > 0) { 
+                processMode = PRT_PRINT;
+                mode = 'Print' ;
+		//alert("mode=" + mode);
+            } else {
+                if (fname.search('_m2') > 0) { 
+                    processMode = PRT_GIF;
+                    mode = 'GIF'; 
+		    //alert("mode=" + mode);
+                } else {
+		    if (fname.search('_m4') > 0) {  
+            		processMode = PRT_REPRINT;
+            		mode = 'RePRint';
+			//alert("mode=" + "RePrint");
+        	    }
+		}
+	    }
+	}
 
         //alert("mode = " + mode +" processMode = " + processMode.toString());
 
@@ -1185,6 +1130,11 @@ function BuildBkFgPath()
 {
 var str = "";
 var test;
+
+    // if this is a reprint, we don't use the background file, so bail now
+
+	if (processMode == PRT_REPRINT)
+	    return TRUE;
 
     // first, save the folder as the action set name
 
