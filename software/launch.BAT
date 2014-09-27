@@ -1,4 +1,4 @@
-    if (%debug%)==() @echo off
+    if (%debug%)==()  @echo off
 
 rem validate the environment
 

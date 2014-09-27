@@ -1,5 +1,5 @@
-===========
-Email Setup 
+=========== 
+Email Setup  
 ===========
 
 Copyright (c) 2014. Bay Area Event Photography.  All Rights Reserved 

@@ -1,4 +1,4 @@
-Checklist - Software Installation
+Checklist - Software Installation 
 =================================
 
 BETA release 8.01 (A work in progress) 
