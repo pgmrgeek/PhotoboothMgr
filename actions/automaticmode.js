@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 8.08
+// Version 9.01
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -19,7 +19,6 @@
     var PRT_LOAD = 0;
     var PRT_PRINT = 1;
     var PRT_GIF = 2;
-    //var PRT_POST=3;
     var PRT_REPRINT=4;
     var BIT_VERT_SUPPORTED =  0x100;
     var BIT_VBGFG_ACTION   =  0x200;
@@ -27,10 +26,6 @@
     var BIT_HORZ_SUPPORTED = 0x1000;
     var BIT_HBGFG_ACTION   = 0x2000;
     var BIT_HPRT_ACTION    = 0x4000;
-
-    //var PostBuild = FALSE;              // this splits this functionality between automatic
-    //                                    // processing and just for post-view builds.  I do
-    //                                    // this to keep the number of files down.
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -43,7 +38,7 @@
     var processMode = PRT_PRINT;        // processing this file as a
 
     // data read from the config.txt file
-    var PrintSiz = '1';                 // 1=4x6, 2=5x7, 3=8x10
+    var PrintSiz = '1';                 // 1=3.5x5, 2=2x6, 3=4x6, 4=5x7, etc.
     var xRes = '0';                     // x resolution
     var yres = '0';                     // y resolution
     var dpi  = '0';                     // DPI dots per inch..
@@ -57,6 +52,7 @@
                 "Onsite.Printing";      // custom action set name
     var savepsd = TRUE;                 // save a layered .PSD on output
     var message = "";                   // message to be place in a text layer
+    var GifDelay = 0			// delay at end of gif?
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
@@ -332,13 +328,11 @@ var prtcnt = 1
 
             if ((xres > 1024) || (yres > 1024)) {
 
-                //alert("Forced resizing to default GIF");
+		//alert("Forced resizing to default GIF");
 
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
 
-                doc.resizeImage(null,UnitValue(480,"px"),160,ResampleMethod.BICUBIC);
-                //doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
-                //doc.resizeImage(UnitValue(640,"px"),UnitValue(480,"px"),null,ResampleMethod.BICUBIC);
+                ResizeImage(10);    // resize to the 640x427 size
 
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
 
@@ -353,7 +347,11 @@ var prtcnt = 1
             // Save both the files in the printed folder
 
             //alert(".gif save");
-            doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
+
+	    if (GifDelay == 0) 
+            	doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
+	    else
+            	doAction('JS:' + PSver + ':Save GIF Delay', 'Onsite.Printing');
 
             if (savepsd == TRUE) 
                 doAction('JS:Save PSD File', 'Onsite.Printing');
@@ -579,9 +577,9 @@ var subst;
                 break;
 
             case  5:  // 6x8
-            case 10:  // 640x480
-            case 11:  // 800x600
-            case 12:  // 1024x768
+            case 11:  // 640x480
+            case 12:  // 800x600
+            case 13:  // 1024x768
                 sRatio = "133";
                 break;
 
@@ -595,6 +593,7 @@ var subst;
             case  6: // 6x9
             case  8: // 8x12
             case  9: // 480x320
+            case 10: // 640x427
                 sRatio = "150";
                 break;
 
@@ -979,6 +978,13 @@ var num;
        // alert("Font ='" + fontname + "'");
      }
 
+    // GIF delay 
+
+	if( !dataFile.eof ) {
+
+            str = dataFile.readln();
+            GifDelay = parseInt(str);
+	}
 
      dataFile.close();
 
@@ -1244,26 +1250,33 @@ function ResizeImage(prtsz)
             case 9:  // 480x320
                 //alert ('resizing to 480x320');
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(3,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(480,"px"),UnitValue(320,"px"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
-            case 10:  // 640x480
+            case 10:  // 640x427
+                //alert(xres + "x" + yres + "@" + dpi + " dpi")
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeCanvas(UnitValue(640,"px"),UnitValue(427,"px"),AnchorPosition.MIDDLECENTER);
+                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                break;
+
+            case 11:  // 640x480
                 //alert("640x480" + xres + "x" + yres + "x" + dpi)
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(640,"px"),UnitValue(480,"px"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
-            case 11:  // 800x600
+            case 12:  // 800x600
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(800,"px"),UnitValue(600,"px"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
-            case 12:  // 1024x768
+            case 13:  // 1024x768
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(4,"in"),UnitValue(3,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(1024,"px"),UnitValue(768,"px"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
                 break;
 

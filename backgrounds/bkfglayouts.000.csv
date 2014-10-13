@@ -22,6 +22,7 @@
 ": BkFgImage4Bk(256) As Int16        ' 4 if there is a 4th layout, -1 = not used "
 ": BkFgAnimated(256) As Int16        ' Bk/Fg files are animation layers, 0=false, 1=true (use all four bk/fg files)"
 ": BkFgRatio(256) as int16           ' Bitfield for ratios (print sizes) supported see below.."
+": BkFgGifDelay(256) as int16        ' Gif needs 1 second delay at end"
 ":  "
 ":   In the BkFgRatio field, we specify which outputs are supported by a "
 ":   bitfield. The bit fields are:" 
