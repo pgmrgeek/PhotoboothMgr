@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 9.01
+// Version 9.06
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -52,7 +52,7 @@
                 "Onsite.Printing";      // custom action set name
     var savepsd = TRUE;                 // save a layered .PSD on output
     var message = "";                   // message to be place in a text layer
-    var GifDelay = 0			// delay at end of gif?
+    var GifDelay = 0                    // delay at end of gif?
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
@@ -99,10 +99,10 @@ var keepgoing = TRUE;
 
     // special case reprints - do it and end it
 
-	if (processMode == PRT_REPRINT) {
-	    ProcessReprint();
-	    keepgoing = FALSE;
-	}
+        if (processMode == PRT_REPRINT) {
+            ProcessReprint();
+            keepgoing = FALSE;
+        }
 
     // Load the image's text file to load the message to be placed in a text layer
 
@@ -328,9 +328,15 @@ var prtcnt = 1
 
             if ((xres > 1024) || (yres > 1024)) {
 
-		//alert("Forced resizing to default GIF");
+                //alert("Forced resizing to default GIF");
 
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
+
+		// this number ratio assumes the incoming image is in a 6x4 aspect ratio. 
+		// some cameras might still have the 5x4 ratio?  This will break in that 
+		// case
+
+		xres = 640; yres = 427
 
                 ResizeImage(10);    // resize to the 640x427 size
 
@@ -348,10 +354,10 @@ var prtcnt = 1
 
             //alert(".gif save");
 
-	    if (GifDelay == 0) 
-            	doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
-	    else
-            	doAction('JS:' + PSver + ':Save GIF Delay', 'Onsite.Printing');
+            if (GifDelay == 0) 
+                doAction('JS:' + PSver + ':Save GIF', 'Onsite.Printing');
+            else
+                doAction('JS:' + PSver + ':Save GIF Delay', 'Onsite.Printing');
 
             if (savepsd == TRUE) 
                 doAction('JS:Save PSD File', 'Onsite.Printing');
@@ -462,7 +468,7 @@ var prtcnt = 1
                 if (fname.search('_p10') > 0) { prtcnt = 10;}
 
                 // possibly convert its profile to the target printer profile
-		// this should have been done when created, so we'll skip it for now..
+                // this should have been done when created, so we'll skip it for now..
 
                 //if (profil != "") {
                 //     // alert ("converting to profile " + profil );
@@ -669,26 +675,26 @@ var num;
         if (fname.search('_m0') > 0) { 
             processMode = PRT_LOAD;
             mode = 'Load'; 
-	    //alert("mode=" + mode);
+            //alert("mode=" + mode);
         } else {
             if (fname.search('_m1') > 0) { 
                 processMode = PRT_PRINT;
                 mode = 'Print' ;
-		//alert("mode=" + mode);
+                //alert("mode=" + mode);
             } else {
                 if (fname.search('_m2') > 0) { 
                     processMode = PRT_GIF;
                     mode = 'GIF'; 
-		    //alert("mode=" + mode);
+                    //alert("mode=" + mode);
                 } else {
-		    if (fname.search('_m4') > 0) {  
-            		processMode = PRT_REPRINT;
-            		mode = 'RePRint';
-			//alert("mode=" + "RePrint");
-        	    }
-		}
-	    }
-	}
+                    if (fname.search('_m4') > 0) {  
+                        processMode = PRT_REPRINT;
+                        mode = 'RePRint';
+                        //alert("mode=" + "RePrint");
+                    }
+                }
+            }
+        }
 
         //alert("mode = " + mode +" processMode = " + processMode.toString());
 
@@ -980,11 +986,11 @@ var num;
 
     // GIF delay 
 
-	if( !dataFile.eof ) {
+        if( !dataFile.eof ) {
 
             str = dataFile.readln();
             GifDelay = parseInt(str);
-	}
+        }
 
      dataFile.close();
 
@@ -1139,8 +1145,8 @@ var test;
 
     // if this is a reprint, we don't use the background file, so bail now
 
-	if (processMode == PRT_REPRINT)
-	    return TRUE;
+        if (processMode == PRT_REPRINT)
+            return TRUE;
 
     // first, save the folder as the action set name
 
@@ -1218,7 +1224,7 @@ function ResizeImage(prtsz)
                 break;
 
             case 4:  // 5x7
-		doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
