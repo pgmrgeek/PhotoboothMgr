@@ -330,17 +330,17 @@ var prtcnt = 1
 
                 //alert("Forced resizing to default GIF");
 
-                if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
-
 		// this number ratio assumes the incoming image is in a 6x4 aspect ratio. 
 		// some cameras might still have the 5x4 ratio?  This will break in that 
 		// case
 
-		xres = 640; yres = 427
-
+		if (xres > yres) {
+		    xres = 640; yres = 427;
+		} else {
+		    yres = 640; xres = 427;
+		}
+		
                 ResizeImage(10);    // resize to the 640x427 size
-
-                if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0);
 
             } else {
 
@@ -367,7 +367,6 @@ var prtcnt = 1
             //alert(".gif save done");
 
         } else {  // not gif, so print/save it
-
 
                 // 2nd resize - to the printer output size
 
