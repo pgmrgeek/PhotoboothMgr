@@ -112,7 +112,7 @@ var keepgoing = TRUE;
     // Resize to the target size
 
         if (keepgoing == TRUE)
-            keepgoing = ResizeImage(0);    // resizes to our working 6x9x300dpi size
+            keepgoing = NormalizeImage();
 
     // boost shadows by 15%
 
@@ -165,6 +165,84 @@ var keepgoing = TRUE;
         }
 
 
+}
+
+//////////////////////////////////////////////////////////////////////////
+////////////////////////   NormalizeImage   /////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//
+// Look over the incoming image.  If its not a 4x6, then we need to 
+// resize it's canvas to match this basic format.  This can happen if 
+// a camera is used that creates 4x5 images.  Also, emailed images may
+// come in as 4x4, 4x5, 2x6 or worse.
+//
+function NormalizeImage() {
+var iRatio,w,h,horz;
+
+	// calculate the image ratio
+
+	    w = app.activeDocument.width;
+	    h = app.activeDocument.height;
+
+	    if (w >= h) {
+	    	iRatio = parseInt(w * 100 / h);
+	    	horz = TRUE;
+	    } else {
+	    	iRatio = parseInt(h * 100 / w);
+		horz = FALSE;
+	    }
+	    alert( "iRatio = " + iRatio);
+
+	// if not a 4x6, then we need to adjust the canvas to make it a 4x6
+
+	    if (iRatio != 150) {
+
+	    	// if less that 1.5, then its a 4x4, 4x5, etc.
+
+	    	if (iRatio < 150) {
+
+		    if (horz == TRUE) {
+			alert("1 - stretch Y to edge, pad canvas");
+            	    	// take the yres and expand it out to the edge
+                    	doc.resizeImage(null,UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                    	doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+
+		    } else {
+			alert("2 - stretch X to edge, pad canvas");
+            	    	// take the xres and expand it out to the 
+                    	doc.resizeImage(UnitValue(1800,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                    	doc.resizeCanvas(UnitValue(6,"in"),UnitValue(9,"in"),AnchorPosition.MIDDLECENTER);
+
+		    }
+
+		} else {  // this could be a photostrip, 6x2
+
+		    if (horz == TRUE) {
+			alert("3 - stretch X to edge, pad canvas");
+            	    	// take the xres and expand it out to the 
+                    	doc.resizeImage(UnitValue(2700,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
+                    	doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+                    	//doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
+
+		    } else {
+			alert("4 - stretch Y to edge, pad canvas");
+            	    	// take the xres and expand it out to the 
+                    	doc.resizeImage(null,UnitValue(2700,"px"),defaultDPI,ResampleMethod.BICUBIC);
+                    	doc.resizeCanvas(UnitValue(6,"in"),UnitValue(9,"in"),AnchorPosition.MIDDLECENTER);
+                    	//doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
+
+		    }
+		}
+
+	    } else {
+
+		// it is a 4x6, so just resize it
+
+	    	ResizeImage(0);    // resizes to our working 6x9x300dpi size
+
+	    }
+
+	return(TRUE);
 }
 
 //////////////////////////////////////////////////////////////////////////
