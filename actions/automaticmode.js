@@ -191,7 +191,7 @@ var iRatio,w,h,horz;
 	    	iRatio = parseInt(h * 100 / w);
 		horz = FALSE;
 	    }
-	    alert( "iRatio = " + iRatio);
+	    //alert( "iRatio = " + iRatio);
 
 	// if not a 4x6, then we need to adjust the canvas to make it a 4x6
 
@@ -202,13 +202,13 @@ var iRatio,w,h,horz;
 	    	if (iRatio < 150) {
 
 		    if (horz == TRUE) {
-			alert("1 - stretch Y to edge, pad canvas");
+			//alert("1 - stretch Y to edge, pad canvas");
             	    	// take the yres and expand it out to the edge
                     	doc.resizeImage(null,UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
 
 		    } else {
-			alert("2 - stretch X to edge, pad canvas");
+			//alert("2 - stretch X to edge, pad canvas");
             	    	// take the xres and expand it out to the 
                     	doc.resizeImage(UnitValue(1800,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(6,"in"),UnitValue(9,"in"),AnchorPosition.MIDDLECENTER);
@@ -218,14 +218,14 @@ var iRatio,w,h,horz;
 		} else {  // this could be a photostrip, 6x2
 
 		    if (horz == TRUE) {
-			alert("3 - stretch X to edge, pad canvas");
+			//alert("3 - stretch X to edge, pad canvas");
             	    	// take the xres and expand it out to the 
                     	doc.resizeImage(UnitValue(2700,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
                     	//doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
 
 		    } else {
-			alert("4 - stretch Y to edge, pad canvas");
+			//alert("4 - stretch Y to edge, pad canvas");
             	    	// take the xres and expand it out to the 
                     	doc.resizeImage(null,UnitValue(2700,"px"),defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(6,"in"),UnitValue(9,"in"),AnchorPosition.MIDDLECENTER);
