@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 9.06
+// Version 9.08
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -53,6 +53,7 @@
     var savepsd = TRUE;                 // save a layered .PSD on output
     var message = "";                   // message to be place in a text layer
     var GifDelay = 0                    // delay at end of gif?
+    var SeqNumber = ""			// prefix on file name is typically a number
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
@@ -76,6 +77,7 @@
     var millstop1;
     var millstop2;
     var mtime;
+    var DBG = FALSE;			// debug enabled
 
 //////////////////////////////////////////////////////////////////////////
 /////////////////////////    Process File   //////////////////////////////
@@ -106,12 +108,12 @@ var keepgoing = TRUE;
 
     // Load the image's text file to load the message to be placed in a text layer
 
-        if (keepgoing == TRUE)
+        if (keepgoing == TRUE) 
             keepgoing = loadImageTextFile();
 
     // Resize to the target size
 
-        if (keepgoing == TRUE)
+        if (keepgoing == TRUE) 
             keepgoing = NormalizeImage();
 
     // boost shadows by 15%
@@ -178,6 +180,9 @@ var keepgoing = TRUE;
 //
 function NormalizeImage() {
 var iRatio,w,h,horz;
+
+	// debugging message
+	if (DBG == TRUE) alert("NormalizeImage");
 
 	// calculate the image ratio
 
@@ -513,6 +518,9 @@ function ProcessReprint()
 {
 var prtcnt = 1
 
+    // debugging message..
+    if (DBG == TRUE) alert("ProcessReprint");
+
     // prints and .GIFs get processed here. we're done already on loads.
 
     if (processMode == PRT_REPRINT) {
@@ -579,10 +587,32 @@ var prtcnt = 1
 /////////////////       ProcessTextLayer       //////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //
+// Create two text layers, and place them out of view.  The actions can
+// place them correctly and make them visible.  The font & color is 
+// determined in Pic2Print config panel.
+//  
+function ProcessTextLayer()
+{
+	// build two layers - the user text and the sequence number from the file name
+
+	_buildTextLayer("textlayer",message);
+	_buildTextLayer("serial", SeqNumber);
+
+        //doAction ('JS:Hide Text Layer','Onsite.Printing');
+
+        // restore to our normalized set
+        doAction ('JS:Select Foreground Layer','Onsite.Printing');
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+/////////////////         _buildTextLayer        //////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//
 // Create a text layer, with or without a user txt message.
 //  
 //
-function ProcessTextLayer()
+function _buildTextLayer(layername,msg)
 {
 var txtLayer;
 var txtRef;
@@ -607,14 +637,14 @@ var txtRef;
 
         txtLayer = doc.artLayers.add();
         txtLayer.kind = LayerKind.TEXT;
-        txtLayer.name = "textlayer";
+        txtLayer.name = layername;   		// "textlayer";
         txtLayer.visible = false;
        
         // adding the user text here..
 
         txtRef = txtLayer.textItem;
         txtRef.font = fontname;
-        txtRef.contents = message;       
+        txtRef.contents = msg;			// message;       
         txtRef.color = textColor;
         txtRef.antiAliasMethod = AntiAlias.NONE;
 
@@ -623,12 +653,7 @@ var txtRef;
         txtRef.size = 28;
                 
         // position it the center of the image for now, and hide the layer
-
         txtRef.position = new Array( 0, 0 );
-        //doAction ('JS:Hide Text Layer','Onsite.Printing');
-
-        // restore to our normalized set
-        doAction ('JS:Select Foreground Layer','Onsite.Printing');
 
         // Everything went Ok. Restore ruler units
         preferences.rulerUnits = origUnits;
@@ -1126,6 +1151,12 @@ var _len = 0;
 var ftxtnam = fname;
 var txtFile;
 var str;
+
+    // debugging message
+    if (DBG == TRUE) alert("LoadImageTextFile");
+
+    // extract the sequence number for the serial layer
+    SeqNumber = fname.slice(0,5);
 
     _len = ftxtnam.search('.jpg')
 
