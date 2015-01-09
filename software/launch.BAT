@@ -16,6 +16,7 @@ rem validate the environment
 
     if not exist orig mkdir orig
 
+    if not exist orig\unqualified mkdir orig\unqualified
     if not exist printed mkdir printed
 
 
