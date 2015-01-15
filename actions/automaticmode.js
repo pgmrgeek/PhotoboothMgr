@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 9.08
+// Version 9.12
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -54,6 +54,7 @@
     var message = "";                   // message to be place in a text layer
     var GifDelay = 0                    // delay at end of gif?
     var SeqNumber = ""			// prefix on file name is typically a number
+    var MachineID = ""                  // Machine ID is 3 characters
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
@@ -1148,6 +1149,7 @@ var num;
 function loadImageTextFile() 
 {
 var _len = 0;
+var _n = 0;
 var ftxtnam = fname;
 var txtFile;
 var str;
@@ -1155,12 +1157,18 @@ var str;
     // debugging message
     if (DBG == TRUE) alert("LoadImageTextFile");
 
-    // extract the sequence number for the serial layer
-    SeqNumber = fname.slice(0,5);
+    // extract the machine name
+    _n = ftxtnam.search('_n');
+    MachineID = ftxtnam.substr(_n+2,3);
+    // alert("Machine ID = " + MachineID);
 
+    // extract the sequence number for the serial layer & Prefix the MachineID as a 3 character prefix
+    SeqNumber = MachineID + fname.slice(0,5);
+
+    // alert("Looking for " + ftxtnam);
     _len = ftxtnam.search('.jpg')
-
     ftxtnam = ftxtnam.substr(0,_len) + ".txt";
+
     // alert("Looking for " + ftxtnam);
 
     // read in the text configuration file.
