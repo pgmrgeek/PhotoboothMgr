@@ -1,13 +1,14 @@
 Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7JRTAVG63XHUL  "Donate once-off to this project using Paypal")
 =========================================== 
 
-BETA release 9.02 (A work in progress) 
+BETA release 9.13 (A work in progress) 
 
-Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs for the most part on all subsequent versions.   See below for updates on this issue.
+Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs on all subsequent versions.  Here's an illustration to visualize it's operation -
+![Illustration-01](software/Documentation/Images/overview.jpg)
 
-Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today (first release) with further enhancements forth coming.  The actual source code to Pic2Print will be located in its own repository, not in this package. 
+Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today with further enhancements forth coming (Everytime I use it on a job..).  The actual source code to Pic2Print will be located in its own repository, not in this package. 
  
-Looking closer at Pic2Print, it operates on a set of folders for the entire workflow. See the list of folder below for more information. The main operations are Managed mode and Kiosk mode.
+Looking closer, Pic2Print operates on a set of folders for the entire workflow. See the list of folder below for more information. The main operations are Managed mode (Operator interfac) and Kiosk mode.
 
 In Managed Mode, the technician has a control panel and is given a "Refresh" button that turns green when new images arrive. Clicking "Refresh", the images are presented so the technician can select (i.e., click on) an image, an optional background (for greenscreen), then click a number between 1-10, for 1 to 10 prints.  If multiple images are needed (for photostrips or .GIFs), the technican clicks the first image, then the "L" button to load; repeating until the GIF/Number buttons are enabled. Once the buttons are enabled, the technician selects the last image, then clicks "GIF" or a numbered print button.
 
@@ -21,14 +22,15 @@ Make sure you have Microsoft .NET framework 4.5 installed on your machine.  See 
 
 Next, pull the PhotoboothMGR repository from github.  Once you pull it, copy/move the contents to a new folder. This folder must be named "OnSite" and must be located in the root of Drive C.  Sorry, but its hardcoded for now.  Here is a list of the required folders -
 
-c:\OnSite                - Parent folder and Kiosk folder. Any jpg landing here gets processed.<br>
-c:\OnSite\actions        - holds Photoshop's action sets and javascript.<br>
-c:\OnSite\backgrounds    - holds the print layouts in subfolders, spec'd by the .CSV files.<br>
-c:\OnSite\capture        - incoming .jpgs can land here, to be managed by the human operator/technician.<br>
-c:\OnSite\cloud          - suggested output folder for the cloud/slideshow.  Not really necessary.<br>
-c:\OnSite\orig           - after images are processed, the original files are moved here.<br>
-c:\OnSite\printed        - the processed files are written here - .GIF, .PSD with layers, and a flattened .JPG.<br>
-c:\OnSite\software       - windows runtime code and support files.<br>
+c:\OnSite                        - Parent folder and Kiosk folder. Any jpg landing here gets processed.<br>
+c:\OnSite\actions                - holds Photoshop's action sets and javascript.<br>
+c:\OnSite\backgrounds            - holds the print layouts in subfolders, spec'd by the .CSV files.<br>
+c:\OnSite\capture                - incoming .jpgs  land here, for Managed Mode.<br>
+c:\OnSite\cloud                  - suggested output folder for the cloud/slideshow.  Not really necessary.<br>
+c:\OnSite\orig                   - after images are processed, the original files are moved here.<br>
+c:\OnSite\printed                - the processed files are written here - .JPG, .GIF, .PSD with layers.<br>
+c:\OnSite\software               - windows runtime code and support files.<br>
+c:\OnSite\software\Documentation - Documentation for the product (A work in progress..). <br>
 
 Second step, Launch Pic2Print using "launch.bat" found in the software folder.  The batch file creates any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button. The debug button displays a form with a verbose listing of internal operations with helpful messages to verify email operations. Lastly, "launch.bat" fires off Photoshop with a sample JPG listing some printer setup instructions.
 
@@ -44,6 +46,10 @@ Printing Issues -
 For CS2, this system works by printing to the default printer, so make sure your photo printer is setup as the Windows default printer. Validate this setting via the Windows Control Panel applet. If you change default printers, you will have to restart photoshop. Once you've confirmed the default printer, load an image. This allows you to execute Photoshop's "File->Page Setup" for the proper print size and orientation.  The "launch.bat" file will pre-load 'pssetup.jpg' into photoshop showing some helps on the Sony and DNP printers.  (You can rewrite this file with your own instructions for your specific printer setup). 
 
 For CS3 - CC, configure the 'File->Print' dialog for the attached printer, paper size, and check 'Scale to Media'  checkbox.  Once done, you're ready to print. Execute 'File->Print One Copy' to print 'pssetup.jpg'.  It might look ugly due to the uprezing, but if it prints, you're good to go. Uncheck the "File Output Only" checkbox in Pic2Print configuration panel and print away!  If prints do not come out, I recommend taking baby steps.  Load an image in photoshop and work out any problems printing it. Once that connection is established, use Pic2Print to print one image. 
+
+Security Issues -
+
+If run a second printer. The second computer will have to share the c:\OnSite folder with read/write access.  It is highly recommended that the c:\OnSite\software and c:\OnSite\actions folder be set to read-only access.  This is important if the computers run on a shared network with unknown devices.
 
 All systems Go!  Please use GitHub Issues list on this repository to address problems and bugs. 
 
