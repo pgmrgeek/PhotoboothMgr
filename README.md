@@ -47,9 +47,9 @@ For CS2, this system works by printing to the default printer, so make sure your
 
 For CS3 - CC, configure the 'File->Print' dialog for the attached printer, paper size, and check 'Scale to Media'  checkbox.  Once done, you're ready to print. Execute 'File->Print One Copy' to print 'pssetup.jpg'.  It might look ugly due to the uprezing, but if it prints, you're good to go. Uncheck the "File Output Only" checkbox in Pic2Print configuration panel and print away!  If prints do not come out, I recommend taking baby steps.  Load an image in photoshop and work out any problems printing it. Once that connection is established, use Pic2Print to print one image. 
 
-Security Issues -
+Security Awareness -
 
-If run a second printer. The second computer will have to share the c:\OnSite folder with read/write access.  It is highly recommended that the c:\OnSite\software and c:\OnSite\actions folder be set to read-only access.  This is important if the computers run on a shared network with unknown devices.
+If running a second printer, this printer will be on a second computer via a wired or wireless network.  This second computer will have to share the c:\OnSite folder with read/write access for the primary computer to deposit images for printing (Kiosk mode).   It is highly recommended that the c:\OnSite\software and c:\OnSite\actions folder be set to read-only access.  This is important if the computers run on a shared network with unknown devices.
 
 All systems Go!  Please use GitHub Issues list on this repository to address problems and bugs. 
 
