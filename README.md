@@ -3,7 +3,7 @@ Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/
 
 BETA release 9.13 (A work in progress) 
 
-Photobooth Manager is a complete photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs on all subsequent versions.  Here's an illustration to visualize it's operation -
+Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs on all subsequent versions.  Here's an illustration to visualize it's operation -
 ![Illustration-01](software/Documentation/Images/overview.jpg)
 
 Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today with further enhancements forth coming (Everytime I use it on a job..).  The actual source code to Pic2Print will be located in its own repository, not in this package. 
