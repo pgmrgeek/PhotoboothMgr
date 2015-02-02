@@ -52,9 +52,13 @@
                 "Onsite.Printing";      // custom action set name
     var savepsd = TRUE;                 // save a layered .PSD on output
     var message = "";                   // message to be place in a text layer
-    var GifDelay = 0                    // delay at end of gif?
-    var SeqNumber = ""			// prefix on file name is typically a number
-    var MachineID = ""                  // Machine ID is 3 characters
+    var GifDelay = 0;                   // delay at end of gif?
+    var SeqNumber = "";			// prefix on file name is typically a number
+    var MachineID = "";                 // Machine ID is 3 characters
+    var prtrHorzPCT = 100;		// scale image horizontal to ..
+    var prtrVertPCT = 100;		// scale image vertical to ..
+    var prtrHorzOFF = 0;		// offset this layer by X % for alignment
+    var prtrVertOFF = 0;		// offset this layer by X % for alignment
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
@@ -494,6 +498,10 @@ var prtcnt = 1
 
                     doAction ("JS:PreprintFormatRatio:" + sRatio, "Onsite.Printing");
 
+		    // Account for the cropping of 1/8 boarders like on DNP DS-40
+
+		    ResizeImageToPaper();
+
                     // no printing is false, so print it!
     
                     while (prtcnt > 0) {
@@ -507,6 +515,7 @@ var prtcnt = 1
         }
     } 
 }
+
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -1087,13 +1096,49 @@ var num;
        // alert("Font ='" + fontname + "'");
      }
 
-    // GIF delay 
+    // #16 GIF delay 
 
         if( !dataFile.eof ) {
 
             str = dataFile.readln();
             GifDelay = parseInt(str);
         }
+
+
+    // #17 Printer Horz scale 
+
+        if( !dataFile.eof ) {
+            str = dataFile.readln();
+            prtrHorzPCT = parseInt(str);
+	    //alert("parsing #17: prtrHorzPCT = " + prtrHorzPCT);
+        }
+
+
+    // #18 Printer Vert scale 
+
+        if( !dataFile.eof ) {
+            str = dataFile.readln();
+            prtrVertPCT = parseInt(str);
+	    //alert("parsing #18: prtrVertPCT = " + prtrVertPCT);
+        }
+
+
+    // #19 Printer Horz scale 
+
+        if( !dataFile.eof ) {
+
+            str = dataFile.readln();
+            prtrHorzOFF = parseInt(str);
+        }
+
+    // #20 Printer Horz scale 
+
+        if( !dataFile.eof ) {
+
+            str = dataFile.readln();
+            prtrVertOFF = parseInt(str);
+        }
+
 
      dataFile.close();
 
@@ -1413,6 +1458,62 @@ function ResizeImage(prtsz)
 
         return TRUE;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////     ResizeImageToPaper    /////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//
+// Resizes the image to the actual paper by taking parameters from the config file.  
+//
+// This is needed by printers that crop 1/8" off the borders.  This code resizes
+// the visible image layer down to fit within this paper cropping so not to lose
+// any visible portion of the image. There are X,Y offsets too, for alignment.
+//
+function ResizeImageToPaper()
+{
+var startRulerUnits = preferences.rulerUnits;
+var startTypeUnits = app.preferences.typeUnits;
+
+    // return if 100% is fine
+    if ((prtrHorzPCT == 100) && (prtrVertPCT == 100)) return;
+
+    // make sure we're talkin pixels
+    preferences.rulerUnits = Units.PIXELS;
+    preferences.typeUnits = TypeUnits.PIXELS;
+
+    // flaten the image now, and then create a new top layer
+
+    doAction ("JS:Flatten Image", "Onsite.Printing");
+    doAction ("JS:New Layer", "Onsite.Printing");
+    _resizeLayer(prtrHorzPCT , prtrVertPCT, false, prtrHorzOFF, prtrVertOFF, );
+
+    app.preferences.rulerUnits = startRulerUnits;
+    app.preferences.typeUnits = startTypeUnits;
+}
+
+function _resizeLayer(WidthPCT , HeightPCT, Constrain, x, y)
+{
+var LayerBounds = activeDocument.activeLayer.bounds;
+
+    // force constraints, then make it equal
+
+    if(Constrain) HeightPCT = WidthPCT; 
+
+    // resizes by percentage, so incoming params are good as-is
+    activeDocument.activeLayer.resize(WidthPCT,HeightPCT,AnchorPosition.MIDDLECENTER); 
+
+    // now move the layer by percentages + or -
+
+    // the difference between where layer needs to be and is now  
+    var deltaX = LayerBounds[0].value + x;  
+    var deltaY = LayerBounds[1].value + y;  
+
+    // move the layer into position  
+    activeDocument.activeLayer.translate (deltaX, deltaY);  
+
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////      AlertNoGo      /////////////////////////////
