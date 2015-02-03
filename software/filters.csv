@@ -1,0 +1,26 @@
+":" 
+": PhotoboothMgr Filter description file" 
+":"
+": This file has a line entry for each filter, by name and functionality."
+":   The data is stored in comma delimited colums - "
+":   'Name','Action Set','Action Name', reserved, reserved, reserved, reserved"
+":"
+": The following are the internal Visual Basic variables that receive this file data, with comments."
+":"
+": FilterName(64) As String           ' name of the filter"
+": FilterSetName(64) As String        ' photoshop action set name that this filter action is found in"
+": FilterActionName(64) As String     ' action name"
+": FilterRes1(64) As Integer          ' reserved 1"
+": FilterRes2(64) As Integer          ' reserved 1"
+": FilterRes3(64) As Integer          ' reserved 1"
+": FilterRes3(64) As Integer          ' reserved 1"
+":"
+"No Filtering","Onsite.Printing",    "None",0,0,0,0
+"Black & White","Onsite.Printing",   "BlackWhite",0,0,0,0
+"Sepia","Onsite.Printing",           "Sepia",0,0,0,0 
+"Cyanotype","Onsite.Printing",       "Cyano",0,0,0,0
+"Warm Filter","Onsite.Printing",     "Warmer",0,0,0,0
+"Cool Filter","Onsite.Printing",     "Cooler",0,0,0,0
+"High Contrast","Onsite.Printing",   "HiContrast",0,0,0,0
+"High Saturation","Onsite.Printing", "HiSaturation",0,0,0,0
+"HDR","Onsite.Printing",             "HDR",0,0,0,0

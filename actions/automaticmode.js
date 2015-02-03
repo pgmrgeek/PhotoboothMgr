@@ -59,6 +59,12 @@
     var prtrVertPCT = 100;		// scale image vertical to ..
     var prtrHorzOFF = 0;		// offset this layer by X % for alignment
     var prtrVertOFF = 0;		// offset this layer by X % for alignment
+    var Filter1Name = "";		// Filter #1 selected
+    var Filter1Set  = "";
+    var Filter2Name = "";		// Filter #2 selected
+    var Filter2Set  = "";
+    var Filter3Name = ""		// Filter #3 selected
+    var Filter3Set  = ""
 
     // bk/fg file variable
     var bkfile;                         // string name of the background file
@@ -144,6 +150,11 @@ var keepgoing = TRUE;
 
         if (keepgoing == TRUE) 
             keepgoing = ProcessCustomAction();
+
+    // run the possible filters
+
+        if (keepgoing == TRUE) 
+            keepgoing = ProcessFilters();
 
         if (timeRun == TRUE) TimeImageStop();
 
@@ -367,7 +378,7 @@ function ProcessCustomAction()
 
         if (processMode != PRT_LOAD) {
 
-            //alert ("Custom Action = " + '"' + CustomAction + '"' );
+            // alert ("Custom Action = " + '"' + CustomAction + '"' );
             doAction(CustomAction, actionsetname);  //  'Onsite.Printing'
         
             // after the action, check the orientation, it might have changed. 2x6 always
@@ -385,13 +396,59 @@ function ProcessCustomAction()
 
             // Files just loaded may still need filters, etc to the visible layers
 
-            //alert ("Custom Load Action = " + '"' + CustomLoadAction + '"' );
+            // alert ("Custom Load Action = " + '"' + CustomLoadAction + '"' );
             doAction(CustomLoadAction, actionsetname);  //  'Onsite.Printing'
         }
 
     return TRUE;
 }
 
+////////////////////////////////////////////////////////////////////////////
+////////////////////////  ProcessFilters  /////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+//
+// Performs the action set based on the background/foreground selection.
+// The folder name ("000" as default) is used to identify the action set.  
+//
+function ProcessFilters()
+{
+var setuprun = false
+
+    // execute the synthesized action name, for prints & gifs only
+
+        if ((processMode == PRT_PRINT) || (processMode == PRT_GIF)) {
+
+	    // if spec'd in the config file, run filter #1
+	    if (Filter1Name.search("None") != 0) {
+
+		setuprun = true;
+		doAction("JS:Filter:Setup","Onsite.Printing");
+		doAction("JS:Filter:" + Filter1Name, Filter1Set);
+	    }
+
+	    // if spec'd in the config file, run filter #2
+	    if (Filter2Name.search("None") != 0) {
+
+		if (!setuprun) {
+		    setuprun = true;
+		    doAction("JS:Filter:Setup","Onsite.Printing");
+		}
+		doAction("JS:Filter:" + Filter2Name, Filter2Set);
+	    }
+
+	    // if spec'd in the config file, run filter #3
+	    if (Filter3Name.search("None") != 0) {
+
+		if (!setuprun) {
+		    setuprun = true;
+		    doAction("JS:Filter:Setup","Onsite.Printing");
+		}
+		doAction("JS:Filter:" + Filter3Name, Filter3Set);
+	    }
+        }
+
+    return TRUE;
+}
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////     ProcessOutput     /////////////////////////////
@@ -1139,6 +1196,149 @@ var num;
             prtrVertOFF = parseInt(str);
         }
 
+    // #21 read the Filter  name ----------
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        Filter1Name = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                Filter1Name = Filter1Name + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            Filter1Name = "None";
+        }
+
+        // alert("Filter1Name ='" + Filter1Name + "'");
+     }
+
+    // #22 read the Filter set name ----------
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        Filter1Set = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                Filter1Set = Filter1Set + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            Filter1Set = "Onsite.Printing";
+        }
+
+        // alert("Filter1Set ='" + Filter1Set + "'");
+     }
+
+    // #23 read the Filter  name ----------
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        Filter2Name = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                Filter2Name = Filter2Name + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            Filter2Name = "None";
+        }
+
+        // alert("Filter2Name ='" + Filter2Name + "'");
+     }
+
+    // #24 read the Filter set name ----------
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        Filter2Set = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                Filter2Set = Filter2Set + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            Filter2Set = "Onsite.Printing";
+        }
+
+        // alert("Filter2Set ='" + Filter2Set + "'");
+     }
+
+    // #25 read the Filter  name ----------
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        Filter3Name = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                Filter3Name = Filter3Name + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            Filter3Name = "None";
+        }
+
+        // alert("Filter3Name ='" + Filter3Name + "'");
+     }
+
+    // #26 read the Filter set name ----------
+
+     if( !dataFile.eof ){
+
+        str =dataFile.readln()
+        _len = str.length
+
+        Filter3Set = "";
+        if (str.charAt(0) == '"') { 
+            var i = 1;
+
+            while (i < _len) {
+                if (str.charAt(i) == '"') break;
+                Filter3Set = Filter3Set + str.charAt(i);
+                i++;
+            }
+
+        } else {
+            Filter3Set = "Onsite.Printing";
+        }
+
+        // alert("Filter3Set ='" + Filter3Set + "'");
+     }
 
      dataFile.close();
 
