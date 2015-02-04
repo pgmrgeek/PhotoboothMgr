@@ -16,6 +16,7 @@
 ": FilterRes3(64) As Integer          ' reserved 1"
 ":"
 "No Filtering","Onsite.Printing",    "None",0,0,0,0
+"Pump up Exposure","Onsite.Printing","PumpUp",0,0,0,0
 "Black & White","Onsite.Printing",   "BlackWhite",0,0,0,0
 "Sepia","Onsite.Printing",           "Sepia",0,0,0,0 
 "Cyanotype","Onsite.Printing",       "Cyano",0,0,0,0

@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 9.12
+// Version 11.02
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -378,7 +378,7 @@ function ProcessCustomAction()
 
         if (processMode != PRT_LOAD) {
 
-            // alert ("Custom Action = " + '"' + CustomAction + '"' );
+            //alert ("Custom Action = " + '"' + CustomAction + '" in ' + actionsetname);
             doAction(CustomAction, actionsetname);  //  'Onsite.Printing'
         
             // after the action, check the orientation, it might have changed. 2x6 always
@@ -396,7 +396,7 @@ function ProcessCustomAction()
 
             // Files just loaded may still need filters, etc to the visible layers
 
-            // alert ("Custom Load Action = " + '"' + CustomLoadAction + '"' );
+            //alert ("Custom Load Action = " + '"' + CustomAction + '" in ' + actionsetname);
             doAction(CustomLoadAction, actionsetname);  //  'Onsite.Printing'
         }
 
@@ -412,42 +412,69 @@ function ProcessCustomAction()
 //
 function ProcessFilters()
 {
-var setuprun = false
+var doit = false
 
     // execute the synthesized action name, for prints & gifs only
 
-        if ((processMode == PRT_PRINT) || (processMode == PRT_GIF)) {
+	if (Filter1Name.search("None") != 0) doit = true;
+	if (Filter2Name.search("None") != 0) doit = true;
+	if (Filter3Name.search("None") != 0) doit = true;
+
+    // do this only if there is a filter selected
+
+	if (doit) {
+
+	    // on a print, if there is a filter, merge the separation and green layers, then go for it.
+
+            if (processMode == PRT_PRINT) {
+
+		    doAction("JS:Filter:Setup","Onsite.Printing");
+		    _applyFilters();
+		}
+
+            // GIFs have the separation layers named s1,s2,s3,s4, so we have to handle the individually
+
+	    if (processMode == PRT_GIF) {
+		
+		    doAction("JS:Select s1","Onsite.Printing");
+		    _applyFilters();
+
+		    doAction("JS:Select s2","Onsite.Printing");
+		    _applyFilters();
+
+		    doAction("JS:Select s3","Onsite.Printing");
+		    _applyFilters();
+
+		    doAction("JS:Select s4","Onsite.Printing");
+		    _applyFilters();
+
+	    }
+	}
+
+    return TRUE;
+}
+
+//
+// _applyFilters applies the three filters to the CURRENT layer only
+//
+function _applyFilters()
+{
 
 	    // if spec'd in the config file, run filter #1
 	    if (Filter1Name.search("None") != 0) {
-
-		setuprun = true;
-		doAction("JS:Filter:Setup","Onsite.Printing");
 		doAction("JS:Filter:" + Filter1Name, Filter1Set);
 	    }
 
 	    // if spec'd in the config file, run filter #2
 	    if (Filter2Name.search("None") != 0) {
-
-		if (!setuprun) {
-		    setuprun = true;
-		    doAction("JS:Filter:Setup","Onsite.Printing");
-		}
 		doAction("JS:Filter:" + Filter2Name, Filter2Set);
 	    }
 
 	    // if spec'd in the config file, run filter #3
 	    if (Filter3Name.search("None") != 0) {
-
-		if (!setuprun) {
-		    setuprun = true;
-		    doAction("JS:Filter:Setup","Onsite.Printing");
-		}
 		doAction("JS:Filter:" + Filter3Name, Filter3Set);
 	    }
-        }
 
-    return TRUE;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -573,8 +600,6 @@ var prtcnt = 1
     } 
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////     ProcessReprint     ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -645,7 +670,6 @@ var prtcnt = 1
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(-90.0); 
 
             }
-
     } 
 }
 
