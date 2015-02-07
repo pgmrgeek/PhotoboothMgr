@@ -20,9 +20,11 @@
 "Black & White","Onsite.Printing",   "BlackWhite",0,0,0,0
 "Sepia","Onsite.Printing",           "Sepia",0,0,0,0 
 "Cyanotype","Onsite.Printing",       "Cyano",0,0,0,0
+"Negative","Onsite.Printing",        "Negative",0,0,0,0
 "Warm Filter","Onsite.Printing",     "Warmer",0,0,0,0
 "Cool Filter","Onsite.Printing",     "Cooler",0,0,0,0
 "High Contrast","Onsite.Printing",   "HiContrast",0,0,0,0
 "High Saturation","Onsite.Printing", "HiSaturation",0,0,0,0
 "Low Saturation","Onsite.Printing",  "LoSaturation",0,0,0,0
+"Color Spill Down","Onsite.Printing",  "ColorVert",0,0,0,0
 "HDR","Onsite.Printing",             "HDR",0,0,0,0

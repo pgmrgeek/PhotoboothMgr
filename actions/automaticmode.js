@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 11.02
+// Version 11.03
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -407,8 +407,34 @@ function ProcessCustomAction()
 ////////////////////////  ProcessFilters  /////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 //
-// Performs the action set based on the background/foreground selection.
-// The folder name ("000" as default) is used to identify the action set.  
+// Performs the selected filter on the separation+green layer or the s1,s2,s3,s4 layers.
+//
+// Assumptions - At this point, the layer stack is normalized (see below) so its
+// an easy thing to go in and apply adjustments to the current layer called 'filtered'
+// The action can do everything it wants, modify, add layers, apply PS filters, sharpening,
+//  etc, but must merge all these back into the 'filtered' layer, leaving it as the 
+// current layer.  Thats important for this code to be able to restore the names that
+// only this code knows.  These filters only know the layer is called 'filtered', but 
+// do not know if it is s1,s2,s3, or s4 for GIFs. This java code handles that part.
+//
+// The layer stack looks like -
+//
+//     PRINTS ==================   GIFS ===============
+//       serial # layer              serial # layer     
+//       user text layer             user text layer
+//       foreground layer            s1
+//       separation layer,           s2
+//       green layer                 s3
+//       background original         s4
+//                                   background original
+//
+//     Prints and GIF stacks are handled differently here so the filters only
+//     see one layer to work with, named 'filtered'
+//     For Prints, a supplied action is called to merge a copy of the 
+//     separation and green layer into a new one called 'filtered'.
+//     For GIFs, supplied actions are called to rename the s1,s2,s3,s4
+//     layers to 'filtered' and then restored to s1,s2,s3,s4 after
+//     the filter is applied.
 //
 function ProcessFilters()
 {
@@ -420,33 +446,42 @@ var doit = false
 	if (Filter2Name.search("None") != 0) doit = true;
 	if (Filter3Name.search("None") != 0) doit = true;
 
-    // do this only if there is a filter selected
+    // do this only if there is a filter selected.
 
 	if (doit) {
 
-	    // on a print, if there is a filter, merge the separation and green layers, then go for it.
+	    // on a print, if there is a filter, merge the separation and green layers, 
+	    // rename it 'filtered' to maintained the layer stack.
 
             if (processMode == PRT_PRINT) {
 
 		    doAction("JS:Filter:Setup","Onsite.Printing");
 		    _applyFilters();
-		}
+
+	    }
 
             // GIFs have the separation layers named s1,s2,s3,s4, so we have to handle the individually
 
 	    if (processMode == PRT_GIF) {
 		
+		// current layer will be s1,s2,s3, or s4 on each call. Coming back each layer will
+		// be renamed s1,s2,s3 and s4 respectively to maintain the layer stack.
+
 		    doAction("JS:Select s1","Onsite.Printing");
 		    _applyFilters();
+		    doAction("JS:Filter:Rename-s1","Onsite.Printing");  // rename it s1
 
 		    doAction("JS:Select s2","Onsite.Printing");
 		    _applyFilters();
+		    doAction("JS:Filter:Rename-s2","Onsite.Printing");  // rename the layer s2
 
 		    doAction("JS:Select s3","Onsite.Printing");
 		    _applyFilters();
+		    doAction("JS:Filter:Rename-s3","Onsite.Printing");
 
 		    doAction("JS:Select s4","Onsite.Printing");
 		    _applyFilters();
+		    doAction("JS:Filter:Rename-s4","Onsite.Printing");
 
 	    }
 	}
@@ -455,24 +490,27 @@ var doit = false
 }
 
 //
-// _applyFilters applies the three filters to the CURRENT layer only
+// _applyFilters applies the three filters to the CURRENT layer only. As a courtesy to
+// the caller, the current name will be renamed 'filtered' on exit.
 //
 function _applyFilters()
 {
-
-	    // if spec'd in the config file, run filter #1
+	// if spec'd in the config file, run filter #1
 	    if (Filter1Name.search("None") != 0) {
 		doAction("JS:Filter:" + Filter1Name, Filter1Set);
+		doAction("JS:Filter:Rename-filtered","Onsite.Printing");
 	    }
 
-	    // if spec'd in the config file, run filter #2
+	// if spec'd in the config file, run filter #2
 	    if (Filter2Name.search("None") != 0) {
 		doAction("JS:Filter:" + Filter2Name, Filter2Set);
+		doAction("JS:Filter:Rename-filtered","Onsite.Printing");
 	    }
 
-	    // if spec'd in the config file, run filter #3
+	// if spec'd in the config file, run filter #3
 	    if (Filter3Name.search("None") != 0) {
 		doAction("JS:Filter:" + Filter3Name, Filter3Set);
+		doAction("JS:Filter:Rename-filtered","Onsite.Printing");
 	    }
 
 }
