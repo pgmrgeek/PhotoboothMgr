@@ -486,6 +486,8 @@ var doit = false
 	    }
 	}
 
+    // doAction("JS:Stop","Onsite.Printing");  // for debugging of filters
+
     return TRUE;
 }
 
