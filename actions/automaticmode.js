@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 11.03
+// Version 11.05
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -98,10 +98,6 @@ if (app.documents.length > 0) {
 
 var keepgoing = TRUE;
 
-    // time the processing
-
-        if (timeRun == TRUE) TimeImageStart();
-
     // process the file name and config file
 
         keepgoing = loadConfigFile();
@@ -116,6 +112,10 @@ var keepgoing = TRUE;
             ProcessReprint();
             keepgoing = FALSE;
         }
+
+    // Time the processing
+
+        if (timeRun == TRUE) TimeImageStart();
 
     // Load the image's text file to load the message to be placed in a text layer
 
@@ -713,7 +713,6 @@ var prtcnt = 1
     } 
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 /////////////////       ProcessTextLayer       //////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -735,6 +734,48 @@ function ProcessTextLayer()
         doAction ('JS:Select Foreground Layer','Onsite.Printing');
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+/////////////////         TimeImageStart        //////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//
+// Profiling Timing routines to measure how long it takes to process
+// a given layout from input to "Ready to Print" state.  
+//
+function TimeImageStart()
+{
+var d = new Date();
+	millstart = d.getTime();
+}
+
+function TimeImageStop()
+{
+d = new Date(); 
+	millstop1 = d.getTime();
+}
+
+function TimeReport()
+{
+var s;
+var n;
+var msg;
+
+	d = new Date(); 
+	millstop2 = d.getTime();
+
+	n = millstop1 - millstart;
+	s = n / 1000
+	msg = "process time in seconds = " + s + "(" + n + " milliseconds)";
+
+	n =  millstop2 - millstop1;
+	s = n / 1000
+	msg = msg + "\nsave-to-file in seconds = " + s + "(" + n + " milliseconds)";
+
+	n = millstop2 - millstart 
+	s = n / 1000
+	msg = msg + "\ntotal time in seconds = " + s + "(" + n + " milliseconds)";
+	alert(msg);
+}
 
 //////////////////////////////////////////////////////////////////////////
 /////////////////         _buildTextLayer        //////////////////////////
@@ -790,7 +831,6 @@ var txtRef;
         preferences.rulerUnits = origUnits;
 
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 /////////////////     BuildCustomActionName     //////////////////////////
@@ -1259,7 +1299,7 @@ var num;
             str = dataFile.readln();
             prtrVertOFF = parseInt(str);
         }
-
+        
     // #21 read the Filter  name ----------
 
      if( !dataFile.eof ){
@@ -1403,6 +1443,14 @@ var num;
 
         // alert("Filter3Set ='" + Filter3Set + "'");
      }
+
+     // #27 Profile Timing Run
+
+	if( !dataFile.eof ) {
+
+            str = dataFile.readln();
+            if (parseInt(str) == 1) timeRun = TRUE
+        }
 
      dataFile.close();
 
@@ -1610,6 +1658,8 @@ var test;
 
 function ResizeImage(prtsz)
 {
+var h;
+var w;
 
     // Based on the printer, resize the image
 
@@ -1621,6 +1671,10 @@ function ResizeImage(prtsz)
 
         //alert("PrintSiz=" + prtsz + " xres=" + xres + " yres=" + yres + " dpi=" + dpi)
 
+	h = yres / dpi
+	w = xres / dpi
+	//alert("h=" + h + " w=" + w + " @" + dpi + " dpi");
+
         switch (prtsz) {
 
             case 0: // 6x9 @ default dpi, our interim working size
@@ -1631,50 +1685,49 @@ function ResizeImage(prtsz)
 
             case 1:  // 3.5x5
                 doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(5,"in"),UnitValue(3.5,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 2:  // 2x6
                 doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
-                //doc.resizeCanvas(UnitValue(6,"in"),UnitValue(2,"in"),AnchorPosition.MIDDLECENTER);
+                //doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 3:  // 4x6
                 doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(6,"in"),UnitValue(4,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-
                 break;
 
             case 4:  // 5x7
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(7,"in"),UnitValue(5,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 5:  // 6x8
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(8,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 6: // 6x9
                 doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 7:  // 8x10
                 doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(10,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 8:  // 8x12
                 doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
-                doc.resizeCanvas(UnitValue(12,"in"),UnitValue(8,"in"),AnchorPosition.MIDDLECENTER);
+                doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
                 doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
@@ -1739,8 +1792,8 @@ function ResizeImageToPaper()
 var startRulerUnits = preferences.rulerUnits;
 var startTypeUnits = app.preferences.typeUnits;
 
-    // return if 100% is fine
-    if ((prtrHorzPCT == 100) && (prtrVertPCT == 100)) return;
+    // return if 100% and no offsets
+    if ((prtrHorzPCT == 100) && (prtrVertPCT == 100) && (prtrHorzOFF == 0) && (prtrVertOFF == 0)) return;
 
     // make sure we're talkin pixels
     preferences.rulerUnits = Units.PIXELS;
@@ -1791,27 +1844,3 @@ var str = (orientation==VERTICAL) ? "Vertical" : "Horizontal";
 alert ("Missing bk/fg file!\n" + str + " images are not supported\nfor this layout.");
 }
 
-function TimeImageStart()
-{
-var d = new Date();
-millstart = d.getTime();
-}
-function TimeImageStop()
-{
-d = new Date(); 
-millstop1 = d.getTime();
-}
-function TimeReport()
-{
-var n;
-var msg
-d = new Date(); 
-millstop2 = d.getTime();
-n = millstop1 - millstart;
-msg = "process time =" + n;
-n =  millstop2 - millstop1;
-msg = msg + "\nsave time =" + n;
-n = millstop2 - millstart 
-msg = msg + "\ntotal time =" + n;
-alert(msg);
-}
