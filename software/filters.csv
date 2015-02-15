@@ -28,6 +28,7 @@
 "Color Spill Down","Onsite.Printing", "ColorVert",0,0,0,0
 "Softening Filter","Onsite.Printing", "Soft Blur",0,0,0,0
 "HDR","Onsite.Printing",             "HDR",0,0,0,0
+"Comic Book","Onsite.Printing",      "ComicBook1",0,0,0,0
 "Auto Levels","Onsite.Printing",     "AutoLevels",0,0,0,0
 "Auto Contrast","Onsite.Printing",   "AutoContrast",0,0,0,0
 "Auto Color","Onsite.Printing",      "AutoColor",0,0,0,0
