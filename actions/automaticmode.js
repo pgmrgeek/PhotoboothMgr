@@ -1671,8 +1671,22 @@ var w;
 
         //alert("PrintSiz=" + prtsz + " xres=" + xres + " yres=" + yres + " dpi=" + dpi)
 
-	h = yres / dpi
-	w = xres / dpi
+	h = yres / dpi;
+	w = xres / dpi;
+
+    // HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!
+    // Not sure whats going on here, but the 150 ratio layouts are having a white border at the top and
+    // bottom. No other ratios are affected by this.  I've traced it down to the h vs w numbers calculated
+    // above. Somehow the height (h) is larger than expected?  seems right to me, but the canvas size gets
+    // enlarged by 3/100ths of an inch so this adjustment below corrects that. I hope to find the root
+    // cause and eliminate this hack ASAP.
+
+        if (sRatio == "150")  {
+	    h = h.toFixed(2);
+	    h = h - 0.03;  	// this is a hack
+	    w = w.toFixed(2);
+	}
+
 	//alert("h=" + h + " w=" + w + " @" + dpi + " dpi");
 
         switch (prtsz) {
