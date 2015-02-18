@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 11.05
+// Version 11.08
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -54,6 +54,7 @@
     var message = "";                   // message to be place in a text layer
     var GifDelay = 0;                   // delay at end of gif?
     var SeqNumber = "";			// prefix on file name is typically a number
+    var SeqNumber2 = "";		// 2nd serial # layer for 2x6 photo strips
     var MachineID = "";                 // Machine ID is 3 characters
     var prtrHorzPCT = 100;		// scale image horizontal to ..
     var prtrVertPCT = 100;		// scale image vertical to ..
@@ -420,7 +421,8 @@ function ProcessCustomAction()
 // The layer stack looks like -
 //
 //     PRINTS ==================   GIFS ===============
-//       serial # layer              serial # layer     
+//       serial #2 layer             serial #2 layer   
+//       serial #1 layer             serial #1 layer     
 //       user text layer             user text layer
 //       foreground layer            s1
 //       separation layer,           s2
@@ -725,8 +727,9 @@ function ProcessTextLayer()
 {
 	// build two layers - the user text and the sequence number from the file name
 
-	_buildTextLayer("textlayer",message);
-	_buildTextLayer("serial", SeqNumber);
+	_buildTextLayer("textlayer", message);
+	_buildTextLayer("serial",    SeqNumber);
+	_buildTextLayer("serial2",   SeqNumber2);
 
         //doAction ('JS:Hide Text Layer','Onsite.Printing');
 
@@ -1520,7 +1523,10 @@ var str;
     // alert("Machine ID = " + MachineID);
 
     // extract the sequence number for the serial layer & Prefix the MachineID as a 3 character prefix
-    SeqNumber = MachineID + fname.slice(0,5);
+    SeqNumber  = fname.slice(0,5);
+    SeqNumber2 = SeqNumber.substr(0,4) + '5';	// replace the 5th digit with the #5.
+    SeqNumber  = MachineID + SeqNumber;		// prefix the machineIDs as
+    SeqNumber2 = MachineID + SeqNumber2;
 
     // alert("Looking for " + ftxtnam);
     _len = ftxtnam.search('.jpg')
