@@ -34,7 +34,8 @@
 
     // whats given to us from PS
     var doc = activeDocument;           // fetch the current foreground document
-    var fname = doc.name;               // and its name..
+    var fname  = doc.name;              // and its name..
+    var fname2 = doc.name;              // and the extracted email/txt msg name
     var processMode = PRT_PRINT;        // processing this file as a
 
     // data read from the config.txt file
@@ -730,6 +731,7 @@ function ProcessTextLayer()
 	_buildTextLayer("textlayer", message);
 	_buildTextLayer("serial",    SeqNumber);
 	_buildTextLayer("serial2",   SeqNumber2);
+	_buildTextLayer("fname",     fname2);
 
         //doAction ('JS:Hide Text Layer','Onsite.Printing');
 
@@ -1513,6 +1515,19 @@ var _n = 0;
 var ftxtnam = fname;
 var txtFile;
 var str;
+
+    // first build the extracted email/txtmsg name if it exists
+
+    fname2 = fname2.toLowerCase()
+    _n = fname2.search('_xqz') 
+    if (_n > 0) { 
+        fname2 = fname.slice(_n + 4);
+        _n = fname2.search('.jpg')
+        if (_n > 0) {
+            fname2 = fname2.substr(0,_n)
+        }
+        //alert("new fname2 = " + fname2);
+    }
 
     // debugging message
     if (DBG == TRUE) alert("LoadImageTextFile");
