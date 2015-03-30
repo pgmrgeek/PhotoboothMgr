@@ -1,20 +1,20 @@
 Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7JRTAVG63XHUL  "Donate once-off to this project using Paypal")
 =========================================== 
 
-BETA release 11.04 (A work in progress) 
+BETA release 11.10 (A work in progress) 
 
 Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs on all subsequent versions.  Here's an illustration to visualize it's operation -
 ![Illustration-01](software/Documentation/Images/overview.jpg)
 
 Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today with further enhancements forth coming (Everytime I use it on a job..).  The actual source code to Pic2Print will be located in its own repository, not in this package. 
  
-Looking closer, Pic2Print operates on a set of folders for the entire workflow. See the list of folder below for more information. The main operations are Managed mode (Operator interfac) and Kiosk mode.
+Looking closer, Pic2Print operates on a set of folders for the entire workflow. See the list of folder below for more information. The main operations are Managed mode (ie, Operator intervention) and Kiosk mode (ie, Automatic mode).
 
 In Managed Mode, the technician has a control panel and is given a "Refresh" button that turns green when new images arrive. Clicking "Refresh", the images are presented so the technician can select (i.e., click on) an image, an optional background (for greenscreen), then click a number between 1-10, for 1 to 10 prints.  If multiple images are needed (for photostrips or .GIFs), the technican clicks the first image, then the "L" button to load; repeating until the GIF/Number buttons are enabled. Once the buttons are enabled, the technician selects the last image, then clicks "GIF" or a numbered print button.
 
 In Kiosk mode, the incoming images are processed according to selections made in the configuration panel.  That means the technician can specify foreground overlay, greenscreen, layout selection, # of prints per image, etc, and the kiosk mode will abide by these settings.  For example, selecting a three image photo strip layout with greenscreen and overlay, will be processed in Kiosk mode once three images land in the folder.
 
-Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs to be added in the near future.  The default set supports animated gifs, but the first add-on pack will show spectacular four layer animations.
+Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs added via other Github repositories.  The default set of layouts supports single image layouts, photostrips, and animated gifs, but the first add-on pack shows spectacular four layer animations.
 
 To install this package -
 
