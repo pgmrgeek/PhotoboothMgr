@@ -36,10 +36,22 @@ Second step, Launch Pic2Print using "launch.bat" found in the software folder.  
 
 Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop manually. Remove any prior versions of "Onsite.Printing.atn" that might be loaded in the Action Palette.  Now, load the new "Onsite.Printing.atn" set found in "c:\OnSite\actions\" folder, by dragging & dropping the file into photoshop.  
 
-If you are using Photoshop CS3 or later and encounter problems loading JPGs, you should rewrite the "psload.exe" droplet found in the software folder. Click "Window->Actions" to open the action palette.  Looking in the "Onsite.Printing" action set, click on the first action named "Automatic Mode for Droplet", then run "file->Automate->Create Droplet", overwriting psload.exe in the "c:\OnSite\software" folder.   Do this for the other two droplets as well, psclose.exe and justload.exe. Here's how - In the Action palette, in the Onsite.Printing action set, click on "Close all for psclose.exe droplet", then run "file->Automate->Create Droplet", overwriting psclose.exe in the "c:\Onsite\software" folder. Again, in the Action palette, click on "Just load an image", then run "file->Automate->Create Droplet", overwriting
-justload.exe in the "c:\Onsite\software" folder.
+If you are using Photoshop CS3 or later and encounter problems loading JPGs, you should rewrite the droplets found in the software folder. To rewrite the droplets, follow these instructions.
 
-When Pic2Print fires up, it opens the main control panel and a configuration form. In the configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck the foreground, greenscreen, multiple backgrounds, checkboxes, to see their effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  See the "README.Email-Setup.txt" file for more information on setting up the email & cloud form.  Once you do some test runs, look in the "c:\OnSite\printed" folder to see the final outputs.  
+   In Photoshop, click "Window->Actions" to open the action palette.  
+   Open the "Onsite.Printing" action set, click on the first action named "Automatic Mode - psload.exe droplet".
+   Click "file->Automate->Create Droplet", navigate to "c:\OnSite\software" and select psload.exe. Click yes to overwrite
+   this file.
+   
+   In the Action palette, click on "Close all - psclose.exe droplet".
+   Click "file->Automate->Create Droplet", navigate to "c:\OnSite\software" and select psclose.exe. Click yes to overwrite
+   this file.
+   
+   Again, in the Action palette, click on "Load only - justload.exe droplet".
+   Click "file->Automate->Create Droplet", navigate to "c:\OnSite\software" and select justload.exe. Click yes to overwrite
+   this file.
+
+You should now be up and running. When Pic2Print does fire up, it opens the main panel and the setup configuration form. In the configuration form, select your printer paper size, and the layout you wish to use.  Check the "File Output Only" box so you can process images without creating prints. I suggest selecting each layout, and generating test images to get to know the various layouts.  You can check/uncheck the foreground, greenscreen, multiple backgrounds, checkboxes, to see their effects on the images and operations. Also, email setup works fine.  MMS text messages go out as email to the various phone carriers.  See the "README.Email-Setup.txt" file for more information on setting up the email & cloud form.  Once you do some test runs, look in the "c:\OnSite\printed" folder to see the final outputs.  A copy of the original file is stored in the "C:\OnSite\orig" folder with what I call, a decorated file name.  
 
 Printing Issues - 
 
