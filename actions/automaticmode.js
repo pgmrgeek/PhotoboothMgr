@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 11.08
+// Version 12.03
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -129,9 +129,9 @@ var keepgoing = TRUE;
         if (keepgoing == TRUE) 
             keepgoing = NormalizeImage();
 
-    // boost shadows by 15%
+    // boost shadows by 15% - 12.03 - now a filter. may need this for greenscreen.
 
-        doAction ('JS:more midtones 15%', 'Onsite.Printing');
+        // doAction ('JS:more midtones 15%', 'Onsite.Printing');
 
    // do the greenscreen background
 
@@ -1704,7 +1704,7 @@ var w;
 
         if (sRatio == "150")  {
 	    h = h.toFixed(2);
-	    h = h - 0.03;  	// this is a hack
+	    h = h - 0.08;  	// this is a hack
 	    w = w.toFixed(2);
 	}
 
