@@ -32,9 +32,22 @@ c:\OnSite\printed                - the processed files are written here - .JPG, 
 c:\OnSite\software               - windows runtime code and support files.<br>
 c:\OnSite\software\Documentation - Documentation for the product (A work in progress..). <br>
 
-Second step, Launch Pic2Print using "launch.bat" found in the software folder.  The batch file creates any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button. The debug button displays a form with a verbose listing of internal operations with helpful messages to verify email operations. Lastly, "launch.bat" fires off Photoshop with a sample JPG listing some printer setup instructions.
+For first time installation, this next step is crucial.  This is a Windows issue, not an Adobe or PhotoboothMgr issue.  Windows UAC (User Access Control) must be turned off temporarily to allow communication between the Droplet and Photoshop.  Windows controls this backdoor and keeps it shut down due to virus/malware exploits.  So, in order to allow Droplets to communicate to Photoshop, follow these steps.
 
-Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop manually. Remove any prior versions of "Onsite.Printing.atn" that might be loaded in the Action Palette.  Now, load the new "Onsite.Printing.atn" set found in "c:\OnSite\actions\" folder, by dragging & dropping the file into photoshop.  
+1) Turn off UAC
+2) Reboot
+3) upon rebooting, double click on "Launch.bat" in the software folder.  This will fireup photoshop and execute a droplet.
+4) Re-enable UAC
+5) Reboot again.
+
+Windows registers the droplets association with photoshop and will now allow communcation between the separate programs.
+
+Now, to continue with running the software -
+
+
+Once you've re-enabled UAC and rebooted, doublc click "launch.bat" again which launches Pic2Print.  The batch file will also create any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button. The debug button displays a separate form with a verbose listing of internal operations with helpful messages to verify email operations. Lastly, "launch.bat" fires off Photoshop with a sample JPG listing some printer setup instructions.
+
+At this point, Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop manually. Remove any prior versions of "Onsite.Printing.atn" that might be loaded in the Action Palette.  Now, load the new "Onsite.Printing.atn" set found in "c:\OnSite\actions\" folder, by dragging & dropping the file into photoshop.  
 
 If you are using Photoshop CS3 or later and encounter problems loading JPGs, you should rewrite the droplets found in the software folder. To rewrite the droplets, follow these instructions.
 
