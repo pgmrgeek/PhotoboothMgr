@@ -1,7 +1,7 @@
 Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7JRTAVG63XHUL  "Donate once-off to this project using Paypal")
 =========================================== 
 
-BETA release 11.10 (A work in progress) 
+BETA release 12.05 (A work in progress) 
 
 Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs on all subsequent versions.  Here's an illustration to visualize it's operation -
 ![Illustration-01](software/Documentation/Images/overview.jpg)
@@ -43,7 +43,6 @@ For first time installation, this next step is crucial.  This is a Windows issue
 Windows registers the droplets association with photoshop and will now allow communcation between the separate programs.
 
 Now, to continue with running the software -
-
 
 Once you've re-enabled UAC and rebooted, doublc click "launch.bat" again which launches Pic2Print.  The batch file will also create any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button. The debug button displays a separate form with a verbose listing of internal operations with helpful messages to verify email operations. Lastly, "launch.bat" fires off Photoshop with a sample JPG listing some printer setup instructions.
 
