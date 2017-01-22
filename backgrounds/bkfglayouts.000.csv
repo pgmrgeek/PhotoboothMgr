@@ -14,7 +14,7 @@
 ":  3 BkFgGifLayers(256) As Integer     ' number of guest images required to build a gif (ex:4 layer animations)"
 ":  4 BkFgCustLayers(256) As Integer    ' number of guest images required to build a print (ex:photo strips)"
 ":  5 BkFgFGSelect(256) As Int16        ' uses foreground? -1 leave alone, 0=No, uncheck box, 1=Yes, check box"
-":  6 BkFgBKSelect(256) As Int16        ' uses background? -1 leave alone, 0=No, uncheck box, 1=Yes, check box"
+":  6 BkFgBKSelect(256) As Int16        ' uses background? -1 leave alone, 0=No, uncheck box, 1=Yes, check box, I.E. greenscreen"
 ":  7 BkFgMultLayers(256) As Int16      ' enable multiple bk/fg selection? -1 leave alone, 0=No, uncheck box, 1=Yes,check box"
 ":  8 BkFgImage1Bk(256) As Int16        ' 1 must always have one layout"
 ":  9 BkFgImage2Bk(256) As Int16        ' 2 if there is a 2nd layout, -1 = not used "
@@ -51,5 +51,5 @@
 "004-4 image square layouts","Onsite.Printing",       "004",0,4,1,1,1,1,2,3,4,0,      "0101010100001111",0,0,0,0
 "005-Four Bk/Fg Layouts w/GIF","Onsite.Printing",     "005",4,1,0,0,1,1,2,3,4,0,      "0001000100001111",0,0,0,0 
 "006-WEETEES Cereal","Onsite.Printing",               "006",0,1,1,1,1,1,-1,-1,-1, 0,  "0011001100001111",0,0,0,0 
-"007-Single Branded 4x6","Onsite.Printing",           "007",0,0,0,1,0,1,-1,-1,-1, 0,  "0001000000001111",0,0,0,0 
+"007-Single Branded 4x6","Onsite.Printing",           "007",0,1,1,1,0,1,-1,-1,-1, 0,  "0001000000001111",0,0,0,0 
 ":        0                    1                        2   3 4 5 6 7 8 9  A  B   C  D=FEDCBA9876543210"             

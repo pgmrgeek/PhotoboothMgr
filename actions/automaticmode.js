@@ -39,14 +39,14 @@
     var processMode = PRT_PRINT;        // processing this file as a
 
     // data read from the config.txt file
-    var PrintSiz = '1';                 // 1=3.5x5, 2=2x6, 3=4x6, 4=5x7, etc.
-    var xRes = '0';                     // x resolution
-    var yres = '0';                     // y resolution
-    var dpi  = '0';                     // DPI dots per inch..
-    var BkGrnd = '0';                   // 0= nothing, 1 = greenscreen, 2 = separate
-    var FGrnd = '0';                    // 0= nothing, 1 = overlay
+    var PrintSiz = 1;                   // 1=3.5x5, 2=2x6, 3=4x6, 4=5x7, etc.
+    var xRes = 0;                       // x resolution
+    var yRes = 0;                       // y resolution
+    var dpi  = 0;                       // DPI dots per inch..
+    var BkGrnd = 0;                     // 0= nothing, 1 = greenscreen, 2 = separate
+    var FGrnd = 0;                      // 0= nothing, 1 = overlay
     var profil = '-';                   // string name of the profile
-    var NoPrt = '0';                    // 1 = file output only
+    var NoPrt = 0;                      // 1 = file output only
     var bkCount = 1;                    // defaults to at least one background/foreground
     var bkAction = 0;                   // the background has its own custom action
     var actionsetname = 
@@ -226,13 +226,13 @@ var iRatio,w,h,horz;
 
 		    if (horz == TRUE) {
 			//alert("1 - stretch Y to edge, pad canvas");
-            	    	// take the yres and expand it out to the edge
+            	    	// take the yRes and expand it out to the edge
                     	doc.resizeImage(null,UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
 
 		    } else {
 			//alert("2 - stretch X to edge, pad canvas");
-            	    	// take the xres and expand it out to the 
+            	    	// take the xRes and expand it out to the 
                     	doc.resizeImage(UnitValue(1800,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(6,"in"),UnitValue(9,"in"),AnchorPosition.MIDDLECENTER);
 
@@ -242,14 +242,14 @@ var iRatio,w,h,horz;
 
 		    if (horz == TRUE) {
 			//alert("3 - stretch X to edge, pad canvas");
-            	    	// take the xres and expand it out to the 
+            	    	// take the xRes and expand it out to the 
                     	doc.resizeImage(UnitValue(2700,"px"),null,defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(9,"in"),UnitValue(6,"in"),AnchorPosition.MIDDLECENTER);
                     	//doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
 
 		    } else {
 			//alert("4 - stretch Y to edge, pad canvas");
-            	    	// take the xres and expand it out to the 
+            	    	// take the xRes and expand it out to the 
                     	doc.resizeImage(null,UnitValue(2700,"px"),defaultDPI,ResampleMethod.BICUBIC);
                     	doc.resizeCanvas(UnitValue(6,"in"),UnitValue(9,"in"),AnchorPosition.MIDDLECENTER);
                     	//doc.resizeImage(UnitValue(2700,"px"),UnitValue(1800,"px"),defaultDPI,ResampleMethod.BICUBIC);
@@ -541,18 +541,18 @@ var prtcnt = 1
 
             // resize down if the file size is calculated on a printer, not gif
 
-            if ((xres > 1024) || (yres > 1024)) {
+            if ((xRes > 1024) || (yRes > 1024)) {
 
-                //alert("Forced resizing to default GIF");
+                alert("Forced resizing to default GIF");
 
 		// this number ratio assumes the incoming image is in a 6x4 aspect ratio. 
 		// some cameras might still have the 5x4 ratio?  This will break in that 
 		// case
 
-		if (xres > yres) {
-		    xres = 640; yres = 427;
+		if (xRes > yRes) {
+		    xRes = 640; yRes = 427;
 		} else {
-		    yres = 640; xres = 427;
+		    yRes = 640; xRes = 427;
 		}
 		
                 ResizeImage(10);    // resize to the 640x427 size
@@ -651,7 +651,8 @@ var prtcnt = 1
 //
 function ProcessReprint()
 {
-var prtcnt = 1
+var prtcnt = 1;
+var x,y,h;
 
     // debugging message..
     if (DBG == TRUE) alert("ProcessReprint");
@@ -660,9 +661,21 @@ var prtcnt = 1
 
     if (processMode == PRT_REPRINT) {
            
-        // 2nd resize - to the printer output size
+        // First, check this reprint that it matches the printers paper size. If not, resize it.
+	    x = parseInt(doc.width.as('px'));
+	    y = parseInt(doc.height.as('px'));
 
-            ResizeImage(PrintSiz);    // resize to the printer print size
+	    // adjust for portrait vs landscape..
+	    if (x < y) { h=x; x=y; y=h; }
+
+	    //alert ("xRes:" + xRes + " yRes:" + yRes +", doc.x:" + x + " doc.y:" + y);
+
+	    if ( (xRes == x) && (yRes == y) )  {
+		//alert ("Reprint same size - xRes:" + xRes + " yRes:" + yRes +", doc.x:" + x + " doc.y" + y);
+	    } else {
+		//alert ("Resizing reprint..");
+		ResizeImage(PrintSiz);    // resize to the printer print size
+	    }
 
         // Save the files in the printed folder
 
@@ -1043,9 +1056,9 @@ var num;
 
          // convert string to decimal
 
-         xres = parseInt(str);
+         xRes = parseInt(str);
 
-         //alert ("xRes =" + xres );
+         //alert ("xRes =" + xRes );
       }
 
 
@@ -1057,9 +1070,9 @@ var num;
 
          // convert string to decimal
 
-         yres = parseInt(str);
+         yRes = parseInt(str);
 
-         //alert ("yRes =" + yres );
+         //alert ("yRes =" + yRes );
       }
 
     // #5 Read the dpi ---------------------------------------
@@ -1694,25 +1707,12 @@ var w;
 
         // now handle the special cases
 
-        //alert("PrintSiz=" + prtsz + " xres=" + xres + " yres=" + yres + " dpi=" + dpi)
+        //alert("PrintSiz=" + prtsz + " xRes=" + xRes + " yRes=" + yRes + " dpi=" + dpi)
 
-	h = yres / dpi;
-	w = xres / dpi;
+	h = parseInt(yRes / dpi);
+	w = parseInt(xRes / dpi);
 
-    // HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!HACK!
-    // Not sure whats going on here, but the 150 ratio layouts are having a white border at the top and
-    // bottom. No other ratios are affected by this.  I've traced it down to the h vs w numbers calculated
-    // above. Somehow the height (h) is larger than expected?  seems right to me, but the canvas size gets
-    // enlarged by 3/100ths of an inch so this adjustment below corrects that. I hope to find the root
-    // cause and eliminate this hack ASAP.
-
-        if (sRatio == "150")  {
-	    h = h.toFixed(2);
-	    h = h - 0.08;  	// this is a hack
-	    w = w.toFixed(2);
-	}
-
-	//alert("h=" + h + " w=" + w + " @" + dpi + " dpi");
+   	//alert("h=" + h + " w=" + w + " @" + dpi + " dpi");
 
         switch (prtsz) {
 
@@ -1723,84 +1723,84 @@ var w;
                 break;
 
             case 1:  // 3.5x5
-                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 2:  // 2x6
-                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),null,dpi,ResampleMethod.BICUBIC);
                 //doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 3:  // 4x6
-                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 4:  // 5x7
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 5:  // 6x8
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 6: // 6x9
-                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 7:  // 8x10
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 8:  // 8x12
-                doc.resizeImage(UnitValue(xres,"px"),null,dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),null,dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(w,"in"),UnitValue(h,"in"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 break;
 
             case 9:  // 480x320
                 //alert ('resizing to 480x320');
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(480,"px"),UnitValue(320,"px"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
             case 10:  // 640x427
-                //alert(xres + "x" + yres + "@" + dpi + " dpi")
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                //alert(xRes + "x" + yRes + "@" + dpi + " dpi")
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(640,"px"),UnitValue(427,"px"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
             case 11:  // 640x480
-                //alert("640x480" + xres + "x" + yres + "x" + dpi)
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                //alert("640x480" + xRes + "x" + yRes + "x" + dpi)
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(640,"px"),UnitValue(480,"px"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
             case 12:  // 800x600
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(800,"px"),UnitValue(600,"px"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
             case 13:  // 1024x768
-                doc.resizeImage(null,UnitValue(yres,"px"),dpi,ResampleMethod.BICUBIC);
+                doc.resizeImage(null,UnitValue(yRes,"px"),dpi,ResampleMethod.BICUBIC);
                 doc.resizeCanvas(UnitValue(1024,"px"),UnitValue(768,"px"),AnchorPosition.MIDDLECENTER);
-                doc.resizeImage(UnitValue(xres,"px"),UnitValue(yres,"px"),null,ResampleMethod.BICUBIC);
+                doc.resizeImage(UnitValue(xRes,"px"),UnitValue(yRes,"px"),null,ResampleMethod.BICUBIC);
                 break;
 
             default:
