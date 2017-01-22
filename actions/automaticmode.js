@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 12.03
+// Version 12.09
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -1709,8 +1709,9 @@ var w;
 
         //alert("PrintSiz=" + prtsz + " xRes=" + xRes + " yRes=" + yRes + " dpi=" + dpi)
 
-	h = parseInt(yRes / dpi);
 	w = parseInt(xRes / dpi);
+	h = (yRes / dpi);
+	if (prtsz != 1) h = parseInt(h);  // 3.5x5 needs decimal places, all others are integers
 
    	//alert("h=" + h + " w=" + w + " @" + dpi + " dpi");
 
