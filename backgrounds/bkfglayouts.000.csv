@@ -20,9 +20,9 @@
 ":  9 BkFgImage2Bk(256) As Int16        ' 2 if there is a 2nd layout, -1 = not used "
 ":  A BkFgImage3Bk(256) As Int16        ' 3 if there is a 3rd layout, -1 = not used "
 ":  B BkFgImage4Bk(256) As Int16        ' 4 if there is a 4th layout, -1 = not used "
-":  D BkFgAnimated(256) As Int16        ' Bk/Fg files are animation layers, 0=false, 1=true (use all four bk/fg files)"
-":  E BkFgRatio(256) as int16           ' Bitfield for ratios (print sizes) supported see below.."
-":  F BkFgGifDelay(256) as int16        ' Gif needs 1 second delay at end"
+":  C BkFgAnimated(256) As Int16        ' Bk/Fg files are animation layers, 0=false, 1=true (use all four bk/fg files)"
+":  D BkFgRatio(256) as int16           ' Bitfield for ratios (print sizes) supported see below.."
+":  E BkFgGifDelay(256) as int16        ' Gif needs 1 second delay at end"
 ":"
 ":   In the BkFgRatio field, we specify which outputs are supported by a "
 ":   bitfield. The bit fields are:" 
@@ -51,5 +51,5 @@
 "004-4 image square layouts","Onsite.Printing",       "004",0,4,1,1,1,1,2,3,4,0,      "0101010100001111",0,0,0,0
 "005-Four Bk/Fg Layouts w/GIF","Onsite.Printing",     "005",4,1,0,0,1,1,2,3,4,0,      "0001000100001111",0,0,0,0 
 "006-WEETEES Cereal","Onsite.Printing",               "006",0,1,1,1,1,1,-1,-1,-1, 0,  "0011001100001111",0,0,0,0 
-"007-Single Branded 4x6","Onsite.Printing",           "007",0,1,1,1,0,1,-1,-1,-1, 0,  "0001000000001111",0,0,0,0 
-":        0                    1                        2   3 4 5 6 7 8 9  A  B   C  D=FEDCBA9876543210"             
+"007-Single Branded 4x6","Onsite.Printing",           "007",0,1,1,1,1,1,2, 3, -1, 0,  "0011000000001111",0,0,0,0 
+":        0                    1                        2   3 4 5 6 7 8 9  A  B   C  D=FEDCBA9876543210  E"             

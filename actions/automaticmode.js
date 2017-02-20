@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 12.09
+// Version 14.00
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -196,11 +196,17 @@ var keepgoing = TRUE;
 // a camera is used that creates 4x5 images.  Also, emailed images may
 // come in as 4x4, 4x5, 2x6 or worse.
 //
+// Ver 14.00 - adding mode conversion from any mode to RGB mode.
+//
 function NormalizeImage() {
 var iRatio,w,h,horz;
 
 	// debugging message
 	if (DBG == TRUE) alert("NormalizeImage");
+
+	// make sure its RGB mode. The actions will choke on anything else
+
+	doc.changeMode(ChangeMode.RGB);	
 
 	// calculate the image ratio
 
@@ -543,7 +549,7 @@ var prtcnt = 1
 
             if ((xRes > 1024) || (yRes > 1024)) {
 
-                alert("Forced resizing to default GIF");
+                // alert("Forced resizing to default GIF");
 
 		// this number ratio assumes the incoming image is in a 6x4 aspect ratio. 
 		// some cameras might still have the 5x4 ratio?  This will break in that 
