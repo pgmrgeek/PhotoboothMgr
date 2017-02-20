@@ -5,7 +5,7 @@ BETA release 14.00 (Always a work in progress)
 
 Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7, 8 and 10.  This program system was written using Photoshop CS2 as a baseline and runs on all versions through CC 2017. 
 
-Additionally, seven sets of predefined image layouts are supported in this base release, with further layouts added as add-on packs (See the 2nd Github repository for add-on pack ##1).  The default set of layouts creates single images, photostrips, quadrants (2x2), and animated gifs, with the first add-on pack building spectacular four frame animations.
+Additionally, seven sets of predefined image layouts are supported in this base release, with further layouts added as add-on packs (See the 2nd Github repository for add-on pack /#1).  The default set of layouts creates single images, photostrips, quadrants (2x2), and animated gifs, with the first add-on pack building spectacular four frame animations.
 
 Here's an illustration to visualize it's operation -
 
