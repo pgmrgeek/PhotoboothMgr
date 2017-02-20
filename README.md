@@ -1,10 +1,14 @@
 Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7JRTAVG63XHUL  "Donate once-off to this project using Paypal")
 =========================================== 
 
-BETA release 13.02 (A work in progress) 
+BETA release 14.00 (Always a work in progress) 
 
-Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7 and Win 8.  This program system was written for Photoshop CS2 but runs on all subsequent versions. New to Version 13, is the integration of DigiCamControl for a automated camera capture. Now the photobooth can run from capture to delivery, no longer needing a photographer.
+Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7, 8 and 10.  This program system was written using Photoshop CS2 as a baseline and runs on all versions through CC 2017. 
+
+Additionally, seven sets of predefined image layouts are supported in this base release, with further add-on packs added via other Github repositories.  The default set of layouts creates single images, photostrips, quadrants (2x2), and animated gifs, with the first add-on pack building spectacular four frame animations.
+
 Here's an illustration to visualize it's operation -
+
 ![Illustration-01](software/Documentation/Images/overview.jpg)
 
 Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today with further enhancements forth coming (Everytime I use it on a job..).  The actual source code to Pic2Print will be located in its own repository, not in this package. 
@@ -13,9 +17,9 @@ Looking closer, Pic2Print operates on a set of folders for the entire workflow. 
 
 In Managed Mode, the technician has a control panel and is given a "Refresh" button that turns green when new images arrive. Clicking "Refresh", the images are presented so the technician can select (i.e., click on) an image, an optional background (for greenscreen), then click a number between 1-10, for 1 to 10 prints.  If multiple images are needed (for photostrips or .GIFs), the technican clicks the first image, then the "L" button to load; repeating until the GIF/Number buttons are enabled. Once the buttons are enabled, the technician selects the last image, then clicks "GIF" or a numbered print button.
 
-In Kiosk mode, the incoming images are processed according to selections made in the configuration panel.  That means the technician can specify foreground overlay, greenscreen, layout selection, # of prints per image, etc, and the kiosk mode will abide by these settings.  For example, selecting a three image photo strip layout with greenscreen and overlay, will be processed in Kiosk mode once three images land in the folder.
+In Kiosk mode, every new incoming image is processed according to options selected in the configuration panel.  That means the technician can specify foreground overlay, greenscreen, layout selection, # of prints per image, etc, and the kiosk mode will abide by these settings.  For example, selecting a three image photo strip layout with greenscreen and overlay, will be processed in Kiosk mode once three images land in the folder.
 
-Additionally, six sets of predefined print layouts are supported in this base release, with further add-on packs added via other Github repositories.  The default set of layouts supports single image layouts, photostrips, and animated gifs, but the first add-on pack shows spectacular four layer animations.
+New to Version 13 is the truely automated photobooth.  The sofware now triggers the camera for the number of frames needed by the selected layout.  Four image GIF animations now fire the camera four times to acquire the images. This works in the photostrip and quadrant layouts as well.  
 
 To install this package -
 
@@ -84,9 +88,11 @@ Bay Area Event Photography <br>
 www.bayareaeventphotography.com <br>
 www.portlandeventphotography.com <br> 
 
-Photoshop Version support -
+Version Updates -
 
-07/21/16 13.02 Added support for the external software program, DigiCamControl to capture a sequence of images to build photostrips or any of the layouts supported.  A "Guest UI" windows was added to sit in the foreground with a big button to trigger the photo sequence.  Pic2Print looks at the selected layout to know how many frames to shoot.  Each image lands in c:\onsite so this only works in KIOSK mode, which makes most sense. So the program can now be triggered to shoot all frames, process all frames and send output to multiple targets.  Given its been a couple years since I've written release notes, its best to see the verion history to view all the changes and from here on out.
+02/19/2017 New to Version 14 is automated viewing for the main control panel, preview and postview panels. Incoming images can be automatically added to the viewing list, displayed in preview and when printed, displayed in the postview window.  This allows the preview and postview windows to be overlapped on a secondary display and automtically switched depending on the operation. New incoming images can automatically pop up the preview window. Newly printed images can automatically pop up the postview window to show the results. 
+
+07/21/16 13.02 New to Version 13, is the integration of DigiCamControl for a automated camera capture. Now the photobooth can run from capture to delivery, no longer needing a photographer.   Added support for the external software program, DigiCamControl to capture a sequence of images to build photostrips or any of the layouts supported.  A "Guest UI" windows was added to sit in the foreground with a big button to trigger the photo sequence.  Pic2Print looks at the selected layout to know how many frames to shoot.  Each image lands in c:\onsite so this only works in KIOSK mode, which makes most sense. So the program can now be triggered to shoot all frames, process all frames and send output to multiple targets.  Given its been a couple years since I've written release notes, its best to see the verion history to view all the changes and from here on out.
 
 09/01/14 8.03 Update - Kiosk mode had a timing issue.  It was runnning too fast monitoring the c:\OnSite folder causing
 problems with images from the network and Nikon Capture software.  A one second delay was added before accessing any incoming image, and the problem went away.  
