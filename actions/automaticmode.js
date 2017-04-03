@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 14.00
+// Version 14.01
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -606,15 +606,20 @@ var prtcnt = 1
 
                     // the name may possess the print count, so extract it
 
-                    if (fname.search('_p2')  > 0) { prtcnt = 2; }
-                    if (fname.search('_p3')  > 0) { prtcnt = 3; }
-                    if (fname.search('_p4')  > 0) { prtcnt = 4; }
-                    if (fname.search('_p5')  > 0) { prtcnt = 5; }
-                    if (fname.search('_p6')  > 0) { prtcnt = 6; }
-                    if (fname.search('_p7')  > 0) { prtcnt = 7; }
-                    if (fname.search('_p8')  > 0) { prtcnt = 8; }
-                    if (fname.search('_p9')  > 0) { prtcnt = 9; }
-                    if (fname.search('_p10') > 0) { prtcnt = 10;}
+		    while (1) {
+                        if (fname.search('_p1')  > 0) { prtcnt = 1; break; }
+                        if (fname.search('_p2')  > 0) { prtcnt = 2; break; }
+                        if (fname.search('_p3')  > 0) { prtcnt = 3; break; }
+                        if (fname.search('_p4')  > 0) { prtcnt = 4; break; }
+                        if (fname.search('_p5')  > 0) { prtcnt = 5; break; }
+                        if (fname.search('_p6')  > 0) { prtcnt = 6; break; }
+                        if (fname.search('_p7')  > 0) { prtcnt = 7; break; }
+                        if (fname.search('_p8')  > 0) { prtcnt = 8; break; }
+                        if (fname.search('_p9')  > 0) { prtcnt = 9; break; }
+                        if (fname.search('_p10') > 0) { prtcnt = 10;break; }
+			break; 
+		    }
+		    // alert("prtcnt = " + prtcnt);
 
                     // possibly convert its profile to the target printer profile
 
@@ -696,15 +701,20 @@ var x,y,h;
 
                 // the name may possess the print count, so extract it
 
-                if (fname.search('_p2')  > 0) { prtcnt = 2; }
-                if (fname.search('_p3')  > 0) { prtcnt = 3; }
-                if (fname.search('_p4')  > 0) { prtcnt = 4; }
-                if (fname.search('_p5')  > 0) { prtcnt = 5; }
-                if (fname.search('_p6')  > 0) { prtcnt = 6; }
-                if (fname.search('_p7')  > 0) { prtcnt = 7; }
-                if (fname.search('_p8')  > 0) { prtcnt = 8; }
-                if (fname.search('_p9')  > 0) { prtcnt = 9; }
-                if (fname.search('_p10') > 0) { prtcnt = 10;}
+		    while (1) {
+                        if (fname.search('_p1')  > 0) { prtcnt = 1; break; }
+                        if (fname.search('_p2')  > 0) { prtcnt = 2; break; }
+                        if (fname.search('_p3')  > 0) { prtcnt = 3; break; }
+                        if (fname.search('_p4')  > 0) { prtcnt = 4; break; }
+                        if (fname.search('_p5')  > 0) { prtcnt = 5; break; }
+                        if (fname.search('_p6')  > 0) { prtcnt = 6; break; }
+                        if (fname.search('_p7')  > 0) { prtcnt = 7; break; }
+                        if (fname.search('_p8')  > 0) { prtcnt = 8; break; }
+                        if (fname.search('_p9')  > 0) { prtcnt = 9; break; }
+                        if (fname.search('_p10') > 0) { prtcnt = 10;break; }
+			break; 
+		    }
+		    // alert("prtcnt = " + prtcnt);
 
                 // possibly convert its profile to the target printer profile
                 // this should have been done when created, so we'll skip it for now..
