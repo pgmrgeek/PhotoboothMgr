@@ -3,7 +3,7 @@ Photobooth Manager <br>  [![PayPayl donate button](http://img.shields.io/paypal/
 
 BETA release 14.00 (Always a work in progress) 
 
-Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7, 8 and 10.  This program system was written using Photoshop CS2 as a baseline and runs on all versions through CC 2017. 
+Photobooth Manager is a photobooth software solution written for the IBM PC, using Adobe Photoshop Javascript, actions and Microsoft Visual Studio Visual Basic .NET 4.5, for XP, Win7, 8 and 10.  This program and components were written assuming Photoshop CS2 as the baseline and runs on all versions through Photoshop CC. 
 
 Additionally, seven sets of predefined image layouts are supported in this base release, with further layouts added as add-on packs (See the 2nd Github repository for add-on pack no. 1).  The default set of layouts creates single images, photostrips, quadrants (2x2), and animated gifs, with the first add-on pack building spectacular four frame animations.
 
@@ -50,7 +50,7 @@ Windows registers the droplets association with photoshop and will now allow com
 
 Now, to continue with running the software -
 
-Once you've re-enabled UAC and rebooted, doublc click "launch.bat" again which launches Pic2Print.  The batch file will also create any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button. The debug button displays a separate form with a verbose listing of internal operations with helpful messages to verify email operations. Lastly, "launch.bat" fires off Photoshop with a sample JPG listing some printer setup instructions.
+Once you've re-enabled UAC and rebooted, double click "launch.bat" again which launches Pic2Print.  The batch file will also create any missing folders, and passes command line switches to Pic2Print, enabling some extra buttons, specifically, the Debug button. The debug button displays a separate form with a verbose listing of internal operations with helpful messages to verify email operations. Lastly, "launch.bat" fires off Photoshop with a sample JPG listing some printer setup instructions.
 
 At this point, Photoshop should have fired-up via the "Launch.bat". if not, fire up photoshop manually. Remove any prior versions of "Onsite.Printing.atn" that might be loaded in the Action Palette.  Now, load the new "Onsite.Printing.atn" set found in "c:\OnSite\actions\" folder, by dragging & dropping the file into photoshop.  
 
