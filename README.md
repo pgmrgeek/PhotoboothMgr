@@ -87,6 +87,7 @@ Doug Cody <br>
 Bay Area Event Photography <br>
 www.bayareaeventphotography.com <br>
 www.portlandeventphotography.com <br> 
+www.seattleeventphotography.com <br> 
 
 Version Updates -
 
