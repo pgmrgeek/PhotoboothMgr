@@ -200,6 +200,12 @@ var keepgoing = TRUE;
 //
 function NormalizeImage() {
 var iRatio,w,h,horz;
+var startRulerUnits = preferences.rulerUnits;
+var startTypeUnits = app.preferences.typeUnits;
+
+    	// make sure we're talkin pixels
+    	preferences.rulerUnits = Units.PIXELS;
+    	preferences.typeUnits = TypeUnits.PIXELS;
 
 	// debugging message
 	if (DBG == TRUE) alert("NormalizeImage");
@@ -220,7 +226,7 @@ var iRatio,w,h,horz;
 	    	iRatio = parseInt(h * 100 / w);
 		horz = FALSE;
 	    }
-	    //alert( "iRatio = " + iRatio);
+	//alert( "iRatio = " + iRatio + " w=" + w + " h=" + h);
 
 	// if not a 4x6, then we need to adjust the canvas to make it a 4x6
 
@@ -264,12 +270,16 @@ var iRatio,w,h,horz;
 		}
 
 	    } else {
+		//alert("iRatio is a 4x6");
 
 		// it is a 4x6, so just resize it
 
 	    	ResizeImage(0);    // resizes to our working 6x9x300dpi size
 
 	    }
+
+    	app.preferences.rulerUnits = startRulerUnits;
+    	app.preferences.typeUnits = startTypeUnits;
 
 	return(TRUE);
 }
@@ -1851,6 +1861,8 @@ var startTypeUnits = app.preferences.typeUnits;
     // return if 100% and no offsets
     if ((prtrHorzPCT == 100) && (prtrVertPCT == 100) && (prtrHorzOFF == 0) && (prtrVertOFF == 0)) return;
 
+    //alert("pct=" + prtrHorzPCT + "," + prtrVertPCT + " Offset=" + prtrHorzOFF + "," + prtrVertOFF)
+
     // make sure we're talkin pixels
     preferences.rulerUnits = Units.PIXELS;
     preferences.typeUnits = TypeUnits.PIXELS;
@@ -1860,6 +1872,9 @@ var startTypeUnits = app.preferences.typeUnits;
     doAction ("JS:Flatten Image", "Onsite.Printing");
     doAction ("JS:New Layer", "Onsite.Printing");
     _resizeLayer(prtrHorzPCT , prtrVertPCT, false, prtrHorzOFF, prtrVertOFF, );
+
+    // debugging.  Save the actual data sent to the printer
+    //doAction ("JS:SavePrintPSD", "Onsite.Printing");
 
     app.preferences.rulerUnits = startRulerUnits;
     app.preferences.typeUnits = startTypeUnits;

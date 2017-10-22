@@ -44,12 +44,12 @@
 ":  E 01000000 00000000 - horizontal Print actions carry the ratio names"
 ":  F 10000000 00000000 - unused"
 ":"
-"000-Simple One Bk/Fg Layout w/GIF","Onsite.Printing","000",4,1,1,0,0,1,-1,-1,-1, 0,  "0001000100001111",0,0,0,0
-"001-3 image strips","Onsite.Printing",               "001",0,3,1,1,1,1,2,3,-1,0,     "0001000000010000",0,0,0,0 
-"002-4 image strips","Onsite.Printing",               "002",0,4,1,1,1,1,2,3,4,0,      "0001000000010000",0,0,0,0
-"003-3 image square layouts","Onsite.Printing",       "003",0,3,1,1,0,1,2,3,4,0,      "0101010100001111",0,0,0,0
-"004-4 image square layouts","Onsite.Printing",       "004",0,4,1,1,1,1,2,3,4,0,      "0101010100001111",0,0,0,0
-"005-Four Bk/Fg Layouts w/GIF","Onsite.Printing",     "005",4,1,0,0,1,1,2,3,4,0,      "0001000100001111",0,0,0,0 
-"006-WEETEES Cereal","Onsite.Printing",               "006",0,1,1,1,1,1,-1,-1,-1, 0,  "0011001100001111",0,0,0,0 
-"007-Single Branded 4x6","Onsite.Printing",           "007",0,1,1,1,1,1,2, 3, -1, 0,  "0011000000001111",0,0,0,0 
-":        0                    1                        2   3 4 5 6 7 8 9  A  B   C  D=FEDCBA9876543210  E"             
+"000-Simple One Bk/Fg Layout w/GIF","Onsite.Printing","000",4,1,1,0,0,1,-1, -1,-1, 0,  "0001000100001111",0,0,0,0
+"001-3 image strips","Onsite.Printing",               "001",0,3,1,1,1,1, 2,  3,-1, 0,  "0001000000010000",0,0,0,0 
+"002-4 image strips","Onsite.Printing",               "002",0,4,1,1,1,1, 2,  3, 4, 0,  "0001000000010000",0,0,0,0
+"003-3 image square layouts","Onsite.Printing",       "003",0,3,1,1,0,1, 2,  3, 4, 0,  "0101010100001111",0,0,0,0
+"004-4 image square layouts","Onsite.Printing",       "004",0,4,1,1,1,1, 2,  3, 4, 0,  "0101010100001111",0,0,0,0
+"005-Four Bk/Fg Layouts w/GIF","Onsite.Printing",     "005",4,1,0,0,1,1, 2,  3, 4, 0,  "0001000100001111",0,0,0,0 
+"006-WEETEES Cereal","Onsite.Printing",               "006",0,1,1,1,1,1,-1, -1,-1, 0,  "0011001100001111",0,0,0,0 
+"007-Single Branded 4x6","Onsite.Printing",           "007",0,1,1,1,1,1, 2,  3,-1, 0,  "0011000000001111",0,0,0,0 
+":        0                    1                        2   3 4 5 6 7 8  9   A  B  C  D=FEDCBA9876543210  E f 10 11"             
