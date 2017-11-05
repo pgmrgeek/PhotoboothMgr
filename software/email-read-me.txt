@@ -1,0 +1,37 @@
+
+            ----=========================================================----
+            ----====< Pic2Print Email format instructions ver 14.08 >====----
+            ----=========================================================----
+
+The Pic2Print version 14.08 emailer now sends html emails. You may edit the file, 
+"emailbody.html" anyway you like, and to add up to 5 images in the email. The 5 images
+are in the repository, named "email_img01.jpg", etc.  You may edit/replace these
+images, just keep the file names the same.  Pic2Print will automatically attach the 
+event picture, and is accessable by its Content-ID name the same way as the mentioned
+5 images. 
+
+Attachements are named:
+
+Content-ID variable name "img_01" will use "email_img01.jpg" within the email body,
+Content-ID variable name "img_02" will use "email_img02.jpg" within the email body,
+Content-ID variable name "img_03" will use "email_img03.jpg" within the email body,
+Content-ID variable name "img_04" will use "email_img04.jpg" within the email body,
+Content-ID variable name "img_05" will use "email_img05.jpg" within the email body,
+Content-ID variable name "event_pic" is given to the attached user picture just processed by Pic2Print.
+
+Here is an example html email with two of the picture attachments placed in the email:
+
+     <html> 
+     <title>testing html email</title>
+     <body>
+
+     <img src="cid:img_01" alt="company banner">
+
+     Greetings!
+ 
+     Here is your picture - <img src="cid:event_pic" alt="your picture"> 
+
+     </body>
+     </html>
+
+An html editor is recommended to edit your email.  
