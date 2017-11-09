@@ -7,8 +7,10 @@ Photobooth Manager is a photobooth software solution written for the IBM PC, usi
 
 Additionally, seven sets of predefined image layouts are supported in this base release, with further layouts added as add-on packs (See the 2nd Github repository for add-on pack no. 1).  The default set of layouts creates single images, photostrips, quadrants (2x2), and animated gifs, with the first add-on pack building spectacular four frame animations.
 
-Here's an illustration to visualize it's operation -
+Here's an illustration showing a simple configuration - 
+![Illustration-01](software/Documentation/Images/layout03.jpg)
 
+Here's an illustration showing a more complex configuration -
 ![Illustration-01](software/Documentation/Images/full-feature-configuration-photoboothmgr-rev2.jpg)
 
 Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today with further enhancements forth coming (Everytime I use it on a job..).  The actual source code to Pic2Print will be located in its own repository, not in this package. 
