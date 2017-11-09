@@ -9,7 +9,7 @@ Additionally, seven sets of predefined image layouts are supported in this base 
 
 Here's an illustration to visualize it's operation -
 
-![Illustration-01](software/Documentation/Images/overview.jpg)
+![Illustration-01](software/Documentation/Images/full-feature-configuration-photoboothmgr-rev2.jpg)
 
 Core to this repository, is "Pic2Print.exe", a VB.NET program that provides a user interface to an incoming stream of images.  For output, Animated gifs are supported and images and can be emailed, sent as MMS messages, and/or copied to another folder for dropbox or slideshows.  All this functionality works as of today with further enhancements forth coming (Everytime I use it on a job..).  The actual source code to Pic2Print will be located in its own repository, not in this package. 
  
