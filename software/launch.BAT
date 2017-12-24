@@ -19,6 +19,7 @@ rem validate the environment
     if not exist orig\unqualified mkdir orig\unqualified
     if not exist printed mkdir printed
 
+    if not exist printed\txtmsg mkdir printed\txtmsg
     if not exist cameras mkdir cameras 
     if not exist cameras\dcc mkdir cameras\dcc
 

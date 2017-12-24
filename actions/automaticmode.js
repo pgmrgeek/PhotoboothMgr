@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 14.01
+// Version 14.10
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -593,7 +593,11 @@ var prtcnt = 1
             if (savepsd == TRUE) 
                 doAction('JS:Save PSD File', 'Onsite.Printing');
 
-            doAction('JS:Save JPG File', 'Onsite.Printing');
+	    if (orientation == VERTICAL) {
+                doAction('JS:Save JPG File Vertical', 'Onsite.Printing');
+            } else {
+                doAction('JS:Save JPG File Horizontal', 'Onsite.Printing');
+            }
 
             //alert(".gif save done");
 
@@ -608,7 +612,11 @@ var prtcnt = 1
                 if (savepsd == TRUE) 
                    doAction('JS:Save PSD File', 'Onsite.Printing');
 
-                doAction('JS:Save JPG File', 'Onsite.Printing');
+	    	if (orientation == VERTICAL) {
+                   doAction('JS:Save JPG File Vertical', 'Onsite.Printing');
+            	} else {
+                   doAction('JS:Save JPG File Horizontal', 'Onsite.Printing');
+            	}
 
                 // if "File Output Only" = 0, Print the image
 
@@ -703,7 +711,11 @@ var x,y,h;
             if (savepsd == TRUE) 
                doAction('JS:Save PSD File', 'Onsite.Printing');
 
-            doAction('JS:Save JPG File', 'Onsite.Printing');
+            if (orientation == VERTICAL) {
+                doAction('JS:Save JPG File Vertical', 'Onsite.Printing');
+            } else {
+                doAction('JS:Save JPG File Horizontal', 'Onsite.Printing');
+            }
 
         // if "File Output Only" = 0, Print the image
 
@@ -1872,6 +1884,9 @@ var startTypeUnits = app.preferences.typeUnits;
     doAction ("JS:Flatten Image", "Onsite.Printing");
     doAction ("JS:New Layer", "Onsite.Printing");
     _resizeLayer(prtrHorzPCT , prtrVertPCT, false, prtrHorzOFF, prtrVertOFF, );
+
+    // kill the background to eliminate visible duplication on edges
+    doAction ("JS:BlankBackgroundLayer", "Onsite.Printing");	
 
     // debugging.  Save the actual data sent to the printer
     //doAction ("JS:SavePrintPSD", "Onsite.Printing");
