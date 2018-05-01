@@ -3,7 +3,7 @@
 //
 // automaticmode - The javascript smarts of pic2print. 
 //
-// Version 14.10
+// Version 14.10.05
 //
 //    This module reads the config file, then processes the activeDocument
 //    for all features.
@@ -350,7 +350,7 @@ var fileref;
         if (FGrnd == '1')   {
 
             // if overlay foreground, process the file & appropriate action
-    
+
             // alert("loading foreground from " + bkfile);
             fileRef = new File( bkfile );
 
@@ -706,7 +706,7 @@ var x,y,h;
 		ResizeImage(PrintSiz);    // resize to the printer print size
 	    }
 
-        // Save the files in the printed folder
+        // Save the files in the printed folder. 
 
             if (savepsd == TRUE) 
                doAction('JS:Save PSD File', 'Onsite.Printing');
@@ -738,14 +738,12 @@ var x,y,h;
 		    }
 		    // alert("prtcnt = " + prtcnt);
 
-                // possibly convert its profile to the target printer profile
-                // this should have been done when created, so we'll skip it for now..
+                // Convert the profile to the target printer profile. This conversion was not saved when the image was created..
 
-                //if (profil != "") {
-                //     // alert ("converting to profile " + profil );
-                //     activeDocument.convertProfile( profil, Intent.RELATIVECOLORIMETRIC, true, true );
-                //
-                //}
+                if (profil != "") {
+                     // alert ("converting to profile " + profil );
+                     activeDocument.convertProfile( profil, Intent.RELATIVECOLORIMETRIC, true, true );
+                }
 
                 if (orientation == VERTICAL) app.activeDocument.rotateCanvas(90.0); 
 
