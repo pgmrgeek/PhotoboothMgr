@@ -706,16 +706,16 @@ var x,y,h;
 		ResizeImage(PrintSiz);    // resize to the printer print size
 	    }
 
-        // Save the files in the printed folder. 
+        // Save the files in the printed folder. dsc 4/28/18 no need to save reprints. it fills the postview window needlessly..
 
-            if (savepsd == TRUE) 
-               doAction('JS:Save PSD File', 'Onsite.Printing');
+            //if (savepsd == TRUE) 
+            //   doAction('JS:Save PSD File', 'Onsite.Printing');
 
-            if (orientation == VERTICAL) {
-                doAction('JS:Save JPG File Vertical', 'Onsite.Printing');
-            } else {
-                doAction('JS:Save JPG File Horizontal', 'Onsite.Printing');
-            }
+            //if (orientation == VERTICAL) {
+            //    doAction('JS:Save JPG File Vertical', 'Onsite.Printing');
+            //} else {
+            //    doAction('JS:Save JPG File Horizontal', 'Onsite.Printing');
+            //}
 
         // if "File Output Only" = 0, Print the image
 
@@ -738,7 +738,7 @@ var x,y,h;
 		    }
 		    // alert("prtcnt = " + prtcnt);
 
-                // Convert the profile to the target printer profile. This conversion was not saved when the image was created..
+                // Convert the profile to the target printer profile. This was not saved when created..
 
                 if (profil != "") {
                      // alert ("converting to profile " + profil );
@@ -1540,6 +1540,8 @@ var num;
         case 17:
         case 18:
         case 19:
+	case 20: // future #
+	case 21: // future #
             PSver = 'PSCC'
             break;
 
