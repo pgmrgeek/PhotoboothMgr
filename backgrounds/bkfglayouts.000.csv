@@ -1,55 +1,56 @@
-":" 
-": PhotoboothMgr background/foreground layout description file" 
-":"
-": This file has a line entry for each background/foreground layout, by name and functionality."
-":   The data is stored in comma delimited colums - "
-":   'Name','Action Set','Folder', giflayers, customlayers, fg, bk, mult, layer 1 bk, layer 2 bk,"
-":   layer 3 bk, layer 4 bk, 'ratio file folder'"
-":"
-": The following are the internal Visual Basic variables that receive this file data, with comments."
-":"
-":  0 BkFgName(256) As String           ' name of the layout"
-":  1 BkFgSetName(256) As String        ' photoshop action set name that this bk/fg action is found in"
-":  2 BkFgFolder(256) As String         ' background top level folder name"
-":  3 BkFgGifLayers(256) As Integer     ' number of guest images required to build a gif (ex:4 layer animations)"
-":  4 BkFgCustLayers(256) As Integer    ' number of guest images required to build a print (ex:photo strips)"
-":  5 BkFgFGSelect(256) As Int16        ' uses foreground? -1 leave alone, 0=No, uncheck box, 1=Yes, check box"
-":  6 BkFgBKSelect(256) As Int16        ' uses background? -1 leave alone, 0=No, uncheck box, 1=Yes, check box, I.E. greenscreen"
-":  7 BkFgMultLayers(256) As Int16      ' enable multiple bk/fg selection? -1 leave alone, 0=No, uncheck box, 1=Yes,check box"
-":  8 BkFgImage1Bk(256) As Int16        ' 1 must always have one layout"
-":  9 BkFgImage2Bk(256) As Int16        ' 2 if there is a 2nd layout, -1 = not used "
-":  A BkFgImage3Bk(256) As Int16        ' 3 if there is a 3rd layout, -1 = not used "
-":  B BkFgImage4Bk(256) As Int16        ' 4 if there is a 4th layout, -1 = not used "
-":  C BkFgAnimated(256) As Int16        ' Bk/Fg files are animation layers, 0=false, 1=true (use all four bk/fg files)"
-":  D BkFgRatio(256) as int16           ' Bitfield for ratios (print sizes) supported see below.."
-":  E BkFgGifDelay(256) as int16        ' Gif needs 1 second delay at end"
-":"
-":   In the BkFgRatio field, we specify which outputs are supported by a "
-":   bitfield. The bit fields are:" 
-":"
-":  0          00000001 - 1.25 = 4x5, 5x4, 8x10, 10x8"
-":  1          00000010 - 1.33 = 3x4, 4x3, 6x8, 8x6"
-":  2          00000100 - 1.40 = 3.5x5, 5x3.5, 5x7, 7x5"
-":  3          00001000 - 1.50 = 4x6, 6x4, 6x9, 9x6, 8x12, 12x8"
-":  4          00010000 - 3.00 = 2x6, 6x2"
-":  5          00100000 - unused"
-":  6          01000000 - unused"
-":  7          10000000 - unused"
-":  8 00000001 00000000 - vertical images supported"
-":  9 00000010 00000000 - vertical Print actions carry bk/fg #s 1-4 in the name"
-":  A 00000100 00000000 - vertical Print actions carry the ratio names"
-":  B 00001000 00000000 - unused"
-":  C 00010000 00000000 - horizontal images supported"
-":  D 00100000 00000000 - horizontal Print actions carry bk/fg #s 1-4 in the name"
-":  E 01000000 00000000 - horizontal Print actions carry the ratio names"
-":  F 10000000 00000000 - unused"
-":"
-"000-Simple One Bk/Fg Layout w/GIF","Onsite.Printing","000",4,1,1,0,0,1,-1, -1,-1, 0,  "0001000100001111",0,0,0,0
-"001-3 image strips","Onsite.Printing",               "001",0,3,1,1,1,1, 2,  3,-1, 0,  "0001000000010000",0,0,0,0 
-"002-4 image strips","Onsite.Printing",               "002",0,4,1,1,1,1, 2,  3, 4, 0,  "0001000000010000",0,0,0,0
-"003-3 image square layouts","Onsite.Printing",       "003",0,3,1,1,0,1, 2,  3, 4, 0,  "0101010100001111",0,0,0,0
-"004-4 image square layouts","Onsite.Printing",       "004",0,4,1,1,1,1, 2,  3, 4, 0,  "0101010100001111",0,0,0,0
-"005-Four Bk/Fg Layouts w/GIF","Onsite.Printing",     "005",4,1,0,0,1,1, 2,  3, 4, 0,  "0001000100001111",0,0,0,0 
-"006-WEETEES Cereal","Onsite.Printing",               "006",0,1,1,1,1,1,-1, -1,-1, 0,  "0011001100001111",0,0,0,0 
-"007-Single Branded 4x6","Onsite.Printing",           "007",0,1,1,1,1,1, 2,  3,-1, 0,  "0011000000001111",0,0,0,0 
-":        0                    1                        2   3 4 5 6 7 8  9   A  B  C  D=FEDCBA9876543210  E f 10 11"             
+﻿:
+: PhotoboothMgr background/foreground layout description file
+:
+: This file has a line entry for each background/foreground layout, by name and functionality.
+:   The data is stored in comma delimited colums -
+:   'Name','Action Set','Folder', giflayers, customlayers, fg, bk, mult, layer 1 bk, layer 2 bk,
+:   layer 3 bk, layer 4 bk, 'ratio file folder'
+:
+: The following are the internal Visual Basic variables that receive this file data, with comments.
+:
+:  0 BkFgName(256) As String           ' name of the layout
+:  1 BkFgSetName(256) As String        ' photoshop action set name that this bk/fg action is found in
+:  2 BkFgFolder(256) As String         ' background top level folder name
+:  3 BkFgGifLayers(256) As Integer     ' number of guest images required to build a gif (ex:4 layer animations)
+:  4 BkFgCustLayers(256) As Integer    ' number of guest images required to build a print (ex:photo strips)
+:  5 BkFgFGSelect(256) As Int16        ' uses foreground? -1 leave alone, 0=No, uncheck box, 1=Yes, check box
+:  6 BkFgBKSelect(256) As Int16        ' uses background? -1 leave alone, 0=No, uncheck box, 1=Yes, check box, I.E. greenscreen
+:  7 BkFgMultLayers(256) As Int16      ' enable multiple bk/fg selection? -1 leave alone, 0=No, uncheck box, 1=Yes,check box
+:  8 BkFgImage1Bk(256) As Int16        ' 1 must always have one layout
+:  9 BkFgImage2Bk(256) As Int16        ' 2 if there is a 2nd layout, -1 = not used
+:  A BkFgImage3Bk(256) As Int16        ' 3 if there is a 3rd layout, -1 = not used
+:  B BkFgImage4Bk(256) As Int16        ' 4 if there is a 4th layout, -1 = not used
+:  C BkFgAnimated(256) As Int16        ' Bk/Fg files are animation layers, 0=false, 1=true (use all four bk/fg files)
+:  D BkFgRatio(256) as int16           ' Bitfield for ratios (print sizes) supported see below..
+:  E BkFgGifDelay(256) as int16        ' Gif needs 1 second delay at end
+:
+:   In the BkFgRatio field, we specify which outputs are supported by a
+:   bitfield. The bit fields are:
+:
+:  0          00000001 - 1.25 = 4x5, 5x4, 8x10, 10x8
+:  1          00000010 - 1.33 = 3x4, 4x3, 6x8, 8x6
+:  2          00000100 - 1.40 = 3.5x5, 5x3.5, 5x7, 7x5
+:  3          00001000 - 1.50 = 4x6, 6x4, 6x9, 9x6, 8x12, 12x8
+:  4          00010000 - 3.00 = 2x6, 6x2
+:  5          00100000 - unused
+:  6          01000000 - unused
+:  7          10000000 - unused
+:  8 00000001 00000000 - vertical images supported
+:  9 00000010 00000000 - vertical Print actions carry bk/fg #s 1-4 in the name
+:  A 00000100 00000000 - vertical Print actions carry the ratio names
+:  B 00001000 00000000 - unused
+:  C 00010000 00000000 - horizontal images supported
+:  D 00100000 00000000 - horizontal Print actions carry bk/fg #s 1-4 in the name
+:  E 01000000 00000000 - horizontal Print actions carry the ratio names
+:  F 10000000 00000000 - unused
+:
+:        0                    1                        2   3 4 5 6 7 8  9   A  B  C  D=FEDCBA9876543210  E f 10 11
+
+"007-Single Branded 4x6","Onsite.Printing","000",4,1,1,0,0,1,-1,-1,-1,0,"0001000100001111",0,0,0,0
+"001-3 image strips","Onsite.Printing","001",0,3,1,1,1,1,2,3,-1,0,"0001000000010000",0,0,0,0
+"002-4 image strips","Onsite.Printing","002",0,4,1,1,1,1,2,3,4,0,"0001000000010000",0,0,0,0
+"003-3 image square layouts","Onsite.Printing","003",0,3,1,1,0,1,2,3,4,0,"0101010100001111",0,0,0,0
+"004-4 image square layouts","Onsite.Printing","004",0,4,1,1,1,1,2,3,4,0,"0101010100001111",0,0,0,0
+"005-Four Bk/Fg Layouts w/GIF","Onsite.Printing","005",4,1,0,0,1,1,2,3,4,0,"0001000100001111",0,0,0,0
+"006-WEETEES Cereal","Onsite.Printing","006",0,1,1,1,1,1,-1,-1,-1,0,"0011001100001111",0,0,0,0
+"007-Single Branded 4x6","Onsite.Printing","007",0,1,1,1,1,1,2,3,4,0,"0011000000001111",0,0,0,0
