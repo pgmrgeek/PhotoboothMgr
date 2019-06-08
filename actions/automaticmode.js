@@ -625,6 +625,7 @@ var prtcnt = 1
                     // the name may possess the print count, so extract it
 
 		    while (1) {
+                        if (fname.search('_p10') > 0) { prtcnt = 10;break; }
                         if (fname.search('_p1')  > 0) { prtcnt = 1; break; }
                         if (fname.search('_p2')  > 0) { prtcnt = 2; break; }
                         if (fname.search('_p3')  > 0) { prtcnt = 3; break; }
@@ -634,7 +635,6 @@ var prtcnt = 1
                         if (fname.search('_p7')  > 0) { prtcnt = 7; break; }
                         if (fname.search('_p8')  > 0) { prtcnt = 8; break; }
                         if (fname.search('_p9')  > 0) { prtcnt = 9; break; }
-                        if (fname.search('_p10') > 0) { prtcnt = 10;break; }
 			break; 
 		    }
 		    // alert("prtcnt = " + prtcnt);
