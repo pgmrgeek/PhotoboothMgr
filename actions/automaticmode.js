@@ -1546,7 +1546,8 @@ var num;
             break;
 
         default:
-            alert ('Unknown version of Photoshop! (' + num + ')');
+            //alert ('Unknown version of Photoshop! (' + num + ')');
+	    PSver = 'PSCC'
             break;
 
      }
